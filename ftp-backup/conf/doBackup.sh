@@ -1,6 +1,5 @@
 #/bin/bash
 MYSQLDUMP="$(which mysqldump)"
-RSYNC="$(which rsync)"
 TAR="$(which tar)"
 TAR_OPTIONS="-zcf"
 
