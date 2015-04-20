@@ -21,7 +21,7 @@ backup your database.
 ## Usage
 
 ```shell
-docker run --rm --name="backup1" --volumes-from="my-data-volume" \
+docker run --rm -t --name="backup1" --volumes-from="my-data-volume" \
            --env="DB_USER=toto" \
            --env="DB_HOST=mariadb" \
            --env="DB_PASS=123abc" \
