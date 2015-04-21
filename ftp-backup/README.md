@@ -21,15 +21,15 @@ backup your database.
 ## Usage
 
 ```shell
-docker run --rm -t --name="backup1" --volumes-from="my-data-volume" \
-           --env="DB_USER=toto" \
-           --env="DB_HOST=mariadb" \
-           --env="DB_PASS=123abc" \
-           --env="DB_NAME=foo_db" \
-           --env="FTP_USER=username" \
-           --env="FTP_PASS=butterfly" \
-           --env="FTP_HOST=foobar.com" \
-           --env="FTP_PORT=21" \
-           --env="REMOTE_PATH=/backups/my-site" \
-           --link="my-mariadb:mariadb" ambroisemaupate/ftp-backup
+docker run --rm -t --name="backup1" --volumes-from my-data-volume:ro \
+           -e DB_USER="toto" \
+           -e DB_HOST="mariadb" \
+           -e DB_PASS="123abc" \
+           -e DB_NAME="foo_db" \
+           -e FTP_USER="username" \
+           -e FTP_PASS="butterfly" \
+           -e FTP_HOST="foobar.com" \
+           -e FTP_PORT="21" \
+           -e REMOTE_PATH="/backups/my-site" \
+           --link my-mariadb:mariadb ambroisemaupate/ftp-backup
 ```
