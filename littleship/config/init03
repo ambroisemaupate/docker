@@ -2,6 +2,9 @@ if [ ! "$(ls -A /data/http)" ]; then
     cp -R /config/config/* /data/config
     cd /data/http
     git clone https://github.com/ambroisemaupate/littleship.git ./
-    composer install --no-dev -o
+    mkdir -p /data/http/app/data
+    composer install -o
+    npm install
+    bower install --allow-root -s
     chown -R core:core /data
 fi

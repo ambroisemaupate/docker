@@ -17,3 +17,15 @@ docker run -ti --name littleship --volumes-from littleship_data \
            -v /var/run/docker.sock:/var/run/docker.sock \
            -e VIRTUAL_HOST=littleship.mydomain.com ambroisemaupate/littleship;
 ```
+
+### Install symfony and assets
+
+By default this image installs *LittleShip* with symfony standard edition.
+It installs *Grunt* and *Bower* for front dependencies. Once *Symfony* is correctly
+setup with its database, you should do:
+
+```shell
+su -s /bin/bash core;
+cd /data/http;
+app/console assets:install --symlink && grunt deploy;
+```

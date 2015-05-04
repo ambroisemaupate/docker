@@ -10,6 +10,10 @@ RUN apt-get update -yqq && \
     php5-curl \
     php5-intl \
     php5-cli && \
+    curl -sL https://deb.nodesource.com/setup | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g grunt-cli && \
+    npm install -g bower && \
     curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer && \
     addgroup --gid 999 docker && \
@@ -17,4 +21,7 @@ RUN apt-get update -yqq && \
     mkdir -p /data/http
 
 ADD config /config
+
+# override default vhost to use symfony root folder (/web)
+ADD etc/nginx/host.d/default.conf /etc/nginx/host.d/default.conf
 
