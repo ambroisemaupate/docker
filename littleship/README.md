@@ -13,7 +13,7 @@ docker run --name littleship_data maxexcloo/data;
 
 # Create the main container, you must attach it for the first time
 # as Symfony will ask you some parameters.
-docker run -ti --name littleship --volumes_from littleship_data \
+docker run -ti --name littleship --volumes-from littleship_data \
            -v /var/run/docker.sock:/var/run/docker.sock \
            -e VIRTUAL_HOST=littleship.mydomain.com ambroisemaupate/littleship;
 ```
