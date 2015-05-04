@@ -1,0 +1,7 @@
+if [ ! "$(ls -A /data/http)" ]; then
+    cp -R /config/config/* /data/config
+    cd /data/http
+    git clone https://github.com/ambroisemaupate/littleship.git ./
+    composer install --no-dev -o
+    chown -R core:core /data
+fi
