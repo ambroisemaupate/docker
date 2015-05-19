@@ -8,15 +8,15 @@ backup your database.
 
 ## ENV variables
 
-* `DB_USER` - Database user name
-* `DB_HOST` - Database host name
-* `DB_PASS` - Database user password
-* `DB_NAME` - Database name
 * `FTP_USER` - FTP server username
 * `FTP_PASS` - FTP server user password
 * `FTP_HOST` - FTP server hostname
 * `FTP_PORT` - FTP server port
 * `REMOTE_PATH` - Your FTP backup destination folder
+* `DB_USER` - (Optional) Database user name
+* `DB_HOST` - (Optional) Database host name
+* `DB_PASS` - (Optional) Database user password
+* `DB_NAME` - (Optional) Database name
 
 ## Usage
 

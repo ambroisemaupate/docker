@@ -17,4 +17,6 @@ RUN apt-get update -yqq && \
     apt-get install -y lftp mysql-client && \
     mkdir -p /backups
 
+ADD etc/lftp.conf /etc/lftp.conf
+
 CMD ["/bin/bash","/conf/doBackup.sh"]
