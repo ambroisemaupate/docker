@@ -1,10 +1,28 @@
-if [ ! "$(ls -A /data/http)" ]; then
+#!/bin/bash
+composer self-update
+
+if [ ! "$(ls -A /data/http)" ]
+then
+    # Give core user a home
+    usermod -d /data core
+    # and a shell
+    usermod -s /bin/bash core
+    # and a .ssh folder
+    mkdir -p /data/.ssh
+    mkdir -p /data/secure/ssh
     cp -R /config/config/* /data/config
     cd /data/http
     git clone https://github.com/ambroisemaupate/littleship.git ./
     mkdir -p /data/http/app/data
-    composer install -o
     npm install
     bower install --allow-root -s
-    chown -R core:core /data
+    composer install -o
+else
+    # Update dependencies
+    cd /data/http
+    composer update -n -o
 fi
+
+chown -R core:core /data
+chmod 0770 /data/secure
+chmod 0700 /data/.ssh

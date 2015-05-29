@@ -25,7 +25,7 @@ It installs *Grunt* and *Bower* for front dependencies. Once *Symfony* is correc
 setup with its database, you should do:
 
 ```shell
-su -s /bin/bash core;
+su core;
 cd /data/http;
 app/console assets:install --symlink && grunt deploy;
 ```
