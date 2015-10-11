@@ -12,4 +12,7 @@ RUN apt-get update && \
     curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
+ADD start.sh /usr/local/bin/start.sh
 ADD etc /etc
+
+ENTRYPOINT ["/bin/bash", "/usr/local/bin/start.sh"]
