@@ -4,13 +4,22 @@ TAR="$(which tar)"
 LFTP="$(which lftp)"
 TAR_OPTIONS="-zcf"
 FILE_DATE=`date +%Y%m%d-%H%M`
+FTP_PROTO="ftp"
+
+
+# Use SFTP protocole if port is 22
+if [ "$FTP_PORT" = 22 ]
+    then FTP_PROTO="sftp"
+else FTP_PROTO="ftp"
+fi
+
 
 echo "[${FILE_DATE}] New backup --------"
 
 if [ -n "$FTP_HOST" ]
 then
 # Create remote dir if does not exists
-$LFTP -u ${FTP_USER},${FTP_PASS} ftp://${FTP_HOST}:${FTP_PORT} <<EOF
+$LFTP -u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT} <<EOF
 
 mkdir -p ${REMOTE_PATH}
 bye
@@ -21,7 +30,7 @@ EOF
 $TAR $TAR_OPTIONS /backups/data-$FILE_DATE.tar.gz /data
 
 # Sending over FTP
-$LFTP -u ${FTP_USER},${FTP_PASS} ftp://${FTP_HOST}:${FTP_PORT} <<EOF
+$LFTP -u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT} <<EOF
 
 cd ${REMOTE_PATH}
 ls
@@ -38,7 +47,7 @@ echo "MySQL dump backup ---"
 $MYSQLDUMP -u $DB_USER -h $DB_HOST -p$DB_PASS $DB_NAME | gzip > /backups/db-$FILE_DATE.sql.gz
 
 # Sending over FTP
-$LFTP -u ${FTP_USER},${FTP_PASS} ftp://${FTP_HOST}:${FTP_PORT} <<EOF
+$LFTP -u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT} <<EOF
 
 cd ${REMOTE_PATH}
 ls
