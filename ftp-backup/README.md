@@ -12,6 +12,7 @@ backup your database.
 * `FTP_PASS` - FTP server user password
 * `FTP_HOST` - FTP server hostname
 * `FTP_PORT` - FTP server port
+* `FTP_PROTO` - Protocol to use (default: ftp)
 * `REMOTE_PATH` - Your FTP backup destination folder
 * `DB_USER` - (Optional) Database user name
 * `DB_HOST` - (Optional) Database host name
@@ -100,4 +101,23 @@ And do not forget to set executable flag on your scripts:
 ```shell
 chmod u+x ~/scripts/ftp-credentials.sh
 chmod u+x ~/scripts/bck-my-docker-container.sh
+```
+
+## Use SFTP protocol
+
+Add `FTP_PORT` and `FTP_PROTO` environment vars.
+
+```shell
+docker run --rm -t --name="backup1" --volumes-from my-data-volume:ro \
+           -e DB_USER="toto" \
+           -e DB_HOST="mariadb" \
+           -e DB_PASS="123abc" \
+           -e DB_NAME="foo_db" \
+           -e FTP_USER="username" \
+           -e FTP_PASS="butterfly" \
+           -e FTP_HOST="foobar.com" \
+           -e FTP_PORT="22" \
+           -e FTP_PROTO="sftp" \
+           -e REMOTE_PATH="/home/username/backups/my-site" \
+           --link my-mariadb:mariadb ambroisemaupate/ftp-backup
 ```

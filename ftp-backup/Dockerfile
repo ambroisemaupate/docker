@@ -11,6 +11,7 @@ ENV FTP_USER user
 ENV FTP_PASS pass
 ENV FTP_HOST mybackupserver.test
 ENV FTP_PORT 21
+ENV FTP_PROTO ftp
 ENV REMOTE_PATH /my/backup/dir
 
 RUN apt-get update -yqq && \
