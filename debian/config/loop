@@ -1,0 +1,5 @@
+#!/bin/bash
+for init in /config/init*; do
+	bash "$init"
+done
+supervisord -n
