@@ -1,7 +1,7 @@
 FROM ambroisemaupate/nginx:latest
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E9C74FEEA2098A6E && \
-	echo "deb http://packages.dotdeb.org/ jessie-php7 all" > /etc/apt/sources.list.d/php.list && \
+	echo "deb http://packages.dotdeb.org/ jessie all" > /etc/apt/sources.list.d/php.list && \
 	apt-get update && \
 	apt-get install -y php7.0-cli php7.0-curl php7.0-fpm php7.0-gd php7.0-mcrypt \
                        php7.0-opcache php7.0-intl php7.0-imap php7.0-pspell php7.0-recode \
