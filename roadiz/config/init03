@@ -1,0 +1,24 @@
+#!/bin/bash
+composer self-update
+
+if [ ! "$(ls -A /data/http)" ]
+then
+    # and a .ssh folder
+    mkdir -p /data/.ssh
+    mkdir -p /data/secure/ssh
+    cp -R /config/config/* /data/config
+    cd /data/http
+    git clone -b $ROADIZ_BRANCH https://github.com/roadiz/roadiz.git ./
+    composer install -n --no-dev -o
+    chown -R core:core /data
+    chmod 0770 /data/secure
+    chmod 0700 /data/.ssh
+else
+    # Update dependencies
+    # and empty roadiz cache
+    cd /data/http
+    chown -R core:core /data
+    chmod 0770 /data/secure
+    chmod 0700 /data/.ssh
+    bin/roadiz cache:clear --env=prod
+fi
