@@ -19,15 +19,15 @@ Roadiz image will work with:
 * A *maxexcloo/data* container for volume handling:
 
 ```bash
-docker run -t -d --name="my-roadiz_DATA" maxexcloo/data
+docker run -d --name="my-roadiz_DATA" maxexcloo/data
 ```
 
 * A *maxexcloo/mariadb* container for its database:
 
 ```bash
 docker run -t -d --name="my-roadiz-mariadb" \
-           --env="MARIADB_USER=foo" --env="MARIADB_PASS=bar" \
-           --env="MARIADB_DB=foo" maxexcloo/mariadb
+              --env="MARIADB_USER=foo" --env="MARIADB_PASS=bar" \
+              --env="MARIADB_DB=foo" maxexcloo/mariadb
 ```
 
 ## Run a new Roadiz container
@@ -91,3 +91,11 @@ cd /data/http
 composer update --no-dev -o
 ```
 
+## OPCache
+
+**Be careful**, PHP is configured with **OPCache** and a very aggressive PHP class cache: `opcache.revalidate_freq=60`.
+If you are modifying some php files directly on your container, *restart your container*
+or add `fastcgi_param PHP_VALUE "opcache.revalidate_freq=0";` line in your fastcgi Nginx config.
+
+Normally *dev.php*, *install.php* and *preview.php* entry points are configured to revalidate cache at
+each request.
