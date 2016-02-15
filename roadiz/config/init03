@@ -13,6 +13,8 @@ then
     mkdir -p /data/.composer
     mkdir -p /data/.ssh
     mkdir -p /data/secure/ssh
+    touch /data/.bash_history
+    touch /data/.bashrc
     cp -R /config/config/* /data/config
     cd /data/http
     git clone -b $ROADIZ_BRANCH https://github.com/roadiz/roadiz.git ./
@@ -24,11 +26,11 @@ else
     # Update dependencies
     /usr/local/bin/composer self-update
     # and empty roadiz cache
+    /data/http/bin/roadiz cache:clear --env="dev"
+    /data/http/bin/roadiz cache:clear --env="prod"
     cd /data/http
     chown -R core:core /data
     chmod 0770 /data/secure
     chmod 0700 /data/.composer
     chmod 0700 /data/.ssh
-    /data/http/bin/roadiz cache:clear --env="dev"
-    /data/http/bin/roadiz cache:clear --env="prod"
 fi
