@@ -3,22 +3,32 @@ composer self-update
 
 if [ ! "$(ls -A /data/http)" ]
 then
+    # Update dependencies
+    /usr/local/bin/composer self-update
+    # Give core user a home
+    usermod -d /data core
+    # and a shell
+    usermod -s /bin/bash core
     # and a .ssh folder
+    mkdir -p /data/.composer
     mkdir -p /data/.ssh
     mkdir -p /data/secure/ssh
     cp -R /config/config/* /data/config
     cd /data/http
     git clone -b $ROADIZ_BRANCH https://github.com/roadiz/roadiz.git ./
-    composer install -n --no-dev -o
+    /usr/local/bin/composer install -n --no-dev -o
     chown -R core:core /data
     chmod 0770 /data/secure
     chmod 0700 /data/.ssh
 else
     # Update dependencies
+    /usr/local/bin/composer self-update
     # and empty roadiz cache
     cd /data/http
     chown -R core:core /data
     chmod 0770 /data/secure
+    chmod 0700 /data/.composer
     chmod 0700 /data/.ssh
-    bin/roadiz cache:clear --env=prod
+    /data/http/bin/roadiz cache:clear --env="dev"
+    /data/http/bin/roadiz cache:clear --env="prod"
 fi
