@@ -1,5 +1,5 @@
 #!/bin/bash
-composer self-update
+# Start up script
 
 if [ ! "$(ls -A /data/http)" ]
 then
