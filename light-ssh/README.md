@@ -3,7 +3,7 @@
 This image is useful if you need to allow your users to access their own containers using SSH connection
 to be able to use *Composer*, *Git* and *PHP* cli utils. It can be useful for *Roadiz* or *Symfony2* apps.
 
-## Avalaible commands
+## Available commands
 
 - git
 - zip
