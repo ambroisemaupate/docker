@@ -16,10 +16,10 @@ This image will install:
 
 Roadiz image will work with:
 
-* A *maxexcloo/data* container for volume handling:
+* A *ambroisemaupate/data* container for volume handling:
 
 ```bash
-docker run -d --name="my-roadiz_DATA" maxexcloo/data
+docker run -d --name="my-roadiz_DATA" ambroisemaupate/data
 ```
 
 * A *maxexcloo/mariadb* container for its database:

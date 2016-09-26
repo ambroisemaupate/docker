@@ -1,28 +1,37 @@
 #!/bin/bash
-composer self-update
+# Start up script
 
 if [ ! "$(ls -A /data/http)" ]
 then
+    # Update dependencies
+    /usr/local/bin/composer self-update
     # Give core user a home
     usermod -d /data core
     # and a shell
     usermod -s /bin/bash core
     # and a .ssh folder
+    mkdir -p /data/.composer
     mkdir -p /data/.ssh
     mkdir -p /data/secure/ssh
+    touch /data/.bash_history
+    touch /data/.bashrc
     cp -R /config/config/* /data/config
     cd /data/http
     git clone https://github.com/ambroisemaupate/littleship.git ./
     mkdir -p /data/http/app/data
     npm install
     bower install --allow-root -s
-    composer install -o
+    /usr/local/bin/composer install -n --no-dev -o
+
+    chown -R core:core /data
+    chmod 0770 /data/secure
+    chmod 0700 /data/.ssh
 else
+    /usr/local/bin/composer self-update
     # Update dependencies
     cd /data/http
-    composer update -n -o
+    chown -R core:core /data
+    chmod 0770 /data/secure
+    chmod 0700 /data/.composer
+    chmod 0700 /data/.ssh
 fi
-
-chown -R core:core /data
-chmod 0770 /data/secure
-chmod 0700 /data/.ssh

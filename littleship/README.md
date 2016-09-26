@@ -1,7 +1,7 @@
 LittleShip docker image
 =======================
 
-This image is almost based on *maxexcloo/nginx-php* image, it only adds
+This image is almost based on *ambroisemaupate/nginx-php* image, it only adds
 the `core` user to the `docker` group (gid 999) to be able to access `/var/run/docker.sock`.
 
 Just verify that your host `docker` group has `999` *gid*. If not, change it inside your
@@ -9,7 +9,7 @@ littleship container to reflect the same *gid* as your host.
 
 ```shell
 # Create a data container
-docker run --name littleship_data maxexcloo/data;
+docker run --name littleship_data ambroisemaupate/data;
 
 # Create the main container, you must attach it for the first time
 # as Symfony will ask you some parameters.
