@@ -1,12 +1,6 @@
-#
-# Enforce core user for mariadb
-#
-chown -R core:adm /var/log/mysql.err
-chown -R core:adm /var/log/mysql.log
-chown -R core:adm /var/log/mysql
-chown -R core:root /var/run/mysqld
-
 if [ ! "$(ls -A /data)" ]; then
+	mkdir -p /data/log
+	chown -R core:core /data/log
 	mysql_install_db --datadir=/data --user=core
 	mysqld_safe --skip-grant-tables &
 	while [ ! -e /run/mysqld/mysqld.sock ]; do
@@ -15,3 +9,12 @@ if [ ! "$(ls -A /data)" ]; then
 	mysql -u root -e "FLUSH PRIVILEGES; CREATE USER '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASS'; GRANT ALL PRIVILEGES ON *.* TO '$MARIADB_USER'@'%' WITH GRANT OPTION;"
 	mysqladmin -u root shutdown
 fi
+
+#
+# Enforce core user for mariadb
+#
+chown -R core:core /data/log
+chown -R core:adm /var/log/mysql.err
+chown -R core:adm /var/log/mysql.log
+chown -R core:adm /var/log/mysql
+chown -R core:root /run/mysqld

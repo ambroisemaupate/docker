@@ -13,10 +13,11 @@ RUN sed -i -e "s/^bind-address/#bind-address/" /etc/mysql/my.cnf && \
 	sed -i -e "s/^datadir.*=.*/datadir = \/data/" /etc/mysql/my.cnf && \
 	sed -i -e "s/^innodb_buffer_pool_size.*=.*/innodb_buffer_pool_size = 128M/" /etc/mysql/my.cnf && \
 	sed -i -e "s/^user.*=.*/user = core/" /etc/mysql/my.cnf && \
+	sed -i -e "s/\/var\/log\/mysql/\/data\/log/" /etc/mysql/my.cnf && \
 	chown -R core:adm /var/log/mysql.err && \
 	chown -R core:adm /var/log/mysql.log && \
 	chown -R core:adm /var/log/mysql && \
-	chown -R core:root /var/run/mysqld
+	chown -R core:root /run/mysqld
 ADD config /config
 ADD supervisord.conf /etc/supervisor/conf.d/mariadb.conf
 EXPOSE 3306
