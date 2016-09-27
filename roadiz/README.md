@@ -1,6 +1,6 @@
 # Roadiz docker-image
 
-**Based on ambroisemaupate/nginx-php**
+**Inherits ambroisemaupate/nginx-php**
 
 This image will install:
 
@@ -14,20 +14,24 @@ This image will install:
 
 ## Docker dependencies
 
-Roadiz image will work with:
-
-* A *ambroisemaupate/data* container for volume handling:
+Roadiz image will work with a volume for persisiting data
+if you recreate your container later:
 
 ```bash
-docker run -d --name="my-roadiz_DATA" ambroisemaupate/data
+docker volume create --name="my-roadiz_DATA"
 ```
 
-* A *maxexcloo/mariadb* container for its database:
+* A *ambroisemaupate/mariadb* container for its database:
 
 ```bash
+# Create a volume for persisting DB data
+docker volume create --name="my-roadiz_DBDATA"
+# Create MariaDB container
 docker run -t -d --name="my-roadiz-mariadb" \
-              --env="MARIADB_USER=foo" --env="MARIADB_PASS=bar" \
-              --env="MARIADB_DB=foo" maxexcloo/mariadb
+              -v my-roadiz_DBDATA:/data \
+              --env="MARIADB_USER=foo" \
+              --env="MARIADB_PASS=bar" \
+              ambroisemaupate/mariadb
 ```
 
 ## Run a new Roadiz container
@@ -36,7 +40,7 @@ docker run -t -d --name="my-roadiz-mariadb" \
 # Launch me
 docker run -t -d --name="my-roadiz" -p 80:80 \
               --env ROADIZ_BRANCH=master \
-              --volumes-from="my-roadiz_DATA" \
+              -v my-roadiz_DATA:/data \
               --link="my-roadiz-mariadb:mariadb" ambroisemaupate/roadiz
 ```
 
@@ -55,12 +59,7 @@ do it as the `core` user, **NOT** the `root` user.
 
 ```bash
 # On your Docker host
-docker exec -ti --user=core my-roadiz /bin/bash
-
-# Now you’re on your Docker container
-# If you need to use a CLI editor like nano
-# you’ll need to set TERM environment var
-export TERM=xterm
+docker exec -ti --user=core my-roadiz bash
 
 cd /data/http
 # For example clear Roadiz app cache
@@ -75,7 +74,7 @@ before doing anything in your `/data` folder.
 
 ```bash
 # On your Docker host
-docker exec -ti --user=core my-roadiz /bin/bash
+docker exec -ti --user=core my-roadiz bash
 
 # On your docker container…
 # Generate public/private keys
@@ -99,3 +98,14 @@ or add `fastcgi_param PHP_VALUE "opcache.revalidate_freq=0";` line in your fastc
 
 Normally *dev.php*, *install.php* and *preview.php* entry points are configured to revalidate cache at
 each request.
+
+## Clear cache
+
+You’ll be able to clear cache only from localhost using `curl`.
+
+```bash
+# On your Docker host
+docker exec -ti --user=core my-roadiz bash
+
+curl http://localhost/clear_cache.php
+```
