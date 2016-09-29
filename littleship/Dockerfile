@@ -7,11 +7,13 @@ RUN apt-get update -yqq && \
     apt-get install -y \
     curl \
     git \
-    curl -sL https://deb.nodesource.com/setup | bash - && \
+    curl -sL https://deb.nodesource.com/setup_4.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g grunt-cli && \
     npm install -g bower && \
-    curl -sS https://getcomposer.org/installer | php && \
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php && \
+    php -r "unlink('composer-setup.php');" && \
     mv composer.phar /usr/local/bin/composer && \
     addgroup --gid 999 docker && \
     usermod -aG docker core  && \
