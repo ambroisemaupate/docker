@@ -13,7 +13,6 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CBCB082A1BB943DB &&
 	rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 RUN sed -i -e "s/^bind-address/#bind-address/" /etc/mysql/my.cnf && \
 	sed -i -e "s/^datadir.*=.*/datadir = \/data/" /etc/mysql/my.cnf && \
-	sed -i -e "s/^innodb_buffer_pool_size.*=.*/innodb_buffer_pool_size = 128M/" /etc/mysql/my.cnf && \
 	sed -i -e "s/^user.*=.*/user = core/" /etc/mysql/my.cnf && \
 	sed -i -e "s/\/var\/log\/mysql/\/data\/log/" /etc/mysql/my.cnf && \
 	chown -R core:adm /var/log/mysql.err && \
