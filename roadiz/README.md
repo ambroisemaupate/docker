@@ -14,13 +14,6 @@ This image will install:
 
 ## Docker dependencies
 
-Roadiz image will work with a volume for persisiting data
-if you recreate your container later:
-
-```bash
-docker volume create --name="my-roadiz_DATA"
-```
-
 * A *ambroisemaupate/mariadb* container for its database:
 
 ```bash
@@ -38,7 +31,7 @@ docker run -t -d --name="my-roadiz-mariadb" \
 
 ```bash
 # Launch me
-docker run -t -d --name="my-roadiz" -p 80:80 \
+docker run -d --name="my-roadiz" --hostname="my-roadiz" -p 80:80 \
               --env ROADIZ_BRANCH=master \
               -v my-roadiz_DATA:/data \
               --link="my-roadiz-mariadb:mariadb" ambroisemaupate/roadiz
@@ -109,3 +102,56 @@ docker exec -ti --user=core my-roadiz bash
 
 curl http://localhost/clear_cache.php
 ```
+
+## Compose example
+
+In a blank folder named `my-roadiz/` create a `docker-compose.yml` file
+with the following content:
+
+```yaml
+version: '2'
+services:
+  MAIN:
+    hostname: my-roadiz
+    image: ambroisemaupate/roadiz
+    environment:
+      ROADIZ_BRANCH: develop
+    ports:
+      - "8080:80"
+    volumes:
+      - DATA:/data
+    links:
+      - DB:mariadb
+    depends_on:
+      - DB
+  DB:
+    image: ambroisemaupate/mariadb
+    environment:
+      MARIADB_USER: "roadiz_test"
+      MARIADB_PASS: "pass0rd"
+    volumes:
+      - DBDATA:/data
+  SSH:
+    image: ambroisemaupate/light-ssh
+    environment:
+      PASS: "roadiz_test"
+    volumes:
+      - DBDATA:/data
+    links:
+      - DB:mariadb
+    depends_on:
+      - DB
+    ports:
+      - "22/tcp"
+volumes:
+  DATA:
+  DBDATA:
+```
+
+Then launch your container network with `docker-compose up -d`. This will create:
+
+- `my-roadiz_MAIN_1` container
+- `my-roadiz_DB_1` container
+- `my-roadiz_SSH_1` container
+- `my-roadiz_DATA` volume
+- `my-roadiz_DBDATA` volume
