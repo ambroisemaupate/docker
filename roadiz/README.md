@@ -136,7 +136,7 @@ services:
     environment:
       PASS: "roadiz_test"
     volumes:
-      - DBDATA:/data
+      - DATA:/data
     links:
       - DB:mariadb
     depends_on:
