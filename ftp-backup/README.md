@@ -22,7 +22,7 @@ backup your database.
 ## Usage
 
 ```shell
-docker run --rm -t --name="backup1" --volumes-from my-data-volume:ro \
+docker run --rm -t --name="backup1" -v my-data-volume:/data:ro \
            -e DB_USER="toto" \
            -e DB_HOST="mariadb" \
            -e DB_PASS="123abc" \
@@ -62,7 +62,7 @@ I use the following naming policy:
 
 NAME="my-docker-container"
 
-docker run --rm -t --name="${NAME}_BCK" --volumes-from ${NAME}_DATA:ro \
+docker run --rm -t --name="${NAME}_BCK" -v ${NAME}_DATA:/data:ro \
            -e FTP_USER="${FTP_USER}"\
            -e FTP_PASS="${FTP_PASS}"\
            -e FTP_HOST="${FTP_HOST}"\
@@ -108,7 +108,7 @@ chmod u+x ~/scripts/bck-my-docker-container.sh
 Add `FTP_PORT` and `FTP_PROTO` environment vars.
 
 ```shell
-docker run --rm -t --name="backup1" --volumes-from my-data-volume:ro \
+docker run --rm -t --name="backup1" -v my-data-volume:/data:ro \
            -e DB_USER="toto" \
            -e DB_HOST="mariadb" \
            -e DB_PASS="123abc" \

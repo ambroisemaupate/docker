@@ -21,7 +21,9 @@ then
     mkdir -p /data/http/app/data
     npm install
     bower install --allow-root -s
-    /usr/local/bin/composer install -n --no-dev -o
+    /usr/local/bin/composer install -n -o
+
+    su -c "cd /data/http; app/console assets:install --symlink && grunt deploy;" -m "core"
 
     chown -R core:core /data
     chmod 0770 /data/secure

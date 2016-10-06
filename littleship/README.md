@@ -8,12 +8,10 @@ Just verify that your host `docker` group has `999` *gid*. If not, change it ins
 littleship container to reflect the same *gid* as your host.
 
 ```shell
-# Create a data container
-docker run --name littleship_data ambroisemaupate/data;
-
 # Create the main container, you must attach it for the first time
 # as Symfony will ask you some parameters.
-docker run -ti --name littleship --volumes-from littleship_data \
+docker run -d --name littleship --hostname="littleship" \
+           -v littleship_data:/data \
            -v /var/run/docker.sock:/var/run/docker.sock \
            -e VIRTUAL_HOST=littleship.mydomain.com ambroisemaupate/littleship;
 ```

@@ -4,10 +4,9 @@ MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -yqq && \
-    apt-get install -y \
-    curl \
-    git \
+    apt-get install -y curl git && \
     curl -sL https://deb.nodesource.com/setup_4.x | bash - && \
+    apt-get update -yqq && \
     apt-get install -y nodejs && \
     npm install -g grunt-cli && \
     npm install -g bower && \
