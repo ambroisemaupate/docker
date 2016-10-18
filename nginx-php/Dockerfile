@@ -12,4 +12,5 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E9C74FEEA2098A6E &&
 RUN rm -rf /etc/nginx/addon.d /etc/php/7.0/fpm/pool.d && \
 	mkdir -p /etc/nginx/addon.d /etc/php/7.0/fpm/pool.d
 ADD etc /etc
+RUN phpenmod tuning
 ADD supervisord.conf /etc/supervisor/conf.d/php-fpm.conf
