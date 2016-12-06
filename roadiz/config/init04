@@ -1,0 +1,16 @@
+#!/bin/bash
+# Start up script
+#
+
+if [ ! "$(ls -A /data/http)" ]
+then
+    cd /data/http
+    git clone -b $ROADIZ_BRANCH https://github.com/roadiz/roadiz.git ./
+    /usr/local/bin/composer install -n --no-dev -o
+    chown -R core:core /data
+else
+    # and empty roadiz cache
+    /data/http/bin/roadiz cache:clear --env="dev"
+    /data/http/bin/roadiz cache:clear --env="prod"
+    /data/http/bin/roadiz cache:clear --env="prod" --preview
+fi

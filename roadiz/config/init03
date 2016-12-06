@@ -1,36 +1,44 @@
 #!/bin/bash
 # Start up script
 
-if [ ! "$(ls -A /data/http)" ]
+# Give core user a home
+usermod -d /data core
+# and a shell
+usermod -s /bin/bash core
+
+# Update Composer itself
+/usr/local/bin/composer self-update
+
+touch /data/.bash_history
+touch /data/.bashrc
+chown -R core:core /data/.bash_history
+chown -R core:core /data/.bashrc
+
+if [ ! "$(ls -A /data/.composer)" ]
 then
-    # Update dependencies
-    /usr/local/bin/composer self-update
-    # Give core user a home
-    usermod -d /data core
-    # and a shell
-    usermod -s /bin/bash core
-    # and a .ssh folder
     mkdir -p /data/.composer
-    mkdir -p /data/.ssh
-    mkdir -p /data/secure/ssh
-    touch /data/.bash_history
-    touch /data/.bashrc
-    cp -R /config/config/* /data/config
-    cd /data/http
-    git clone -b $ROADIZ_BRANCH https://github.com/roadiz/roadiz.git ./
-    /usr/local/bin/composer install -n --no-dev -o
-    chown -R core:core /data
-    chmod 0770 /data/secure
-    chmod 0700 /data/.ssh
-else
-    # Update dependencies
-    /usr/local/bin/composer self-update
-    # and empty roadiz cache
-    /data/http/bin/roadiz cache:clear --env="dev"
-    /data/http/bin/roadiz cache:clear --env="prod"
-    cd /data/http
-    chown -R core:core /data
-    chmod 0770 /data/secure
-    chmod 0700 /data/.composer
-    chmod 0700 /data/.ssh
 fi
+chmod 0700 /data/.composer
+chown -R core:core /data/.composer
+
+if [ ! "$(ls -A /data/.ssh)" ]
+then
+    mkdir -p /data/.ssh
+fi
+chmod 0700 /data/.ssh
+chown -R core:core /data/.ssh
+
+if [ ! "$(ls -A /data/secure/ssh)" ]
+then
+    mkdir -p /data/secure/ssh
+fi
+chmod 0770 /data/secure
+chown -R core:core /data/secure
+
+
+if [ ! "$(ls -A /data/config)" ]
+then
+    cp -R /config/config/* /data/config
+fi
+chown -R core:core /data/config
+
