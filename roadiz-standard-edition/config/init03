@@ -1,0 +1,44 @@
+#!/bin/bash
+# Start up script
+
+# Give core user a home
+usermod -d /data core
+# and a shell
+usermod -s /bin/bash core
+
+# Update Composer itself
+/usr/local/bin/composer self-update
+
+touch /data/.bash_history
+touch /data/.bashrc
+chown -R core:core /data/.bash_history
+chown -R core:core /data/.bashrc
+
+if [ ! "$(ls -A /data/.composer)" ]
+then
+    mkdir -p /data/.composer
+fi
+chmod 0700 /data/.composer
+chown -R core:core /data/.composer
+
+if [ ! "$(ls -A /data/.ssh)" ]
+then
+    mkdir -p /data/.ssh
+fi
+chmod 0700 /data/.ssh
+chown -R core:core /data/.ssh
+
+if [ ! "$(ls -A /data/secure/ssh)" ]
+then
+    mkdir -p /data/secure/ssh
+fi
+chmod 0770 /data/secure
+chown -R core:core /data/secure
+
+
+if [ ! "$(ls -A /data/config)" ]
+then
+    cp -R /config/config/* /data/config
+fi
+chown -R core:core /data/config
+

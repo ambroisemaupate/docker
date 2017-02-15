@@ -1,0 +1,12 @@
+/data/http/app/logs/*.log {
+    weekly
+    missingok
+    rotate 52
+    compress
+    size 10M
+    su core core
+    delaycompress
+    notifempty
+    create 0640 core core
+    sharedscripts
+}

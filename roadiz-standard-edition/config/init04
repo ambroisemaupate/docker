@@ -1,0 +1,15 @@
+#!/bin/bash
+# Start up script
+#
+
+if [ ! "$(ls -A /data/http)" ]
+then
+    # Do nothing
+    # Let user install Roadiz himself
+    chown -R core:core /data
+else
+    # and empty roadiz cache
+    /data/http/bin/roadiz cache:clear --env="dev"
+    /data/http/bin/roadiz cache:clear --env="prod"
+    /data/http/bin/roadiz cache:clear --env="prod" --preview
+fi
