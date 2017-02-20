@@ -13,4 +13,5 @@ else
     /data/http/bin/roadiz cache:clear --env="dev"
     /data/http/bin/roadiz cache:clear --env="prod"
     /data/http/bin/roadiz cache:clear --env="prod" --preview
+    chown -R core:core /data
 fi
