@@ -1,5 +1,9 @@
 ## ambroisemaupate/data
 
+### Deprecated
+
+** Use Docker volumes instead!**
+
 Forked from [maxexcloo/data](https://github.com/maxexcloo/Docker) which was abandonned.
 https://github.com/maxexcloo/Docker/blob/fd6bfda413ea773a6e6d45fe25633935dfdd8cd3/base/data/Dockerfile
 
