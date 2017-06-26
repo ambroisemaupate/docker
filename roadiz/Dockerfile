@@ -1,4 +1,4 @@
-FROM ambroisemaupate/nginx-php:latest
+FROM ambroisemaupate/nginx-php:php7.0
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 ENV ROADIZ_BRANCH master
