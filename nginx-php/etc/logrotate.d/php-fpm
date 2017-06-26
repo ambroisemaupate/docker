@@ -1,4 +1,4 @@
-/data/logs/php7.0-fpm.log {
+/data/logs/php-fpm.log {
     rotate 12
     weekly
     missingok
@@ -6,7 +6,7 @@
     compress
     delaycompress
     postrotate
-        /usr/lib/php/php7.0-fpm-reopenlogs
+        /usr/lib/php/php-fpm-reopenlogs
     endscript
 }
 /data/logs/php-fpm-daemon.log {
@@ -17,6 +17,6 @@
     compress
     delaycompress
     postrotate
-        /usr/lib/php/php7.0-fpm-reopenlogs
+        /usr/lib/php/php-fpm-reopenlogs
     endscript
 }
