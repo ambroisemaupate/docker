@@ -13,9 +13,9 @@ if [ -n "$FTP_HOST" ]
 then
 # Create remote dir if does not exists
 echo "[${PRINT_DATE}] Create remote dir if does not exists…"
-$LFTP -u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT} <<EOF
+$LFTP -e "set net:max-retries 2" -u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT} <<EOF
 
-mkdir -p ${REMOTE_PATH}
+cd ${REMOTE_PATH} || mkdir -p ${REMOTE_PATH}
 bye
 
 EOF
@@ -26,7 +26,7 @@ $TAR $TAR_OPTIONS /backups/data-$FILE_DATE.tar.gz /data
 
 # Sending over FTP
 echo "[${PRINT_DATE}] Sending /data folder over FTP…"
-$LFTP -u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT} <<EOF
+$LFTP -e "set net:max-retries 2" -u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT} <<EOF
 
 cd ${REMOTE_PATH}
 ls
@@ -44,7 +44,7 @@ $MYSQLDUMP -u $DB_USER -h $DB_HOST -p$DB_PASS $DB_NAME | gzip > /backups/db-$FIL
 
 # Sending over FTP
 echo "[${PRINT_DATE}] Sending MySQL dump over FTP…"
-$LFTP -u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT} <<EOF
+$LFTP -e "set net:max-retries 2" -u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT} <<EOF
 
 cd ${REMOTE_PATH}
 ls

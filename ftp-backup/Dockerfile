@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:latest
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 LABEL description="Backup a data-oriented container and a \
 MariaDB/MySQL container and upload them to a FTP server using lftp." \
