@@ -15,7 +15,7 @@ ENV FTP_PROTO ftp
 ENV REMOTE_PATH /my/backup/dir
 
 RUN apt-get update -yqq && \
-    apt-get install -y lftp mysql-client && \
+    apt-get install -y ca-certificates openssh-client mysql-client lftp && \
     mkdir -p /backups
 
 ADD etc/lftp.conf /etc/lftp.conf

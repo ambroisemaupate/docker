@@ -1,7 +1,7 @@
 # FTP backup
 
 Backup a data-oriented container and a MariaDB/MySQL container and
-upload them to a FTP server using `lftp`.
+upload them to a FTP/SFTP server using `lftp`.
 
 This script will archive your `/data` folder and use `mysqldump` to
 backup your database.

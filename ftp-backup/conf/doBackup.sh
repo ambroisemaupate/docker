@@ -9,34 +9,39 @@ PRINT_DATE=`date '+%Y-%m-%d %H:%M:%S'`
 echo "[${PRINT_DATE}] --> New backup"
 echo "[${PRINT_DATE}] On ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT}"
 
+LFTP_CMD="-u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT}"
+
 if [ -n "$FTP_HOST" ]
 then
 # Create remote dir if does not exists
 echo "[${PRINT_DATE}] Create remote dir if does not exists…"
-$LFTP -e "set net:max-retries 2" -u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT} <<EOF
-
-cd ${REMOTE_PATH} || mkdir -p ${REMOTE_PATH}
-bye
-
+${LFTP} ${LFTP_CMD} <<EOF
+cd ${REMOTE_PATH} || mkdir -p ${REMOTE_PATH};
+bye;
 EOF
 
-# Data backup
-echo "[${PRINT_DATE}] Compressing /data folder…"
-$TAR $TAR_OPTIONS /backups/data-$FILE_DATE.tar.gz /data
+if [ -d /data ]; then
+  # Control will enter here if /data exists.
+  echo "[${PRINT_DATE}] Compressing /data folder…"
+  $TAR $TAR_OPTIONS /backups/data-$FILE_DATE.tar.gz /data
 
-# Sending over FTP
-echo "[${PRINT_DATE}] Sending /data folder over FTP…"
-$LFTP -e "set net:max-retries 2" -u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT} <<EOF
-
+  # Sending over FTP
+  echo "[${PRINT_DATE}] Sending /data folder over FTP…"
+  ${LFTP} ${LFTP_CMD} <<EOF
 cd ${REMOTE_PATH}
 ls
 put /backups/data-${FILE_DATE}.tar.gz
 bye
-
 EOF
+else
+  echo "[${PRINT_DATE}] /data folder does not exists."
+  exit 1
+fi
 
-# MySQL dump
+
+# Optional MySQL dump
 if [ -n "$DB_NAME" ]
+  echo "[${PRINT_DATE}] No database to backup."
 then
 # MySQL dump
 echo "[${PRINT_DATE}] MySQL dump backup…"
@@ -44,17 +49,15 @@ $MYSQLDUMP -u $DB_USER -h $DB_HOST -p$DB_PASS $DB_NAME | gzip > /backups/db-$FIL
 
 # Sending over FTP
 echo "[${PRINT_DATE}] Sending MySQL dump over FTP…"
-$LFTP -e "set net:max-retries 2" -u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT} <<EOF
-
+${LFTP} ${LFTP_CMD} <<EOF
 cd ${REMOTE_PATH}
 ls
 put /backups/db-${FILE_DATE}.sql.gz
 bye
-
 EOF
 fi
 fi
 
 PRINT_ENDDATE=`date '+%H:%M:%S'`
-echo "[${PRINT_DATE}] Backup finished at ${PRINT_ENDDATE}"
+echo "[${PRINT_DATE}] Backup finished at ${PRINT_ENDDATE}."
 
