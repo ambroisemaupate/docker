@@ -31,6 +31,7 @@ chown -R core:core /data/.ssh
 if [ ! "$(ls -A /data/secure/ssh)" ]
 then
     mkdir -p /data/secure/ssh
+    ssh-keygen -t rsa -b 2048 -N '' -f /data/secure/ssh/id_rsa -C "Deploy key ($HOSTNAME) for private repository"
 fi
 chmod 0770 /data/secure
 chown -R core:core /data/secure

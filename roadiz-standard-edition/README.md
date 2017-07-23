@@ -68,10 +68,8 @@ before doing anything in your `/data` folder.
 docker exec -ti --user=core my-roadiz bash
 
 # On your docker container…
-# Generate public/private keys
-ssh-keygen -t rsa -b 2048 -N '' -f /data/secure/ssh/id_rsa \
-           -C "Deploy key ($HOSTNAME) for private repository"
 # Add the generated /data/secure/ssh/id_rsa.pub key to your Github/Gitlab account
+cat /data/secure/ssh/id_rsa.pub
 
 # Clone your Roadiz application in http/ folder
 # and install dependencies

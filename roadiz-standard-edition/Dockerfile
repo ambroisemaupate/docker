@@ -1,10 +1,10 @@
-FROM ambroisemaupate/nginx-php:php7.1
+FROM ambroisemaupate/nginx-php:latest
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 ENV ROADIZ_BRANCH master
 
 RUN apt-get update -yqq && \
-    apt-get install -y curl git cron pngquant jpegoptim make && \
+    apt-get install -y curl git pngquant jpegoptim make && \
     sed -i'.original' 's/\;date.timezone \=/date.timezone = Europe\/Paris/' /etc/php/7.1/cli/php.ini && \
     sed -i'.original' 's/\;date.timezone \=/date.timezone = Europe\/Paris/' /etc/php/7.1/fpm/php.ini && \
     rm /etc/nginx/conf.d/02cache.conf
