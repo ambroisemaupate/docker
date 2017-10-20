@@ -12,9 +12,9 @@ to be able to use *Composer*, *Git* and *PHP* cli utils. It can be useful for *R
 - mysql
 - nano
 
-## Using with maxexcloo/data
+## Usage
 
-Light SSH already set environment vars `USER=core` and `UID=500` for maxexcloo/data compatibility.
+Light SSH already set environment vars `USER=core` and `UID=500` for *maxexcloo* images compatibility.
 
 ```shell
 # Light SSH already set USER=core and UID=500 for maxexcloo/data compatibility
