@@ -1,0 +1,22 @@
+# Ignore Roadiz tools and cache for
+# creating a docker image
+
+*/temp*
+*/*/temp*
+samples
+docker
+.vagrant
+.idea
+app/cache/*
+app/*.zip
+app/*.sql
+app/*.tar.gz
+*.zip
+*.sql
+*.tar.gz
+*/*/node_modules
+*/*/*/node_modules
+files/*
+web/files/*
+*/*/*/src-img
+*/*/src-img
