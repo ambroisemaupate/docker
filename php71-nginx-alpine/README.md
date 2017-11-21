@@ -1,4 +1,4 @@
-# roadiz/php71-fpm-alpine
+# roadiz/php71-nginx-alpine
 **Base *php-fpm with nginx* image for building Roadiz sub-images.**
 
 This image does not provide any tools like *Composer* or *Yarn* and it is meant
@@ -21,7 +21,7 @@ Before building your project image make sure to:
 Create a `Dockerfile` in your Roadiz project root.
 
 ```
-FROM roadiz/php71-fpm-alpine:latest
+FROM roadiz/php71-nginx-alpine:latest
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 COPY . /var/www/html/
