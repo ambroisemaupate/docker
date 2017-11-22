@@ -20,13 +20,13 @@ cd ${REMOTE_PATH} || mkdir -p ${REMOTE_PATH};
 bye;
 EOF
 
-if [ -d /data ]; then
+if [ -d ${LOCAL_PATH} ]; then
   # Control will enter here if /data exists.
-  echo "[${PRINT_DATE}] Compressing /data folder…"
-  $TAR $TAR_OPTIONS /backups/data-$FILE_DATE.tar.gz /data
+  echo "[${PRINT_DATE}] Compressing ${LOCAL_PATH} folder…"
+  $TAR $TAR_OPTIONS /backups/data-$FILE_DATE.tar.gz ${LOCAL_PATH}
 
   # Sending over FTP
-  echo "[${PRINT_DATE}] Sending /data folder over FTP…"
+  echo "[${PRINT_DATE}] Sending ${LOCAL_PATH} folder over FTP…"
   ${LFTP} ${LFTP_CMD} <<EOF
 cd ${REMOTE_PATH}
 ls
@@ -34,7 +34,7 @@ put /backups/data-${FILE_DATE}.tar.gz
 bye
 EOF
 else
-  echo "[${PRINT_DATE}] /data folder does not exists."
+  echo "[${PRINT_DATE}] ${LOCAL_PATH} folder does not exists."
   exit 1
 fi
 
