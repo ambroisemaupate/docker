@@ -3,7 +3,7 @@
 Backup a data-oriented container and a MariaDB/MySQL container and
 upload them to a FTP/SFTP server using `lftp`.
 
-This script will archive your `/data` folder and use `mysqldump` to
+This script will archive your `/data` (or custom) folder and use `mysqldump` to
 backup your database.
 
 ## ENV variables
@@ -13,6 +13,7 @@ backup your database.
 * `FTP_HOST` - FTP server hostname
 * `FTP_PORT` - FTP server port
 * `FTP_PROTO` - Protocol to use (default: ftp)
+* `LOCAL_PATH` - Absolute path for folder to backup (default: `/data`)
 * `REMOTE_PATH` - Your FTP backup destination folder
 * `DB_USER` - (Optional) Database user name
 * `DB_HOST` - (Optional) Database host name
