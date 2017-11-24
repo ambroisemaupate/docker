@@ -24,3 +24,4 @@ files/*
 web/files/*
 */*/*/src-img
 */*/src-img
+!vendor

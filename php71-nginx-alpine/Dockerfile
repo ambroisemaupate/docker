@@ -40,7 +40,10 @@ ADD etc/php/7.1/php.ini /usr/local/etc/php/php.ini
 ADD etc/php/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 ADD etc/nginx /etc/nginx
 ADD etc/supervisord.ini /etc/supervisor.d/services.ini
-#ADD etc/nginx/sites-available/000-default.conf /etc/nginx/sites-available/000-default.conf
+# Add a chown script to clean UID on web root at 
+# each container restart
+ADD etc/before_launch.ini /etc/supervisor.d/before_launch.ini
+ADD etc/before_launch.sh /before_launch.sh
 
 # Add in your inheriting image to following lines
 # to add your application code into server path.
