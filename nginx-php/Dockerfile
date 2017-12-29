@@ -4,14 +4,14 @@ RUN apt-get install -y -qq apt-transport-https lsb-release ca-certificates && \
     wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg && \
     echo "deb https://packages.sury.org/php/ jessie main" > /etc/apt/sources.list.d/php.list && \
     apt-get update && \
-    apt-get install -y mariadb-client php7.1-cli php7.1-curl php7.1-fpm php7.1-gd php7.1-mcrypt php7.1-zip php7.1-json \
-                       php7.1-opcache php7.1-intl php7.1-imap php7.1-pspell php7.1-recode \
-                       php7.1-tidy php7.1-xmlrpc php7.1-xsl php7.1-apcu php7.1-apcu-bc \
-                       php7.1-mysql php7.1-pgsql php7.1-sqlite3 php7.1-mbstring php7.1-imagick && \
+    apt-get install -y mariadb-client php7.2-cli php7.2-curl php7.2-fpm php7.2-gd php7.2-mcrypt php7.2-zip php7.2-json \
+                       php7.2-opcache php7.2-intl php7.2-imap php7.2-pspell php7.2-recode \
+                       php7.2-tidy php7.2-xmlrpc php7.2-xsl php7.2-apcu php7.2-apcu-bc \
+                       php7.2-mysql php7.2-pgsql php7.2-sqlite3 php7.2-mbstring php7.2-imagick && \
     apt-get clean && \
     echo -n > /var/lib/apt/extended_states
-RUN rm -rf /etc/nginx/addon.d /etc/php/7.1/fpm/pool.d && \
-    mkdir -p /etc/nginx/addon.d /etc/php/7.1/fpm/pool.d
+RUN rm -rf /etc/nginx/addon.d /etc/php/7.2/fpm/pool.d && \
+    mkdir -p /etc/nginx/addon.d /etc/php/7.2/fpm/pool.d
 ADD etc /etc
 RUN phpenmod tuning
 ADD supervisord.conf /etc/supervisor/conf.d/php-fpm.conf
