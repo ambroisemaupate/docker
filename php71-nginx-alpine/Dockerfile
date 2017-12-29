@@ -21,10 +21,10 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
         supervisor \
         pngquant jpegoptim \
         zip \
-        icu-dev \
+        icu-dev libxml2-dev \
         dcron wget rsync ca-certificates \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
-    && docker-php-ext-install -j${NPROC} exif json mcrypt intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip  \
+    && docker-php-ext-install -j${NPROC} exif json mcrypt intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip xml \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
     && docker-php-ext-install -j${NPROC} gd \
     && pecl install apcu \

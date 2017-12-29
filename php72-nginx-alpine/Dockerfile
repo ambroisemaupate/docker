@@ -21,7 +21,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
         supervisor \
         pngquant jpegoptim \
         zip \
-        icu-dev \
+        icu-dev libxml2-dev \
         dcron wget rsync ca-certificates \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
     && docker-php-ext-install -j${NPROC} exif json intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip xml \
