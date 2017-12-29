@@ -1,4 +1,4 @@
-FROM php:7.1-fpm-alpine
+FROM php:7.2-fpm-alpine
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
@@ -37,7 +37,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
     && rm -rf /tmp/pear ~/.pearrc
 
 # PHP config
-ADD etc/php/7.1/php.ini /usr/local/etc/php/php.ini
+ADD etc/php/7.2/php.ini /usr/local/etc/php/php.ini
 ADD etc/php/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 ADD etc/nginx /etc/nginx
 ADD etc/supervisord.ini /etc/supervisor.d/services.ini
