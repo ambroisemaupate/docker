@@ -11,6 +11,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
         autoconf \
     && apk add --no-cache \
         libmcrypt-dev \
+        mariadb-client \ 
         curl \
         freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev \
         postgresql-dev \
