@@ -4,7 +4,7 @@ MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 ENV ROADIZ_BRANCH master
 
 RUN apt-get update -yqq && \
-    apt-get install -y curl git pngquant jpegoptim make && \
+    apt-get install -y -q --no-install-recommends pngquant jpegoptim make && \
     sed -i'.original' 's/\;date.timezone \=/date.timezone = Europe\/Paris/' /etc/php/7.2/cli/php.ini && \
     sed -i'.original' 's/\;date.timezone \=/date.timezone = Europe\/Paris/' /etc/php/7.2/fpm/php.ini && \
     rm /etc/nginx/conf.d/02cache.conf && \

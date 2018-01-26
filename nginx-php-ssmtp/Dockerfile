@@ -1,4 +1,4 @@
-FROM ambroisemaupate/nginx-php:latest
+FROM ambroisemaupate/nginx-php:php7.2
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 # Install sSMTP for mail support
