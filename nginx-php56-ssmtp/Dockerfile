@@ -11,4 +11,4 @@ RUN apt-get update && \
     rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
 
 ADD etc /etc
-RUN phpenmod ssmtp
+RUN php5enmod ssmtp
