@@ -1,1 +1,2 @@
-chown -R core:core /data
+locale-gen;
+chown -R core:core /data;
