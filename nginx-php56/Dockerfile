@@ -15,6 +15,11 @@ RUN apt-get install -y -qq apt-transport-https lsb-release ca-certificates && \
     mkdir -p /etc/nginx/addon.d /etc/php5/fpm/pool.d && \
     rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
 
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer && \
+    mkdir -p /data/http
+    
 ADD etc /etc
 RUN php5enmod tuning
 ADD supervisord.conf /etc/supervisor/conf.d/php-fpm.conf
