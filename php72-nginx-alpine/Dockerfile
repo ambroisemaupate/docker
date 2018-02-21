@@ -13,7 +13,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
         libmcrypt-dev \
         mariadb-client \
         curl \
-        freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev \
+        freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev libwebp-dev \
         postgresql-dev \
         supervisor \
         bash \
@@ -25,7 +25,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
         dcron wget rsync ca-certificates \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
     && docker-php-ext-install -j${NPROC} exif json intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip xml \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ --with-webp-dir=/usr/include/ \
     && docker-php-ext-install -j${NPROC} gd \
     && pecl install apcu \
     && docker-php-ext-enable --ini-name 05-opcache.ini opcache \
