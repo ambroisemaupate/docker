@@ -8,6 +8,7 @@ GZIP="$(which gzip)"
 TAR_OPTIONS="-zcf"
 FILE_DATE=`date +%Y%m%d-%H%M`
 
+echo "[`date '+%Y-%m-%d %H:%M:%S'`] ============================================================="
 echo "[`date '+%Y-%m-%d %H:%M:%S'`] Begining new backup on ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT}"
 
 LFTP_CMD="-u ${FTP_USER},${FTP_PASS} ${FTP_PROTO}://${FTP_HOST}:${FTP_PORT}"
