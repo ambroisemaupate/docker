@@ -21,7 +21,7 @@ RUN additionalPackages=" \
         libkrb5-dev \
         libldap2-dev \
         libmcrypt-dev \
-        libpng12-dev \
+        libpng-dev \
         libpq-dev \
         libpspell-dev \
         librabbitmq-dev \
@@ -38,13 +38,13 @@ RUN additionalPackages=" \
         libc-client2007e \
         libenchant1c2a \
         libfreetype6 \
-        libicu52 \
+        libicu55 \
         libjpeg62-turbo \
         libmcrypt4 \
-        libpng12-0 \
+        libpng \
         libpq5 \
         libsybdb5 \
-        libtidy-0.99-0 \
+        libtidy \
         libx11-6 \
         libxpm4 \
         libxslt1.1 \

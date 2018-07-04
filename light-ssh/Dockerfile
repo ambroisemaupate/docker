@@ -6,9 +6,9 @@ ENV USER core
 ENV PASS changeme
 ENV USER_UID 500
 
-RUN apt-get update && \
-    apt-get install -y git zip curl nano mariadb-client php5-fpm php5-cli php5-curl php5-gd php5-mcrypt php5-mysqlnd php5-pgsql php5-sqlite && \
-    apt-get clean && \
+RUN apk --no-cache add git zip curl nano mariadb-client php7-cli \
+                       php7-curl php7-openssl php7-gd php7-mysql php7-zip \
+                       php7-pgsql php7-sqlite php7-json && \
     curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
