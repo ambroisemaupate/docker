@@ -1,0 +1,28 @@
+language: bash
+services: docker
+sudo: required
+
+env:
+  - VERSION=debian/
+  - VERSION=ftp-backup/
+  - VERSION=light-ssh/
+  - VERSION=mariadb/
+  - VERSION=nginx/
+  - VERSION=nginx-php/
+  - VERSION=nginx-php-ssmtp/
+  - VERSION=nginx-php56-ssmtp/
+  - VERSION=php71-apache/
+  - VERSION=php71-nginx-alpine/
+  - VERSION=php72-nginx-alpine/
+  - VERSION=php72-runner/
+  - VERSION=roadiz/
+  - VERSION=roadiz-standard-edition/
+
+before_script:
+  - cd $VERSION
+
+script:
+  - docker build .
+
+after_script:
+  - docker images
