@@ -38,17 +38,18 @@ RUN additionalPackages=" \
         libc-client2007e \
         libenchant1c2a \
         libfreetype6 \
-        libicu55 \
+        libicu57 \
         libjpeg62-turbo \
         libmcrypt4 \
-        libpng \
+        libpng16-16 \
         libpq5 \
         libsybdb5 \
-        libtidy \
+        libtidy5 \
         libx11-6 \
         libxpm4 \
         libxslt1.1 \
         snmp \
+        gnupg \
     " \
     && phpModules=" \
         bcmath \
@@ -88,7 +89,7 @@ RUN additionalPackages=" \
         zip \
         xdebug \
     " \
-    && echo "deb http://httpredir.debian.org/debian stretch contrib non-free" > /etc/apt/sources.list.d/additional.list \
+    && echo "deb http://security.debian.org/ stretch/updates main contrib non-free" > /etc/apt/sources.list.d/additional.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends $additionalPackages $buildDeps $runDeps \
     && docker-php-source extract \
@@ -106,7 +107,6 @@ RUN additionalPackages=" \
     && docker-php-ext-install $phpModules \
     && printf "\n" | pecl install amqp \
     && pecl install igbinary \
-#    && printf "\n" | pecl install memcache \
     && pecl install mongodb \
     && pecl install redis \
     && for ext in $phpModules; do \
