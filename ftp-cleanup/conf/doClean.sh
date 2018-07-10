@@ -23,6 +23,10 @@ EOF
 # Print obtained list, uncomment for debug
 echo "=== File list ==="
 cat ${LIST}
+if [ $(cat ${DELLIST} | wc -l) -le 2 ]; then
+    echo "Only one backup is available. Do nothing."
+    exit 0;
+fi
 # Delete list header, uncomment for debug
 echo "=== Delete list ==="
 
