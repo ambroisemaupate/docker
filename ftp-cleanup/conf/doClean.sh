@@ -20,6 +20,11 @@ cls -q -1 --date --time-style="+%Y%m%d" > ${LIST}
 quit
 EOF
 
+if [ $? -ne 0 ]; then
+    echo "Cannot connect to FTP account. Check credentials."
+    exit 1;
+fi
+
 # Print obtained list, uncomment for debug
 echo "=== File list ==="
 cat ${LIST}
@@ -30,22 +35,23 @@ fi
 # Delete list header, uncomment for debug
 echo "=== Delete list ==="
 
-    # Let's find date to compare
-    STORE_DATE=$(date -d "now - ${STORE_DAYS} days" '+%Y%m%d')
-    while read LINE; do
-        if [[ ${STORE_DATE} -ge ${LINE:0:8} && "${LINE}" != *\/ ]]; then
-            echo "rm -f \"${LINE:9}\"" >> ${DELLIST}
-            # Print files wich is subject to delete, uncomment for debug
-            echo "${LINE:9}"
-        fi
-    done < ${LIST}
-    # More debug strings
-    echo "Delete list complete"
-    # Print notify if list is empty and exit.
-    if [ ! -f ${DELLIST}  ] || [ -z "$(cat ${DELLIST})" ]; then
-        echo "Delete list doesn't exist or empty, nothing to delete. Exiting"
-        exit 0;
+# Let's find date to compare
+STORE_DATE=$(date -d "now - ${STORE_DAYS} days" '+%Y%m%d')
+while read LINE; do
+    if [[ ${STORE_DATE} -ge ${LINE:0:8} && "${LINE}" != *\/ ]]; then
+        echo "rm -f \"${LINE:9}\"" >> ${DELLIST}
+        # Print files wich is subject to delete, uncomment for debug
+        echo "${LINE:9}"
     fi
+done < ${LIST}
+# More debug strings
+echo "Delete list complete"
+# Print notify if list is empty and exit.
+if [ ! -f ${DELLIST}  ] || [ -z "$(cat ${DELLIST})" ]; then
+    echo "Delete list doesn't exist or empty, nothing to delete. Exiting"
+    exit 0;
+fi
+
 # Connect to ftp and delete files by previously formed list
 ${LFTP} ${LFTP_CMD} << EOF
 cd ${FTP_PATH}
