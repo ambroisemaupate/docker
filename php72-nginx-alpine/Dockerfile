@@ -18,7 +18,6 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
         supervisor \
         bash \
         nginx \
-        supervisor \
         pngquant jpegoptim \
         zip \
         icu-dev libxml2-dev \
