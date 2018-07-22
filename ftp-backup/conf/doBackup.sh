@@ -31,7 +31,6 @@ if [ -d ${LOCAL_PATH} ]; then
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending ${LOCAL_PATH} folder over FTP…"
   ${LFTP} ${LFTP_CMD} <<EOF
 cd ${REMOTE_PATH};
-ls;
 put /backups/data-${FILE_DATE}.tar.gz;
 bye;
 EOF
@@ -53,8 +52,8 @@ $MYSQLDUMP -u $DB_USER -h $DB_HOST --password=$DB_PASS $DB_NAME | gzip > /backup
 echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending MySQL dump over FTP…"
 ${LFTP} ${LFTP_CMD} <<EOF
 cd ${REMOTE_PATH};
-ls;
 put /backups/db-${FILE_DATE}.sql.gz;
+ls;
 bye;
 EOF
 fi
