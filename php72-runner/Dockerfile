@@ -117,10 +117,11 @@ RUN additionalPackages=" \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Install composer and put binary into $PATH
+# Install composer and prestissimo plugin and put binary into $PATH
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \
-    && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
+    && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer \
+    && /usr/local/bin/composer global require hirak/prestissimo
 
 # Install phpunit and put binary into $PATH
 RUN curl -sSLo phpunit.phar https://phar.phpunit.de/phpunit.phar \
