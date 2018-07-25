@@ -113,9 +113,7 @@ RUN additionalPackages=" \
            rm -f /usr/local/etc/php/conf.d/docker-php-ext-$ext.ini; \
        done \
     && docker-php-source delete \
-    && docker-php-ext-enable $phpModules \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && docker-php-ext-enable $phpModules
 
 # Install composer and prestissimo plugin and put binary into $PATH
 RUN curl -sS https://getcomposer.org/installer | php \
@@ -144,7 +142,10 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
     && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
     && apt-get install -y unzip nodejs build-essential yarn \
+    && npm install -g pngquant-bin \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    
 
 COPY msmtprc /etc/
 COPY entrypoint.sh /entrypoint.sh
