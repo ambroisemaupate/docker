@@ -21,7 +21,6 @@ RUN additionalPackages=" \
         libkrb5-dev \
         libldap2-dev \
         libmcrypt-dev \
-        libpng-dev \
         libpq-dev \
         libpspell-dev \
         librabbitmq-dev \
@@ -41,6 +40,7 @@ RUN additionalPackages=" \
         libicu57 \
         libjpeg62-turbo \
         libmcrypt4 \
+        libpng-dev \
         libpng16-16 \
         libpq5 \
         libsybdb5 \
@@ -142,7 +142,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
     && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
     && apt-get install -y unzip nodejs build-essential yarn \
-    && npm install -g pngquant-bin \
+    && yarn global add pngquant-bin jpegtran-bin cwebp-bin optipng-bin \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
     
