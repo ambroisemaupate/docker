@@ -5,7 +5,7 @@ if ( id ${USER} ); then
     echo "INFO: Change ${USER} password with environment:"
     echo "${USER}:${PASS}"|chpasswd
 
-    if ( "$USER" == "root" ); then
+    if ( "${USER}" = "root" ); then
         echo "INFO: Permit ${USER} login:"
         sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
     fi
