@@ -4,8 +4,8 @@ MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 ENV DEBIAN_FRONTEND=noninteractive
 ENV WWW_DATA_UID=1000
 ENV WWW_DATA_GID=1000
-ENV BUILD_DEPS="build-essential autoconf libtool automake git cmake zlib1g-dev libmcrypt-dev libssl-dev libbz2-dev libicu-dev"
-ENV RUN_DEPS="brotli fontforge woff-tools nginx zip unzip supervisor bash"
+ENV BUILD_DEPS="build-essential autoconf libtool automake git cmake zlib1g-dev libmcrypt-dev libssl-dev libbz2-dev libicu-dev python3-pip"
+ENV RUN_DEPS="brotli fontforge woff-tools nginx zip unzip supervisor bash python3"
 ENV PHP_EXTS="zip intl opcache pcntl"
 
 # Install fontforge and woof-tools
@@ -45,6 +45,10 @@ RUN git clone https://github.com/google/woff2.git \
     && mv woff2_compress /usr/bin/woff2_compress \
     && cd ../../
 
+# Python3 font tools for subsetting
+RUN pip3 install fonttools \
+    && which pyftsubset
+
 # Install composer and put binary into $PATH
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \
@@ -59,7 +63,7 @@ RUN apt-get purge -y --auto-remove ${BUILD_DEPS} \
     && rm -rf ttf2eot libbrotli woff2 \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && usermod -u ${WWW_DATA_UID} www-data \
-    && groupmod -g ${WWW_DATA_GID} www-data\
+    && groupmod -g ${WWW_DATA_GID} www-data \
     && chown -R www-data:www-data /var/www/html
 
 ADD etc/php/7.2/php.ini /usr/local/etc/php/php.ini
