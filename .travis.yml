@@ -5,6 +5,7 @@ sudo: required
 env:
   - VERSION=debian/
   - VERSION=ftp-backup/
+  - VERSION=ftp-cleanup/
   - VERSION=light-ssh/
   - VERSION=mariadb/
   - VERSION=nginx/
@@ -17,6 +18,8 @@ env:
   - VERSION=php72-runner/
   - VERSION=roadiz/
   - VERSION=roadiz-standard-edition/
+  - VERSION=webfont-generator/
+  - VERSION=ovh-dyndns/
 
 before_script:
   - cd $VERSION
