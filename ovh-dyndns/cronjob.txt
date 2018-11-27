@@ -1,0 +1,2 @@
+# Exec dynhost every 5 minutes
+*/5 * * * * /bin/sh /srv/dyndns/dynhost
