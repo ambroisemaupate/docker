@@ -44,6 +44,8 @@ ADD etc/supervisord.ini /etc/supervisor.d/services.ini
 ADD etc/before_launch.ini /etc/supervisor.d/before_launch.ini
 ADD etc/before_launch.sh /before_launch.sh
 
+RUN chmod +x /before_launch.sh
+
 # Add in your inheriting image to following lines
 # to add your application code into server path.
 #COPY . /var/www/html/
