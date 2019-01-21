@@ -39,6 +39,7 @@ RUN additionalPackages=" \
         libjpeg62-turbo \
         libmcrypt4 \
         libpng-dev \
+        libzip-dev \
         libpng16-16 \
         libpq5 \
         libsybdb5 \

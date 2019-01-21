@@ -1,35 +1,52 @@
 FROM php:7.3-fpm-alpine
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
-    && apk --no-cache update \
+RUN apk --no-cache update \
     && apk --no-cache upgrade \
     && apk add --no-cache --virtual \
         .build-deps \
         $PHPIZE_DEPS \
-        gcc g++ make \
+        gcc \
+        g++ \
         autoconf \
+        openssl \
+        tar \
     && apk add --no-cache \
+        make \
+        shadow \
         libmcrypt-dev \
         mariadb-client \
         curl \
-        freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev libwebp-dev \
+        freetype \
+        libpng \
+        libjpeg-turbo \
+        freetype-dev \
+        libpng-dev \
+        libjpeg-turbo-dev \
+        libwebp-dev \
+        libzip-dev \
+        bzip2-dev \
         postgresql-dev \
         supervisor \
         bash \
         nginx \
-        pngquant jpegoptim \
+        pngquant \
+        jpegoptim \
         zip \
-        icu-dev libxml2-dev \
-        dcron wget rsync ca-certificates \
+        icu-dev \
+        libxml2-dev \
+        dcron \
+        wget \
+        rsync \
+        ca-certificates \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
-    && docker-php-ext-install -j${NPROC} exif json intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip xml \
+    && docker-php-ext-install -j${NPROC} exif json intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip bz2 xml \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ --with-webp-dir=/usr/include/ \
     && docker-php-ext-install -j${NPROC} gd \
     && pecl install apcu \
     && docker-php-ext-enable --ini-name 05-opcache.ini opcache \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
-    && apk del --no-cache gcc g++ make freetype-dev libpng-dev libjpeg-turbo-dev .build-deps \
+    && apk del --no-cache gcc g++ freetype-dev libpng-dev libjpeg-turbo-dev .build-deps \
     # https://github.com/docker-library/php/issues/443
     && pecl update-channels \
     && rm -rf /tmp/pear ~/.pearrc
@@ -54,5 +71,3 @@ RUN chmod +x /before_launch.sh
 EXPOSE 80
 
 ENTRYPOINT exec /usr/bin/supervisord -n -c /etc/supervisord.conf
-#ENTRYPOINT ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
-#CMD "/usr/bin/supervisord"
