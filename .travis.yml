@@ -20,6 +20,7 @@ env:
   - VERSION=roadiz-standard-edition/
   - VERSION=webfont-generator/
   - VERSION=ovh-dyndns/
+  - VERSION=sphinx/
 
 before_script:
   - cd $VERSION
