@@ -12,6 +12,20 @@ function removeOlderThanDays() {
 LIST=`mktemp`
 DELLIST=`mktemp`
 
+# Test if connection is valid
+${LFTP} -e "pwd;" ${LFTP_CMD};
+if [ $? -ne 0 ]; then
+    echo "Cannot connect to FTP account. Check credentials."
+    exit 1;
+fi
+
+# Test if remote working directory exists
+${LFTP} -e "cd ${FTP_PATH};" ${LFTP_CMD};
+if [ $? -ne 0 ]; then
+    echo "Remote path does not exist. Check credentials."
+    exit 1;
+fi
+
 # Connect to ftp get file list and store it into temp file
 ${LFTP} ${LFTP_CMD} << EOF
 cd ${FTP_PATH}
@@ -21,7 +35,7 @@ quit
 EOF
 
 if [ $? -ne 0 ]; then
-    echo "Cannot connect to FTP account. Check credentials."
+    echo "Cannot get file list and store it into temp file."
     exit 1;
 fi
 

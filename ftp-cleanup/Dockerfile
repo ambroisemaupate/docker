@@ -14,8 +14,9 @@ ADD conf /conf
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
     && apk --no-cache update \
     && apk --no-cache upgrade \
-    && apk add --no-cache coreutils lftp bash \
-    && chmod +x /conf/doClean.sh
+    && apk add --no-cache coreutils ca-certificates openssh lftp bash \
+    && chmod +x /conf/doClean.sh \
+    && echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
 ADD etc/lftp.conf /etc/lftp.conf
 
