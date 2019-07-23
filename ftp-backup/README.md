@@ -122,3 +122,43 @@ docker run --rm -t --name="backup1" -v my-data-volume:/data:ro \
            -e REMOTE_PATH="/home/username/backups/my-site" \
            --link my-mariadb:mariadb ambroisemaupate/ftp-backup
 ```
+
+## Example usage in *docker-compose*
+
+```yaml
+version: "3"
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - DBDATA:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    restart: always
+
+  backup:
+    image: ambroisemaupate/ftp-backup
+    depends_on:
+      - db
+    environment:
+      LOCAL_PATH: /var/www/html
+      DB_USER: test
+      DB_HOST: db
+      DB_PASS: test
+      DB_NAME: test
+      FTP_PROTO: ftp
+      FTP_PORT: 21
+      FTP_HOST: ftp.server.test
+      FTP_USER: test
+      FTP_PASS: test
+      REMOTE_PATH: /home/test/backups
+    volumes:
+      - public_files:/var/www/html/web/files:ro
+
+volumes:
+  public_files:
+  DBDATA:
+```
