@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Simple script to delete files older than specific number of days from FTP. Provided AS IS without any warranty.
 # This script use 'lftp'. And 'date' with '-d' option which is not POSIX compatible.
 
@@ -13,16 +13,16 @@ LIST=`mktemp`
 DELLIST=`mktemp`
 
 # Test if connection is valid
-${LFTP} -e "pwd;" ${LFTP_CMD};
-if [ $? -ne 0 ]; then
-    echo "Cannot connect to FTP account. Check credentials."
+${LFTP} -e "pwd;bye;" ${LFTP_CMD};
+if [[ $? -ne 0 ]]; then
+    echo "Cannot connect to remote ${FTP_PROTO} account. Check credentials."
     exit 1;
 fi
 
 # Test if remote working directory exists
-${LFTP} -e "cd ${FTP_PATH};" ${LFTP_CMD};
-if [ $? -ne 0 ]; then
-    echo "Remote path does not exist. Check credentials."
+${LFTP} -e "cache flush;cd ${FTP_PATH};bye;" ${LFTP_CMD};
+if [[ $? -ne 0 ]]; then
+    echo "Remote path ${FTP_PATH} does not exist. Check configuration."
     exit 1;
 fi
 
@@ -34,7 +34,7 @@ cls -q -1 --date --time-style="+%Y%m%d" > ${LIST}
 quit
 EOF
 
-if [ $? -ne 0 ]; then
+if [[ $? -ne 0 ]]; then
     echo "Cannot get file list and store it into temp file."
     exit 1;
 fi
@@ -42,7 +42,7 @@ fi
 # Print obtained list, uncomment for debug
 echo "=== File list ==="
 cat ${LIST}
-if [ $(cat ${LIST} | wc -l) -le 2 ]; then
+if [[ $(cat ${LIST} | wc -l) -le 2 ]]; then
     echo "Only one backup is available. Do nothing."
     exit 0;
 fi
@@ -61,7 +61,7 @@ done < ${LIST}
 # More debug strings
 echo "Delete list complete"
 # Print notify if list is empty and exit.
-if [ ! -f ${DELLIST}  ] || [ -z "$(cat ${DELLIST})" ]; then
+if [[ ! -f ${DELLIST}  ]] || [[ -z "$(cat ${DELLIST})" ]]; then
     echo "Delete list doesn't exist or empty, nothing to delete. Exiting"
     exit 0;
 fi
