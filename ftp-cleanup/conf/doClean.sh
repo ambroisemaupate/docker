@@ -70,6 +70,7 @@ fi
 ${LFTP} ${LFTP_CMD} << EOF
 cd ${FTP_PATH}
 $(cat ${DELLIST})
+cache flush
 ls
 quit
 EOF

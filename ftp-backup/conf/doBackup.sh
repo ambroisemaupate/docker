@@ -25,6 +25,7 @@ if [[ -n "$FTP_HOST" ]]; then
     # Create remote dir if does not exists
     echo "[`date '+%Y-%m-%d %H:%M:%S'`] Create remote dir if does not exists…"
     ${LFTP} ${LFTP_CMD} <<EOF
+cache flush;
 cd ${REMOTE_PATH} || mkdir -p ${REMOTE_PATH};
 bye;
 EOF
@@ -44,6 +45,7 @@ if [[ -d ${LOCAL_PATH} ]]; then
   # Sending over FTP
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending ${LOCAL_PATH} folder over FTP…"
   ${LFTP} ${LFTP_CMD} <<EOF
+cache flush;
 cd ${REMOTE_PATH};
 put ${TMP_FOLDER}/${FILE_DATE}_files.tar.gz;
 bye;
@@ -65,6 +67,7 @@ else
   # Sending over FTP
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending MySQL dump over FTP…"
   ${LFTP} ${LFTP_CMD} <<EOF
+cache flush;
 cd ${REMOTE_PATH};
 put ${TMP_FOLDER}/${FILE_DATE}_database.sql.gz;
 ls;
