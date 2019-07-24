@@ -1,4 +1,4 @@
-# Debian base image
+# Debian *Jessie* base image
 
 Installs : 
 

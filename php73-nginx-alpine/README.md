@@ -1,7 +1,8 @@
 # roadiz/php73-nginx-alpine
-**Base *php-fpm with nginx* image for building Roadiz sub-images.**
+**Base *php-fpm with nginx* image for building Roadiz sub-images.**    
+**⚠️ For production only**
 
-This image does not provide any tools like *Composer* or *Yarn* and it is meant
+This image does not provide *Yarn* and it is meant
 to be extended for each of your projects. This image should be as light as possible
 to be built with your web site sources and vendor included.
 

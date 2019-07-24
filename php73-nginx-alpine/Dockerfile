@@ -51,6 +51,12 @@ RUN apk --no-cache update \
     && pecl update-channels \
     && rm -rf /tmp/pear ~/.pearrc
 
+# Install composer and prestissimo plugin and put binary into $PATH
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/ \
+    && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer \
+    && /usr/local/bin/composer global require hirak/prestissimo
+
 # PHP config
 ADD etc/php/7.3/php.ini /usr/local/etc/php/php.ini
 ADD etc/php/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf

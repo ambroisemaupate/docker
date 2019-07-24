@@ -25,13 +25,13 @@ EOF
 if [ -d ${LOCAL_PATH} ]; then
   # Control will enter here if /data exists.
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] Compressing ${LOCAL_PATH} folder…"
-  $TAR $TAR_OPTIONS /backups/data-$FILE_DATE.tar.gz ${LOCAL_PATH}
+  $TAR $TAR_OPTIONS /backups/${FILE_DATE}-files.tar.gz ${LOCAL_PATH}
 
   # Sending over FTP
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending ${LOCAL_PATH} folder over FTP…"
   ${LFTP} ${LFTP_CMD} <<EOF
 cd ${REMOTE_PATH};
-put /backups/data-${FILE_DATE}.tar.gz;
+put /backups/${FILE_DATE}-files.tar.gz;
 bye;
 EOF
 else
@@ -46,13 +46,13 @@ if [ -n "$DB_NAME" ]
 then
 # MySQL dump
 echo "[`date '+%Y-%m-%d %H:%M:%S'`] MySQL dump backup…"
-$MYSQLDUMP -u $DB_USER -h $DB_HOST --password=$DB_PASS $DB_NAME | gzip > /backups/db-$FILE_DATE.sql.gz
+$MYSQLDUMP -u $DB_USER -h $DB_HOST --password=$DB_PASS $DB_NAME | gzip > /backups/${FILE_DATE}-database.sql.gz
 
 # Sending over FTP
 echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending MySQL dump over FTP…"
 ${LFTP} ${LFTP_CMD} <<EOF
 cd ${REMOTE_PATH};
-put /backups/db-${FILE_DATE}.sql.gz;
+put /backups/${FILE_DATE}-database.sql.gz;
 ls;
 bye;
 EOF
