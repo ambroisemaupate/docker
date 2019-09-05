@@ -12,10 +12,10 @@ env:
   - VERSION=nginx-php/
   - VERSION=nginx-php-ssmtp/
   - VERSION=nginx-php56-ssmtp/
-  - VERSION=php71-apache/
-  - VERSION=php71-nginx-alpine/
   - VERSION=php72-nginx-alpine/
   - VERSION=php72-runner/
+  - VERSION=php73-nginx-alpine/
+  - VERSION=php73-runner/
   - VERSION=roadiz/
   - VERSION=roadiz-standard-edition/
   - VERSION=webfont-generator/
