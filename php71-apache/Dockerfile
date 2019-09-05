@@ -16,7 +16,7 @@ RUN buildDeps=" \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         $buildDeps \
-        libicu57 \
+        libicu63 \
         zlib1g \
         curl \
         pngquant \

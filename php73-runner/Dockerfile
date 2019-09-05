@@ -43,7 +43,7 @@ RUN additionalPackages=" \
         libpng16-16 \
         libpq5 \
         libsybdb5 \
-        libtidy5 \
+        libtidy5deb1 \
         libx11-6 \
         libxpm4 \
         libxslt1.1 \
