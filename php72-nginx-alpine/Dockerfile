@@ -54,5 +54,4 @@ RUN chmod +x /before_launch.sh
 EXPOSE 80
 
 ENTRYPOINT exec /usr/bin/supervisord -n -c /etc/supervisord.conf
-#ENTRYPOINT ["/usr/bin/supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
-#CMD "/usr/bin/supervisord"
+
