@@ -16,6 +16,8 @@ env:
   - VERSION=php72-runner/
   - VERSION=php73-nginx-alpine/
   - VERSION=php73-runner/
+  - VERSION=php74-nginx-alpine/
+  - VERSION=php74-runner/
   - VERSION=roadiz/
   - VERSION=roadiz-standard-edition/
   - VERSION=webfont-generator/
