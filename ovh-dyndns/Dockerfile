@@ -4,7 +4,7 @@ MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 ENV HOST=""
 ENV LOGIN=""
 ENV PASSWORD=""
-ENV ENTRYPOINT="http://www.ovh.com/nic/update"
+ENV ENTRYPOINT="https://www.ovh.com/nic/update"
 ENV NSSERVER="8.8.8.8"
 
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
