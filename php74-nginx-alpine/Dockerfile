@@ -42,7 +42,7 @@ RUN apk --no-cache update \
         oniguruma-dev \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
     && docker-php-ext-install -j${NPROC} exif json intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip bz2 xml \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-png --with-webp \
+    && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j${NPROC} gd \
     && pecl install apcu \
     && docker-php-ext-enable --ini-name 05-opcache.ini opcache \
