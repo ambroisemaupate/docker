@@ -30,6 +30,7 @@ RUN additionalPackages=" \
         libxslt1-dev \
         zlib1g-dev \
         libonig-dev \
+        libwebp-dev \
     " \
     && runDeps=" \
         libc-client2007e \
@@ -95,7 +96,7 @@ RUN additionalPackages=" \
     && ln -s /usr/lib/x86_64-linux-gnu/libldap_r.a /usr/lib/libldap_r.a \
     && ln -s /usr/lib/x86_64-linux-gnu/libsybdb.a /usr/lib/libsybdb.a \
     && ln -s /usr/lib/x86_64-linux-gnu/libsybdb.so /usr/lib/libsybdb.so \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-png --with-webp \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && PHP_OPENSSL=yes docker-php-ext-configure imap --with-imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-configure ldap --with-ldap-sasl \
     && docker-php-ext-install $phpModules \
