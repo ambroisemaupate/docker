@@ -13,6 +13,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repos
         libmcrypt-dev \
         mariadb-client \
         curl \
+        openssl \
         freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev libwebp-dev \
         postgresql-dev \
         supervisor \

@@ -9,12 +9,12 @@ RUN apk --no-cache update \
         gcc \
         g++ \
         autoconf \
-        openssl \
         tar \
     && apk add --no-cache \
         make \
         shadow \
         libmcrypt-dev \
+        openssl \
         mariadb-client \
         curl \
         freetype \
