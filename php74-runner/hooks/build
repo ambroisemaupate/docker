@@ -11,3 +11,7 @@ do
         echo "docker build -f Dockerfile --build-arg NODE_VERSION=${node_version_line} -t ${IMAGE_TAG} ."
         docker build -f Dockerfile --build-arg NODE_VERSION=${node_version_line} -t ${IMAGE_TAG} .
 done
+
+echo "Build latest"
+IMAGE_TAG="${DOCKER_REPO}"
+docker build -f Dockerfile -t ${IMAGE_TAG} .

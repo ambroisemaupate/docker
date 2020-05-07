@@ -11,3 +11,7 @@ do
     echo "docker push ${IMAGE_TAG}"
     docker push ${IMAGE_TAG}
 done
+
+echo "Push latest"
+IMAGE_TAG="${DOCKER_REPO}"
+docker push ${IMAGE_TAG}
