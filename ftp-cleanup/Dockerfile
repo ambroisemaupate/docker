@@ -11,8 +11,7 @@ ENV FTP_PATH /my/backup/dir
 
 ADD conf /conf
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
-    && apk --no-cache update \
+RUN apk --no-cache update \
     && apk --no-cache upgrade \
     && apk add --no-cache coreutils ca-certificates openssh lftp bash \
     && chmod +x /conf/doClean.sh \

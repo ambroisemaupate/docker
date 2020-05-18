@@ -20,5 +20,6 @@ RUN apt-get update -yqq && \
     mkdir -p /backups
 
 ADD etc/lftp.conf /etc/lftp.conf
+ADD etc/ssh/ssh_config.d/strict.conf /etc/ssh/ssh_config.d/strict.conf
 
 CMD ["/bin/bash","/conf/doBackup.sh"]
