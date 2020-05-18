@@ -19,8 +19,8 @@ RUN sed -i -e "s/^bind-address/#bind-address/" /etc/mysql/my.cnf && \
 	touch /var/log/mysql.log && \
 	chown -R core:adm /var/log/mysql.err && \
 	chown -R core:adm /var/log/mysql.log && \
-	chown -R core:adm /var/log/mysql && \
-	chown -R core:root /run/mysqld
+	chown -R core:adm /var/log/mysql
+
 ADD config /config
 ADD supervisord.conf /etc/supervisor/conf.d/mariadb.conf
 EXPOSE 3306

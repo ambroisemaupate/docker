@@ -17,6 +17,7 @@ env:
   - VERSION=php73-nginx-alpine/
   - VERSION=php73-runner/
   - VERSION=php74-nginx-alpine/
+  - VERSION=php74-nginx-alpine3.10/
   - VERSION=php74-runner/
   - VERSION=roadiz/
   - VERSION=roadiz-standard-edition/

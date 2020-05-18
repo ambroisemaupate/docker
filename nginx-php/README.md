@@ -1,4 +1,6 @@
-# nginx-php
+# ambroisemaupate/nginx-php
+
+***Deprecated*** and not maintained anymore.
 
 Based on `ambroisemaupate/nginx`.
 Adding PHP7 support using dotdeb.org repository.

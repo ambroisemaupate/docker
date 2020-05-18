@@ -1,8 +1,7 @@
 FROM php:7.2-fpm-alpine
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
-    && apk --no-cache update \
+RUN apk --no-cache update \
     && apk --no-cache upgrade \
     && apk add --no-cache --virtual \
         .build-deps \

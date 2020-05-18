@@ -1,4 +1,6 @@
-# nginx-php56
+# ambroisemaupate/nginx-php56
+
+***Deprecated*** and not maintained anymore.
 
 Based on `ambroisemaupate/nginx`.
 Adding PHP5.6 support using dotdeb.org repository.

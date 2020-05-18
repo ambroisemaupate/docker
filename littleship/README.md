@@ -1,6 +1,10 @@
 LittleShip docker image
 =======================
 
+### ***Deprecated***
+You can use *Traefik* API dashboard for read-only information.
+
+### Usage
 This image is almost based on *ambroisemaupate/nginx-php* image, it only adds
 the `core` user to the `docker` group (gid 999) to be able to access `/var/run/docker.sock`.
 

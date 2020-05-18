@@ -10,6 +10,10 @@ This image will install:
 * NodeJS
 * Yarn
 
+## ***Deprecated***
+Use you own built *image* using *roadiz/php7.x-nginx-alpine* to avoid sources
+manipulation inside your production containers.
+
 ## Docker dependencies
 
 * A *ambroisemaupate/mariadb* container for its database:

@@ -1,5 +1,7 @@
 # Debian *Jessie* base image
 
+***Deprecated*** and not maintained anymore.
+
 Installs : 
 
 - locales 

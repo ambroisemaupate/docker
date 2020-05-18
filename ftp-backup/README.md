@@ -36,7 +36,7 @@ docker run --rm -t --name="backup1" -v my-data-volume:/data:ro \
            --link my-mariadb:mariadb ambroisemaupate/ftp-backup
 ```
 
-## How to automatize backups
+## How to automatize backups
 
 I use a simple bash script to automatize docker backups along a ftp-credential.sh
 script to store FTP access data once for all.
@@ -88,7 +88,6 @@ FTP_USER="myFtpUser"
 FTP_PASS="myFtpPassword"
 FTP_HOST="myFtp.host.com"
 FTP_PORT="21"
-
 ```
 
 Then all you need is to setup this in your root’s `crontab`:

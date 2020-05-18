@@ -8,6 +8,10 @@ This image will install:
 * Cron (crontab)
 * Composer
 
+## ***Deprecated***
+Use you own built *image* using *roadiz/php7.x-nginx-alpine* to avoid sources
+manipulation inside your production containers.
+
 ## Environment variables
 
 * `ROADIZ_BRANCH` *master* or *develop*

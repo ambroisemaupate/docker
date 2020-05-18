@@ -1,6 +1,6 @@
 ## ambroisemaupate/data
 
-### Deprecated
+***Deprecated*** and not maintained anymore.
 
 **Use Docker volumes instead!**
 
