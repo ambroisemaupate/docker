@@ -15,6 +15,7 @@ RUN apk --no-cache update \
         shadow \
         openssl \
         libmcrypt-dev \
+        gmp-dev \
         mariadb-client \
         curl \
         freetype \
@@ -41,7 +42,7 @@ RUN apk --no-cache update \
         ca-certificates \
         oniguruma-dev \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
-    && docker-php-ext-install -j${NPROC} exif json intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip bz2 xml \
+    && docker-php-ext-install -j${NPROC} exif json intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip bz2 xml gmp \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j${NPROC} gd \
     && pecl install apcu \

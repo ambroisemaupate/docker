@@ -14,6 +14,7 @@ RUN apk --no-cache update \
         make \
         shadow \
         libmcrypt-dev \
+        gmp-dev \
         mariadb-client \
         openssl \
         curl \
@@ -40,7 +41,7 @@ RUN apk --no-cache update \
         rsync \
         ca-certificates \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
-    && docker-php-ext-install -j${NPROC} exif json intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip bz2 xml \
+    && docker-php-ext-install -j${NPROC} exif json intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip bz2 xml gmp \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ --with-webp-dir=/usr/include/ \
     && docker-php-ext-install -j${NPROC} gd \
     && pecl install apcu \
