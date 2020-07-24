@@ -11,6 +11,8 @@ RUN apk --no-cache update \
         autoconf \
         tar \
     && apk add --no-cache \
+        openssh \
+        sudo \
         make \
         shadow \
         openssl \

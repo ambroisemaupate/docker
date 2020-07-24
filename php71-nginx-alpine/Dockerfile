@@ -9,6 +9,8 @@ RUN apk --no-cache update \
         gcc g++ make \
         autoconf \
     && apk add --no-cache \
+        openssh \
+        sudo \
         libmcrypt-dev \
         mariadb-client \
         openssl \
