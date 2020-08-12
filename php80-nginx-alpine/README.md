@@ -1,8 +1,8 @@
-# roadiz/php74-nginx-alpine3.10
+# roadiz/php80-nginx-alpine
 **Base *php-fpm with nginx* image for building Roadiz sub-images.**    
 **⚠️ For production only**
 
-This image does not provide *Yarn* and it is meant
+This image does not provide *Yarn*, and it is meant
 to be extended for each of your projects. This image should be as light as possible
 to be built with your website sources and vendor included.
 
@@ -22,7 +22,7 @@ Before building your project image make sure to:
 Create a `Dockerfile` in your Roadiz project root.
 
 ```
-FROM roadiz/php74-nginx-alpine:latest
+FROM roadiz/php80-nginx-alpine:latest
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 ENV USER_UID=1000
 ARG USER_UID=1000

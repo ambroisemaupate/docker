@@ -19,6 +19,8 @@ env:
   - VERSION=php74-nginx-alpine/
   - VERSION=php74-nginx-alpine3.10/
   - VERSION=php74-runner/
+  - VERSION=php80-runner/
+  - VERSION=php80-nginx-alpine/
   - VERSION=roadiz/
   - VERSION=roadiz-standard-edition/
   - VERSION=webfont-generator/
