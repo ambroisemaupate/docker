@@ -84,7 +84,6 @@ RUN apk --no-cache update \
 #    && curl -fsSL https://pecl.php.net/get/mongodb | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
 #    && curl -fsSL https://pecl.php.net/get/redis | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
     && docker-php-ext-install -j${NPROC} $phpModules \
-    && docker-php-ext-enable --ini-name 05-opcache.ini opcache \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
 #    && docker-php-ext-enable --ini-name 20-amqp.ini amqp \
 #    && docker-php-ext-enable --ini-name 20-igbinary.ini igbinary \
