@@ -43,17 +43,65 @@ RUN apk --no-cache update \
         rsync \
         ca-certificates \
         oniguruma-dev \
+    && phpModules=" \
+            bcmath \
+            bz2 \
+            calendar \
+            json \
+            ftp \
+            gd \
+            gettext \
+            gmp \
+            imap \
+            intl \
+            ldap \
+            mbstring \
+            mysqli \
+            opcache \
+            pcntl \
+            pdo \
+            pdo_dblib \
+            pdo_mysql \
+            pdo_pgsql \
+            pgsql \
+            pspell \
+            shmop \
+            snmp \
+            soap \
+            sockets \
+            sysvmsg \
+            sysvsem \
+            sysvshm \
+            tidy \
+            xml \
+            xsl \
+            zip \
+            apcu \
+            mongodb \
+            redis \
+        " \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
-    && docker-php-ext-install -j${NPROC} exif json intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip bz2 xml gmp \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install -j${NPROC} gd \
-    && pecl install apcu \
+#    Install APCU
+#    @see https://github.com/docker-library/php/issues/1029
+    && mkdir -p /usr/src/php/ext/apcu  \
+    && mkdir -p /usr/src/php/ext/amqp  \
+    && mkdir -p /usr/src/php/ext/igbinary  \
+    && mkdir -p /usr/src/php/ext/mongodb  \
+    && mkdir -p /usr/src/php/ext/redis  \
+    && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/amqp | tar xvz -C "/usr/src/php/ext/amqp" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/igbinary | tar xvz -C "/usr/src/php/ext/igbinary" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/mongodb | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/redis | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
+    && docker-php-ext-install -j${NPROC} $phpModules \
     && docker-php-ext-enable --ini-name 05-opcache.ini opcache \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
+    && docker-php-ext-enable --ini-name 20-amqp.ini amqp \
+    && docker-php-ext-enable --ini-name 20-igbinary.ini igbinary \
+    && docker-php-ext-enable --ini-name 20-mongodb.ini mongodb \
+    && docker-php-ext-enable --ini-name 20-redis.ini redis \
     && apk del --no-cache gcc g++ freetype-dev libpng-dev libjpeg-turbo-dev .build-deps \
-    # https://github.com/docker-library/php/issues/443
-    && pecl update-channels \
-    && rm -rf /tmp/pear ~/.pearrc
 
 # Install composer and prestissimo plugin and put binary into $PATH
 RUN curl -sS https://getcomposer.org/installer | php \

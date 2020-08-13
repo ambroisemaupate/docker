@@ -3,3 +3,10 @@
 
 **Inspired by https://github.com/TetraWeb/docker**
 
+## Work in progress
+
+So following extensions cannot be installed, compilation fails :
+
+- amqp
+- igbinary
+- mongodb

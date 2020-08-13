@@ -53,3 +53,10 @@ VOLUME /var/www/html/files \
 ENTRYPOINT exec /usr/bin/supervisord -n -c /etc/supervisord.conf
 ```
 
+## Work in progress
+
+So following extensions cannot be installed, compilation fails :
+
+- exif
+- amqp
+- igbinary

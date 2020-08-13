@@ -87,7 +87,10 @@ RUN additionalPackages=" \
         xml \
         xsl \
         zip \
+        apcu \
+        redis \
     " \
+    && NPROC=$(getconf _NPROCESSORS_ONLN) \
     && echo "deb http://security.debian.org/ stretch/updates main contrib non-free" > /etc/apt/sources.list.d/additional.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends $additionalPackages $buildDeps $runDeps \
@@ -101,11 +104,21 @@ RUN additionalPackages=" \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && PHP_OPENSSL=yes docker-php-ext-configure imap --with-imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-configure ldap --with-ldap-sasl \
-    && docker-php-ext-install $phpModules \
-    && printf "\n" | pecl install amqp \
-    && pecl install igbinary \
-    && pecl install mongodb \
-    && pecl install redis \
+#    Install APCU
+#    @see https://github.com/docker-library/php/issues/1029
+    && mkdir -p /usr/src/php/ext/apcu  \
+    && mkdir -p /usr/src/php/ext/amqp  \
+    && mkdir -p /usr/src/php/ext/igbinary  \
+    && mkdir -p /usr/src/php/ext/mongodb  \
+    && mkdir -p /usr/src/php/ext/redis  \
+    && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
+#    AMQP ext fails at compilation
+    && curl -fsSL https://pecl.php.net/get/amqp | tar xvz -C "/usr/src/php/ext/amqp" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/igbinary | tar xvz -C "/usr/src/php/ext/igbinary" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/mongodb | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/redis | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
+#    Install PHP extensions
+    && docker-php-ext-install -j${NPROC} $phpModules \
     && for ext in $phpModules; do \
            rm -f /usr/local/etc/php/conf.d/docker-php-ext-$ext.ini; \
        done \
