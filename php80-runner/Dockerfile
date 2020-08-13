@@ -88,7 +88,6 @@ RUN additionalPackages=" \
         xsl \
         zip \
         apcu \
-        redis \
     " \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
     && echo "deb http://security.debian.org/ stretch/updates main contrib non-free" > /etc/apt/sources.list.d/additional.list \

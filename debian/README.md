@@ -1,4 +1,4 @@
-# Debian *Jessie* base image
+# Debian *Buster* base image
 
 ***Deprecated*** and not maintained anymore.
 

@@ -1,8 +1,7 @@
-FROM ambroisemaupate/nginx-php:php7.2
+FROM ambroisemaupate/nginx-php
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 # Install sSMTP for mail support
-
 RUN apt-get update && \
     apt-get install -y -q --no-install-recommends ssmtp && \
     rm -r /var/lib/apt/lists/* && \

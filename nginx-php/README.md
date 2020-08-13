@@ -6,10 +6,10 @@ Based on `ambroisemaupate/nginx`.
 Adding PHP7 support using dotdeb.org repository.
 
 ```
-PHP 7.2.6-2+0~20170614060700.1+jessie~1.gbp831871 (cli) (built: Jun 14 2017 06:28:54) ( NTS )
+PHP 7.2.6-2+0~20170614060700.1+buster~1.gbp831871 (cli) (built: Jun 14 2017 06:28:54) ( NTS )
 Copyright (c) 1997-2017 The PHP Group
 Zend Engine v3.1.0, Copyright (c) 1998-2017 Zend Technologies
-    with Zend OPcache v7.2.6-2+0~20170614060700.1+jessie~1.gbp831871, Copyright (c) 1999-2017, by Zend Technologies
+    with Zend OPcache v7.2.6-2+0~20170614060700.1+buster~1.gbp831871, Copyright (c) 1999-2017, by Zend Technologies
 ```
 
 **Be careful**, PHP is configured with **OPCache** and a very aggressive PHP class cache: `opcache.revalidate_freq=60`.

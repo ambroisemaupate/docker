@@ -48,6 +48,7 @@ RUN apk --no-cache update \
             bz2 \
             calendar \
             json \
+            exif \
             ftp \
             gd \
             gettext \
@@ -77,8 +78,6 @@ RUN apk --no-cache update \
             xsl \
             zip \
             apcu \
-            mongodb \
-            redis \
         " \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \

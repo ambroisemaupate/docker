@@ -55,8 +55,9 @@ ENTRYPOINT exec /usr/bin/supervisord -n -c /etc/supervisord.conf
 
 ## Work in progress
 
-So following extensions cannot be installed, compilation fails :
+So following extensions cannot be installed, compilation fails (not yet ready for PHP 8+) :
 
-- exif
 - amqp
 - igbinary
+- mongodb
+- redis
