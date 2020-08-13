@@ -21,6 +21,7 @@ RUN additionalPackages=" \
         libkrb5-dev \
         libldap2-dev \
         libmcrypt-dev \
+        libonig-dev \
         libpq-dev \
         libpspell-dev \
         librabbitmq-dev \
@@ -28,13 +29,13 @@ RUN additionalPackages=" \
         libsnmp-dev \
         libssl-dev \
         libtidy-dev \
+        libwebp-dev \
         libxml2-dev \
         libxslt1-dev \
         zlib1g-dev \
-        libonig-dev \
-        libwebp-dev \
     " \
     && runDeps=" \
+        gnupg \
         libc-client2007e \
         libenchant1c2a \
         libfreetype6 \
@@ -42,31 +43,29 @@ RUN additionalPackages=" \
         libjpeg62-turbo \
         libmcrypt4 \
         libpng-dev \
-        libzip-dev \
         libpng16-16 \
         libpq5 \
         libsybdb5 \
         libtidy5deb1 \
         libx11-6 \
         libxslt1.1 \
+        libzip-dev \
         snmp \
-        gnupg \
     " \
     && phpModules=" \
+        apcu \
         bcmath \
         bz2 \
         calendar \
         dba \
         enchant \
         exif \
-        ftp \
         gd \
         gettext \
         gmp \
         imap \
         intl \
         ldap \
-        mbstring \
         mysqli \
         opcache \
         pcntl \
@@ -84,10 +83,8 @@ RUN additionalPackages=" \
         sysvsem \
         sysvshm \
         tidy \
-        xml \
         xsl \
         zip \
-        apcu \
     " \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
     && echo "deb http://security.debian.org/ stretch/updates main contrib non-free" > /etc/apt/sources.list.d/additional.list \

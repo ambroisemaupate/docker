@@ -11,74 +11,64 @@ RUN apk --no-cache update \
         autoconf \
         tar \
     && apk add --no-cache \
-        openssh \
-        sudo \
-        make \
-        shadow \
-        libmcrypt-dev \
-        gmp-dev \
-        openssl \
-        mariadb-client \
-        curl \
-        freetype \
-        libpng \
-        libjpeg-turbo \
-        freetype-dev \
-        libpng-dev \
-        libjpeg-turbo-dev \
-        libwebp-dev \
-        libzip-dev \
-        bzip2-dev \
-        postgresql-dev \
-        supervisor \
         bash \
-        nginx \
-        pngquant \
-        jpegoptim \
-        zip \
-        icu-dev \
-        libxml2-dev \
-        dcron \
-        wget \
-        rsync \
+        bzip2-dev \
         ca-certificates \
+        curl \
+        dcron \
+        freetype \
+        freetype-dev \
+        gettext-dev \
+        gmp-dev \
+        icu-dev \
+        jpegoptim \
+        libintl \
+        libjpeg-turbo \
+        libjpeg-turbo-dev \
+        libmcrypt-dev \
+        libpng \
+        libpng-dev \
+        libwebp-dev \
+        libxml2-dev \
+        libzip-dev \
+        make \
+        mariadb-client \
+        nginx \
         oniguruma-dev \
+        openssh \
+        openssl \
+        pngquant \
+        postgresql-dev \
+        rsync \
+        shadow \
+        sudo \
+        supervisor \
+        wget \
+        zip \
     && phpModules=" \
-            bcmath \
-            bz2 \
-            calendar \
-            json \
-            exif \
-            ftp \
-            gd \
-            gettext \
-            gmp \
-            imap \
-            intl \
-            ldap \
-            mbstring \
-            mysqli \
-            opcache \
-            pcntl \
-            pdo \
-            pdo_dblib \
-            pdo_mysql \
-            pdo_pgsql \
-            pgsql \
-            pspell \
-            shmop \
-            snmp \
-            soap \
-            sockets \
-            sysvmsg \
-            sysvsem \
-            sysvshm \
-            tidy \
-            xml \
-            xsl \
-            zip \
-            apcu \
-        " \
+        apcu \
+        bcmath \
+        bz2 \
+        calendar \
+        exif \
+        gd \
+        gettext \
+        gmp \
+        intl \
+        opcache \
+        pcntl \
+        pdo \
+        pdo_mysql \
+        pdo_pgsql \
+        pgsql \
+        shmop \
+        soap \
+        sockets \
+        sysvmsg \
+        sysvsem \
+        sysvshm \
+        zip \
+    " \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
 #    Install APCU
@@ -89,18 +79,18 @@ RUN apk --no-cache update \
     && mkdir -p /usr/src/php/ext/mongodb  \
     && mkdir -p /usr/src/php/ext/redis  \
     && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
-    && curl -fsSL https://pecl.php.net/get/amqp | tar xvz -C "/usr/src/php/ext/amqp" --strip 1 \
-    && curl -fsSL https://pecl.php.net/get/igbinary | tar xvz -C "/usr/src/php/ext/igbinary" --strip 1 \
-    && curl -fsSL https://pecl.php.net/get/mongodb | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
-    && curl -fsSL https://pecl.php.net/get/redis | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
+#    && curl -fsSL https://pecl.php.net/get/amqp | tar xvz -C "/usr/src/php/ext/amqp" --strip 1 \
+#    && curl -fsSL https://pecl.php.net/get/igbinary | tar xvz -C "/usr/src/php/ext/igbinary" --strip 1 \
+#    && curl -fsSL https://pecl.php.net/get/mongodb | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
+#    && curl -fsSL https://pecl.php.net/get/redis | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
     && docker-php-ext-install -j${NPROC} $phpModules \
     && docker-php-ext-enable --ini-name 05-opcache.ini opcache \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
-    && docker-php-ext-enable --ini-name 20-amqp.ini amqp \
-    && docker-php-ext-enable --ini-name 20-igbinary.ini igbinary \
-    && docker-php-ext-enable --ini-name 20-mongodb.ini mongodb \
-    && docker-php-ext-enable --ini-name 20-redis.ini redis \
-    && apk del --no-cache gcc g++ freetype-dev libpng-dev libjpeg-turbo-dev .build-deps \
+#    && docker-php-ext-enable --ini-name 20-amqp.ini amqp \
+#    && docker-php-ext-enable --ini-name 20-igbinary.ini igbinary \
+#    && docker-php-ext-enable --ini-name 20-mongodb.ini mongodb \
+#    && docker-php-ext-enable --ini-name 20-redis.ini redis \
+    && apk del --no-cache gcc g++ freetype-dev libpng-dev libjpeg-turbo-dev .build-deps
 
 # Install composer and prestissimo plugin and put binary into $PATH
 RUN curl -sS https://getcomposer.org/installer | php \
