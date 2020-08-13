@@ -2,6 +2,7 @@ FROM php:7.2
 
 ENV XDEBUG_VERSION 2.6.0
 ARG NODE_VERSION=10
+ARG PHPUNIT_VERSION=8
 
 RUN additionalPackages=" \
         apt-transport-https \
@@ -123,7 +124,8 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && /usr/local/bin/composer global require hirak/prestissimo
 
 # Install phpunit and put binary into $PATH
-RUN curl -sSLo phpunit.phar https://phar.phpunit.de/phpunit.phar \
+# https://github.com/ambroisemaupate/docker/issues/3
+RUN curl -sSLo phpunit.phar https://phar.phpunit.de/phpunit-${PHPUNIT_VERSION}.phar \
     && chmod 755 phpunit.phar \
     && mv phpunit.phar /usr/local/bin/ \
     && ln -s /usr/local/bin/phpunit.phar /usr/local/bin/phpunit
