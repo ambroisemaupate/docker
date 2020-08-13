@@ -161,3 +161,114 @@ volumes:
   public_files:
   DBDATA:
 ```
+
+## Rolling backups
+
+You can add as much services as you want to create rolling backups: daily, weekly, monthly: 
+
+```yaml
+  # DAILY
+  backup_daily:
+    image: ambroisemaupate/ftp-backup
+    depends_on:
+      - db
+    environment:
+      LOCAL_PATH: /var/www/html
+      DB_USER: test
+      DB_HOST: db
+      DB_PASS: test
+      DB_NAME: test
+      FTP_PROTO: ftp
+      FTP_PORT: 21
+      FTP_HOST: ftp.server.test
+      FTP_USER: test
+      FTP_PASS: test
+      REMOTE_PATH: /home/test/backups/daily
+    volumes:
+      - public_files:/var/www/html/web/files:ro
+
+  backup_cleanup_daily:
+    image: ambroisemaupate/ftp-cleanup
+    environment:
+      FTP_PROTO: ftp
+      FTP_PORT: 21
+      FTP_HOST: ftp.server.test
+      FTP_USER: test
+      FTP_PASS: test
+      STORE_DAYS: 7
+      FTP_PATH: /home/test/backups/daily
+  
+  # WEEKLY
+  backup_weekly:
+    image: ambroisemaupate/ftp-backup
+    depends_on:
+      - db
+    environment:
+      LOCAL_PATH: /var/www/html
+      DB_USER: test
+      DB_HOST: db
+      DB_PASS: test
+      DB_NAME: test
+      FTP_PROTO: ftp
+      FTP_PORT: 21
+      FTP_HOST: ftp.server.test
+      FTP_USER: test
+      FTP_PASS: test
+      REMOTE_PATH: /home/test/backups/weekly
+    volumes:
+      - public_files:/var/www/html/web/files:ro
+
+  backup_cleanup_weekly:
+    image: ambroisemaupate/ftp-cleanup
+    environment:
+      FTP_PROTO: ftp
+      FTP_PORT: 21
+      FTP_HOST: ftp.server.test
+      FTP_USER: test
+      FTP_PASS: test
+      STORE_DAYS: 30
+      FTP_PATH: /home/test/backups/weekly
+  
+  # MONTHLY
+  backup_monthly:
+    image: ambroisemaupate/ftp-backup
+    depends_on:
+      - db
+    environment:
+      LOCAL_PATH: /var/www/html
+      DB_USER: test
+      DB_HOST: db
+      DB_PASS: test
+      DB_NAME: test
+      FTP_PROTO: ftp
+      FTP_PORT: 21
+      FTP_HOST: ftp.server.test
+      FTP_USER: test
+      FTP_PASS: test
+      REMOTE_PATH: /home/test/backups/monthly
+    volumes:
+      - public_files:/var/www/html/web/files:ro
+
+  backup_cleanup_monthly:
+    image: ambroisemaupate/ftp-cleanup
+    environment:
+      FTP_PROTO: ftp
+      FTP_PORT: 21
+      FTP_HOST: ftp.server.test
+      FTP_USER: test
+      FTP_PASS: test
+      STORE_DAYS: 366
+      FTP_PATH: /home/test/backups/monthly
+```
+
+then launch them once a day, once a week, once a month from your crontab:
+
+```shell
+# Rolling backups (do not use same hour of night to save CPU)
+# Daily
+00 2 * * * cd /mywebsite.com && /usr/local/bin/docker-compose up -d --no-deps --force-recreate backup_daily backup_cleanup_daily
+# Weekly
+00 3 * * 1 cd /mywebsite.com && /usr/local/bin/docker-compose up -d --no-deps --force-recreate backup_weekly backup_cleanup_weekly
+# Monthly
+00 4 1 * * cd /mywebsite.com && /usr/local/bin/docker-compose up -d --no-deps --force-recreate backup_monthly backup_cleanup_monthly
+```
