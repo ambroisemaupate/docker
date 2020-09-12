@@ -1,7 +1,7 @@
 FROM php:7.4-apache
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
-ENV APACHE_DOCUMENT_ROOT /var/www/html/web/
+ENV APACHE_DOCUMENT_ROOT /var/www/html/web
 
 RUN apt update \
     && apt install -y \
