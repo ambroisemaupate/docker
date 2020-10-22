@@ -26,7 +26,7 @@ docker buildx use xxxxxxx
 # Login to hub.docker.com registry
 docker login
 # use buildx to build and push multiple platforms
-docker buildx build \            
+docker buildx build \
 --push \
 --platform linux/arm64/v8,linux/amd64 --tag roadiz/php74-nginx-alpine:latest .
 ```
