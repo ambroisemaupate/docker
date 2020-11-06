@@ -1,4 +1,5 @@
-FROM php:8.0-rc-fpm-alpine
+FROM php:8.0.0RC3-fpm-alpine
+
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 RUN apk --no-cache update \
@@ -100,11 +101,10 @@ ADD etc/supervisord.ini /etc/supervisor.d/services.ini
 ADD etc/before_launch.ini /etc/supervisor.d/before_launch.ini
 ADD etc/before_launch.sh /before_launch.sh
 
-# Install composer and prestissimo plugin and put binary into $PATH
+# Install composer and put binary into $PATH
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \
     && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer \
-    && /usr/local/bin/composer global require hirak/prestissimo \
     && chmod +x /before_launch.sh
 
 # Add in your inheriting image to following lines

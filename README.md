@@ -12,14 +12,18 @@ If your development workstation uses *ARM64* platform, you need to build Roadiz 
 
 Check if official images are providing these architectures: https://hub.docker.com/repository/docker/roadiz/php74-nginx-alpine/tags then if your *OS/ARCH* is not available you’ll need to build it. Notice that using *BuildX* with *QEMU* may take several minutes depending on your machine.
 
+- Run [virtualization layer](https://github.com/docker/buildx#building-multi-platform-images) 
+```
+docker run --privileged --rm tonistiigi/binfmt --install all
+```
 - Create a [BuildX](https://github.com/docker/buildx#building-with-buildx) environment
 ```
-docker buildx create
+docker buildx create --name mybuildx
 docker buildx ls
 ```
 - Use your new environment
 ```
-docker buildx use xxxxxxx
+docker buildx use mybuildx
 ```
 - Build and push docker image for AMD64 and ARM64
 ```
