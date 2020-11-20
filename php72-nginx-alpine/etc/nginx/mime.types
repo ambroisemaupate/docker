@@ -94,39 +94,20 @@ types {
 
 
     # Other
-    application/postscript                           ai eps ps;
-    application/rtf                                  rtf;
-    application/vnd.google-earth.kml+xml             kml;
-    application/vnd.google-earth.kmz                 kmz;
-    application/vnd.wap.wmlc                         wmlc;
-    application/x-7z-compressed                      7z;
     application/x-bb-appworld                        bbaw;
     application/x-bittorrent                         torrent;
     application/x-chrome-extension                   crx;
-    application/x-cocoa                              cco;
-    application/x-java-archive-diff                  jardiff;
-    application/x-java-jnlp-file                     jnlp;
-    application/x-makeself                           run;
     application/x-opera-extension                    oex;
-    application/x-perl                               pl pm;
-    application/x-pilot                              pdb prc;
-    application/x-rar-compressed                     rar;
-    application/x-redhat-package-manager             rpm;
-    application/x-sea                                sea;
-    application/x-shockwave-flash                    swf;
-    application/x-stuffit                            sit;
-    application/x-tcl                                tcl tk;
-    application/x-x509-ca-cert                       crt der pem;
-    application/x-xpinstall                          xpi;
     application/xslt+xml                             xsl;
     text/calendar                                    ics;
     text/csv                                         csv;
     text/markdown                                    md markdown;
-    text/mathml                                      mml;
     text/vcard                                       vcard vcf;
     text/vnd.rim.location.xloc                       xloc;
     text/vnd.sun.j2me.app-descriptor                 jad;
-    text/vnd.wap.wml                                 wml;
     text/vtt                                         vtt;
-    text/x-component                                 htc;
+
+    model/gltf-binary                                glb;
+    model/gltf+json                                  gltf;
+    image/vnd.radiance                               hdr;
 }
