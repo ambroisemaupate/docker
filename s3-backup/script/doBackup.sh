@@ -26,7 +26,7 @@ if [[ -d ${LOCAL_PATH} ]]; then
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] Compressing ${LOCAL_PATH} folder…"
   $TAR $TAR_OPTIONS ${TMP_FOLDER}/${FILE_DATE}_files.tar.gz ${LOCAL_PATH}
   # Sending over S3
-  echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending ${LOCAL_PATH} folder over FTP…"
+  echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending ${LOCAL_PATH} folder to S3 bucket…"
   ${S3CMD} put ${TMP_FOLDER}/${FILE_DATE}_files.tar.gz ${REMOTE_PATH};
 else
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] ${LOCAL_PATH} folder does not exists."
@@ -41,7 +41,7 @@ else
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] MySQL dump backup…"
   $MYSQLDUMP --column-statistics=0 -u $DB_USER -h $DB_HOST --password=$DB_PASS $DB_NAME | gzip > ${TMP_FOLDER}/${FILE_DATE}_database.sql.gz
   # Sending over FTP
-  echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending MySQL dump over FTP…"
+  echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending MySQL dump to S3 bucket…"
   ${S3CMD} put ${TMP_FOLDER}/${FILE_DATE}_database.sql.gz ${REMOTE_PATH};
 fi
 
