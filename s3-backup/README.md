@@ -21,7 +21,6 @@ See https://www.scaleway.com/en/docs/object-storage-with-s3cmd/ to populate your
 * `S3_BUCKET_NAME` - Bucket name
 * `S3_FOLDER_NAME` - Objects folder (prefix) without ending slash
 * `LOCAL_PATH` - Absolute path for folder to backup (default: `/var/www/html`)
-* `REMOTE_PATH` - Your FTP backup destination folder
 * `DB_USER` - (Optional) Database user name
 * `DB_HOST` - (Optional) Database host name
 * `DB_PASS` - (Optional) Database user password
@@ -49,6 +48,6 @@ For example you can define an expiry policy based on your objects prefix: `${S3_
 
 ## Dev
 
-- Copy `.env.dist' to `.env`
+- Copy `.env.dist` to `.env`
 - Use `docker-compose.yml` to test locally
 - Launch backup `docker-compose run --rm backup`
