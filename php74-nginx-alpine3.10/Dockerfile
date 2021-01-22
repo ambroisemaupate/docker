@@ -18,7 +18,7 @@ RUN apk --no-cache update \
         openssl \
         libmcrypt-dev \
         gmp-dev \
-        mariadb-client \
+        mysql-client \
         curl \
         freetype \
         libpng \

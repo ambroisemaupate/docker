@@ -1,4 +1,4 @@
-FROM php:8.0.0RC3-fpm-alpine
+FROM php:8.0-fpm-alpine
 
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
@@ -37,7 +37,7 @@ RUN apk --no-cache update \
         libxslt-dev \
         libzip-dev \
         make \
-        mariadb-client \
+        mysql-client \
         net-snmp-dev \
         nginx \
         oniguruma-dev \

@@ -71,7 +71,6 @@ RUN additionalPackages=" \
         opcache \
         pcntl \
         pdo \
-        pdo_dblib \
         pdo_mysql \
         pdo_pgsql \
         pgsql \

@@ -36,7 +36,7 @@ RUN apk --no-cache update \
         libxslt-dev \
         libzip-dev \
         make \
-        mariadb-client \
+        mysql-client \
         net-snmp-dev \
         nginx \
         oniguruma-dev \
