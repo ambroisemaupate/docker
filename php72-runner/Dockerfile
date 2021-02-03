@@ -117,11 +117,10 @@ RUN additionalPackages=" \
     && docker-php-source delete \
     && docker-php-ext-enable $phpModules
 
-# Install composer and prestissimo plugin and put binary into $PATH
+# Install composer and put binary into $PATH
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \
-    && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer \
-    && /usr/local/bin/composer global require hirak/prestissimo
+    && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # Install phpunit and put binary into $PATH
 # https://github.com/ambroisemaupate/docker/issues/3

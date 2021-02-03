@@ -54,7 +54,7 @@ STORE_DATE=$(date -d "now - ${STORE_DAYS} days" '+%Y%m%d')
 while read LINE; do
     if [[ ${STORE_DATE} -ge ${LINE:0:8} && "${LINE}" != *\/ ]]; then
         echo "rm -f \"${LINE:9}\"" >> ${DELLIST}
-        # Print files wich is subject to delete, uncomment for debug
+        # Print files which is subject to delete, uncomment for debug
         echo "${LINE:9}"
     fi
 done < ${LIST}

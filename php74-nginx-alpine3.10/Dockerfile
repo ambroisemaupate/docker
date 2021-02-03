@@ -18,7 +18,7 @@ RUN apk --no-cache update \
         openssl \
         libmcrypt-dev \
         gmp-dev \
-        mariadb-client \
+        mysql-client \
         curl \
         freetype \
         libpng \
@@ -55,11 +55,10 @@ RUN apk --no-cache update \
     && pecl update-channels \
     && rm -rf /tmp/pear ~/.pearrc
 
-# Install composer and prestissimo plugin and put binary into $PATH
+# Install composer and put binary into $PATH
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \
-    && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer \
-    && /usr/local/bin/composer global require hirak/prestissimo
+    && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
 # PHP config
 ADD etc/php/7.4/php.ini /usr/local/etc/php/php.ini

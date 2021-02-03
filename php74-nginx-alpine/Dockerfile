@@ -36,7 +36,7 @@ RUN apk --no-cache update \
         libxslt-dev \
         libzip-dev \
         make \
-        mariadb-client \
+        mysql-client \
         net-snmp-dev \
         nginx \
         oniguruma-dev \
@@ -100,11 +100,10 @@ ADD etc/supervisord.ini /etc/supervisor.d/services.ini
 ADD etc/before_launch.ini /etc/supervisor.d/before_launch.ini
 ADD etc/before_launch.sh /before_launch.sh
 
-# Install composer and prestissimo plugin and put binary into $PATH
+# Install composer and put binary into $PATH
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \
     && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer \
-    && /usr/local/bin/composer global require hirak/prestissimo \
     && chmod +x /before_launch.sh
 
 # Add in your inheriting image to following lines
