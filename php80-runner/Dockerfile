@@ -1,6 +1,6 @@
-FROM php:8.0-rc
+FROM php:8.0
 
-ARG NODE_VERSION=12
+ARG NODE_VERSION=14
 
 RUN additionalPackages=" \
         apt-transport-https \
