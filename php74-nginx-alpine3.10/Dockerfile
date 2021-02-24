@@ -11,7 +11,6 @@ RUN apk --no-cache update \
         autoconf \
         tar \
         imagemagick-dev \
-        imagemagick \
         libtool \
     && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" NPROC=$(getconf _NPROCESSORS_ONLN) \
     && apk add --no-cache \
@@ -27,6 +26,8 @@ RUN apk --no-cache update \
         gettext-dev \
         gmp-dev \
         icu-dev \
+        imagemagick \
+        imagemagick-libs \
         imap-dev \
         jpegoptim \
         libintl \

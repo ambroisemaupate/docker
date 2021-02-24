@@ -11,41 +11,42 @@ RUN apk --no-cache update \
         autoconf \
         tar \
         imagemagick-dev \
-        imagemagick \
         libtool \
     && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" NPROC=$(getconf _NPROCESSORS_ONLN) \
     && apk add --no-cache \
-        openssh \
-        sudo \
-        make \
-        shadow \
-        libmcrypt-dev \
-        gmp-dev \
-        mariadb-client \
-        openssl \
-        curl \
-        freetype \
-        libpng \
-        libjpeg-turbo \
-        freetype-dev \
-        libpng-dev \
-        libjpeg-turbo-dev \
-        libwebp-dev \
-        libzip-dev \
-        bzip2-dev \
-        postgresql-dev \
-        supervisor \
         bash \
-        nginx \
-        pngquant \
-        jpegoptim \
-        zip \
-        icu-dev \
-        libxml2-dev \
-        dcron \
-        wget \
-        rsync \
+        bzip2-dev \
         ca-certificates \
+        curl \
+        dcron \
+        freetype \
+        freetype-dev \
+        gmp-dev \
+        icu-dev \
+        imagemagick \
+        imagemagick-libs \
+        jpegoptim \
+        libjpeg-turbo \
+        libjpeg-turbo-dev \
+        libmcrypt-dev \
+        libpng \
+        libpng-dev \
+        libwebp-dev \
+        libxml2-dev \
+        libzip-dev \
+        make \
+        mariadb-client \
+        nginx \
+        openssh \
+        openssl \
+        pngquant \
+        postgresql-dev \
+        rsync \
+        shadow \
+        sudo \
+        supervisor \
+        wget \
+        zip \
     && docker-php-ext-install -j${NPROC} exif json intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip bz2 xml gmp \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ --with-webp-dir=/usr/include/ \
     && docker-php-ext-install -j${NPROC} gd \
