@@ -10,6 +10,10 @@ RUN apk --no-cache update \
         g++ \
         autoconf \
         tar \
+        imagemagick-dev \
+        imagemagick \
+        libtool \
+    && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" NPROC=$(getconf _NPROCESSORS_ONLN) \
     && apk add --no-cache \
         aspell-dev \
         bash \
@@ -81,15 +85,16 @@ RUN apk --no-cache update \
         xsl \
         zip \
     " \
-    && NPROC=$(getconf _NPROCESSORS_ONLN) \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
 #    Install APCU
 #    @see https://github.com/docker-library/php/issues/1029
     && mkdir -p /usr/src/php/ext/apcu  \
     && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
     && docker-php-ext-install -j${NPROC} $phpModules \
+    && pecl install imagick \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
-    && apk del --no-cache gcc g++ freetype-dev libpng-dev libjpeg-turbo-dev .build-deps
+    && docker-php-ext-enable --ini-name 20-imagick.ini imagick \
+    && apk del --no-cache gcc g++ freetype-dev libpng-dev libjpeg-turbo-dev .build-deps $PHPIZE_DEPS
 
 ADD etc/php/7.4/php.ini /usr/local/etc/php/php.ini
 ADD etc/php/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf

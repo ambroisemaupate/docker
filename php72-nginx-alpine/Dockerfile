@@ -6,32 +6,55 @@ RUN apk --no-cache update \
     && apk add --no-cache --virtual \
         .build-deps \
         $PHPIZE_DEPS \
-        gcc g++ make \
+        gcc \
+        g++ \
         autoconf \
+        tar \
+        imagemagick-dev \
+        imagemagick \
+        libtool \
+    && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" NPROC=$(getconf _NPROCESSORS_ONLN) \
     && apk add --no-cache \
         openssh \
         sudo \
+        make \
+        shadow \
         libmcrypt-dev \
+        gmp-dev \
         mariadb-client \
-        curl \
         openssl \
-        freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev libwebp-dev \
+        curl \
+        freetype \
+        libpng \
+        libjpeg-turbo \
+        freetype-dev \
+        libpng-dev \
+        libjpeg-turbo-dev \
+        libwebp-dev \
+        libzip-dev \
+        bzip2-dev \
         postgresql-dev \
         supervisor \
         bash \
         nginx \
-        pngquant jpegoptim \
+        pngquant \
+        jpegoptim \
         zip \
-        icu-dev libxml2-dev \
-        dcron wget rsync ca-certificates \
-    && NPROC=$(getconf _NPROCESSORS_ONLN) \
+        icu-dev \
+        libxml2-dev \
+        dcron \
+        wget \
+        rsync \
+        ca-certificates \
     && docker-php-ext-install -j${NPROC} exif json intl mbstring mysqli pdo pdo_mysql pdo_pgsql zip xml \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ --with-webp-dir=/usr/include/ \
     && docker-php-ext-install -j${NPROC} gd \
-    && pecl install apcu \
+    && pecl install imagick apcu apcu_bc \
     && docker-php-ext-enable --ini-name 05-opcache.ini opcache \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
-    && apk del --no-cache gcc g++ make freetype-dev libpng-dev libjpeg-turbo-dev .build-deps \
+    && docker-php-ext-enable --ini-name 20-imagick.ini imagick \
+    && docker-php-ext-enable --ini-name 20-apc.ini apc \
+    && apk del --no-cache gcc g++ make freetype-dev libpng-dev libjpeg-turbo-dev .build-deps $PHPIZE_DEPS \
     # https://github.com/docker-library/php/issues/443
     && pecl update-channels \
     && rm -rf /tmp/pear ~/.pearrc
@@ -45,6 +68,12 @@ ADD etc/supervisord.ini /etc/supervisor.d/services.ini
 # each container restart
 ADD etc/before_launch.ini /etc/supervisor.d/before_launch.ini
 ADD etc/before_launch.sh /before_launch.sh
+
+# Install composer and put binary into $PATH
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/ \
+    && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer \
+    && composer self-update --1
 
 RUN chmod +x /before_launch.sh
 
