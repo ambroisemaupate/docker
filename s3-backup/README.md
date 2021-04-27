@@ -25,6 +25,7 @@ See https://www.scaleway.com/en/docs/object-storage-with-s3cmd/ to populate your
 * `DB_HOST` - (Optional) Database host name
 * `DB_PASS` - (Optional) Database user password
 * `DB_NAME` - (Optional) Database name
+* `COMPRESS` - (Optional) Default: `1`, compress files TAR archive
 
 ## Launch backup
 

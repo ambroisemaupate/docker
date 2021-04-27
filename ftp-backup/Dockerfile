@@ -14,6 +14,7 @@ ENV FTP_PORT 21
 ENV FTP_PROTO ftp
 ENV LOCAL_PATH /data
 ENV REMOTE_PATH /my/backup/dir
+ENV COMPRESS 1
 
 RUN apt-get update -yqq && \
     apt-get install -y ca-certificates openssh-client mysql-client lftp && \

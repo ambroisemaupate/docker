@@ -19,6 +19,7 @@ backup your database.
 * `DB_HOST` - (Optional) Database host name
 * `DB_PASS` - (Optional) Database user password
 * `DB_NAME` - (Optional) Database name
+* `COMPRESS` - (Optional) Default: `1`, compress files TAR archive
 
 ## Usage
 

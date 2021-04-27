@@ -8,6 +8,7 @@ ENV S3_HOST_BASE=https://s3.fr-par.scw.cloud
 ENV S3_HOST_BUCKET=https://mybucket.s3.fr-par.scw.cloud
 ENV S3_CFG="/root/.s3cfg"
 ENV LOCAL_PATH=/var/www/html
+ENV COMPRESS 1
 
 ADD script /script
 
