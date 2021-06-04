@@ -15,9 +15,13 @@ ENV FTP_PROTO ftp
 ENV LOCAL_PATH /data
 ENV REMOTE_PATH /my/backup/dir
 ENV COMPRESS 1
+# PostgreSQL defaults
+ENV PGHOST=db
+ENV PGPORT 5432
+ENV PGUSER=postgres
 
 RUN apt-get update -yqq && \
-    apt-get install -y ca-certificates openssh-client mysql-client lftp && \
+    apt-get install -y ca-certificates openssh-client mysql-client postgresql-client lftp && \
     mkdir -p /backups
 
 ADD etc/lftp.conf /etc/lftp.conf

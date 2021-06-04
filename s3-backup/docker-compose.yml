@@ -1,5 +1,11 @@
 version: "3"
 services:
+    test_pgsql:
+        image: postgres:12-alpine
+        environment:
+            POSTGRES_DB: $PGDATABASE
+            POSTGRES_PASSWORD: $PGPASSWORD
+            POSTGRES_USER: $PGUSER
     backup:
         build:
             context: ./
@@ -7,5 +13,9 @@ services:
         env_file: "./.env"
         environment:
             LOCAL_PATH: "/example-folder"
+            #PGDATABASE: $PGDATABASE
+            PGHOST: $PGHOST
+            PGUSER: $PGUSER
+            PGPASSWORD: $PGPASSWORD
         volumes:
             - ./example-folder:/example-folder:ro

@@ -15,11 +15,22 @@ backup your database.
 * `FTP_PROTO` - Protocol to use (default: ftp)
 * `LOCAL_PATH` - Absolute path for folder to backup (default: `/data`)
 * `REMOTE_PATH` - Your FTP backup destination folder
-* `DB_USER` - (Optional) Database user name
-* `DB_HOST` - (Optional) Database host name
-* `DB_PASS` - (Optional) Database user password
-* `DB_NAME` - (Optional) Database name
 * `COMPRESS` - (Optional) Default: `1`, compress files TAR archive
+
+### Optional env vars to dump MySQL or PostgreSQL databases
+
+* `DB_USER` - (Optional) MySQL user name
+* `DB_HOST` - (Optional) MySQL host name
+* `DB_PASS` - (Optional) MySQL user password
+* `DB_NAME` - (Optional) MySQL name
+* `PGDATABASE` - (Optional) PostgreSQL Database nam
+* `PGHOST` - (Optional) PostgreSQL host name
+* `PGOPTIONS` - (Optional) PostgreSQL options
+* `PGPORT` - (Optional) PostgreSQL port
+* `PGUSER` - (Optional) PostgreSQL user name
+* `PGPASSWORD` - (Optional) PostgreSQL user password
+
+Your PostgreSQL server version must match pg_dump: version 12.x max
 
 ## Usage
 

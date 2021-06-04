@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Author: Ambroise Maupate
 
+PGDUMP="$(which pg_dump)"
 MYSQLDUMP="$(which mysqldump)"
 TAR="$(which tar)"
 LFTP="$(which lftp)"
@@ -64,8 +65,9 @@ else
   exit 1
 fi
 
-
+#
 # Optional MySQL dump
+#
 if [[ ! -n "${DB_NAME}" ]]; then
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] No database to backup."
 else
@@ -83,6 +85,31 @@ EOF
 
   # Sending over FTP
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending MySQL dump over FTP…"
+  ${LFTP} ${LFTP_CMD} <<EOF
+cache flush;
+cd ${REMOTE_PATH};
+put ${TMP_FOLDER}/${SQL_FILE};
+ls;
+bye;
+EOF
+fi
+
+#
+# Optional Postgres dump
+#
+if [[ ! -n "${PGDATABASE}" ]]; then
+  echo "[`date '+%Y-%m-%d %H:%M:%S'`] No PostgreSQL database to backup."
+else
+  # PostgreSQL dump
+  echo "[`date '+%Y-%m-%d %H:%M:%S'`] PostgreSQL dump backup…"
+
+  cat > ~/.pgpass <<- EOF
+${PGHOST}:${PGPORT}:${PGDATABASE}:${PGUSER}:${PGPASSWORD}
+EOF
+
+  $PGDUMP --no-password $PGDATABASE | gzip > ${TMP_FOLDER}/${SQL_FILE}
+  # Sending over FTP
+  echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending PostgreSQL dump over FTP…"
   ${LFTP} ${LFTP_CMD} <<EOF
 cache flush;
 cd ${REMOTE_PATH};

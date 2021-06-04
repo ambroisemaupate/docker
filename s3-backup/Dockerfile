@@ -9,11 +9,15 @@ ENV S3_HOST_BUCKET=https://mybucket.s3.fr-par.scw.cloud
 ENV S3_CFG="/root/.s3cfg"
 ENV LOCAL_PATH=/var/www/html
 ENV COMPRESS 1
+# PostgreSQL defaults
+ENV PGHOST=db
+ENV PGPORT 5432
+ENV PGUSER=postgres
 
 ADD script /script
 
 RUN apt-get update -yqq && \
-    apt-get install -yqq ca-certificates mysql-client s3cmd gzip && \
+    apt-get install -yqq ca-certificates mysql-client postgresql-client s3cmd gzip && \
     chmod +x /script/docker-entrypoint.sh /script/doBackup.sh
 
 WORKDIR "/script"

@@ -21,11 +21,22 @@ See https://www.scaleway.com/en/docs/object-storage-with-s3cmd/ to populate your
 * `S3_BUCKET_NAME` - Bucket name
 * `S3_FOLDER_NAME` - Objects folder (prefix) without ending slash
 * `LOCAL_PATH` - Absolute path for folder to backup (default: `/var/www/html`)
-* `DB_USER` - (Optional) Database user name
-* `DB_HOST` - (Optional) Database host name
-* `DB_PASS` - (Optional) Database user password
-* `DB_NAME` - (Optional) Database name
 * `COMPRESS` - (Optional) Default: `1`, compress files TAR archive
+  
+### Optional env vars to dump MySQL or PostgreSQL databases
+
+* `DB_USER` - (Optional) MySQL user name
+* `DB_HOST` - (Optional) MySQL host name
+* `DB_PASS` - (Optional) MySQL user password
+* `DB_NAME` - (Optional) MySQL name
+* `PGDATABASE` - (Optional) PostgreSQL Database nam
+* `PGHOST` - (Optional) PostgreSQL host name
+* `PGOPTIONS` - (Optional) PostgreSQL options
+* `PGPORT` - (Optional) PostgreSQL port
+* `PGUSER` - (Optional) PostgreSQL user name
+* `PGPASSWORD` - (Optional) PostgreSQL user password
+
+Your PostgreSQL server version must match pg_dump: version 12.x max
 
 ## Launch backup
 
@@ -58,10 +69,16 @@ For example you can define an expiry policy based on your objects prefix: `${S3_
       - db
     environment:
       LOCAL_PATH: /var/www/html
+      # Use MySQL
       DB_USER: ${MYSQL_USER}
       DB_HOST: db
       DB_PASS: ${MYSQL_PASSWORD}
       DB_NAME: ${MYSQL_DATABASE}
+      # Or use PostgreSQL
+      # PGDATABASE: ${PGDATABASE}
+      # PGHOST: db
+      # PGUSER: ${PGUSER}
+      # PGPASSWORD: ${PGPASSWORD}
       S3_ACCESS_KEY: xxxxxxxxx
       S3_SECRET_KEY: xxxxxxxxx
       S3_SIGNATURE: s3v4
