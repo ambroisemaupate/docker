@@ -38,7 +38,7 @@ if [[ -d ${LOCAL_PATH} ]]; then
   $TAR $TAR_OPTIONS ${TMP_FOLDER}/${TAR_FILE} ${LOCAL_PATH}
   # Sending over S3
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending ${LOCAL_PATH} folder to S3 bucket…"
-  ${S3CMD} put ${TMP_FOLDER}/${TAR_FILE} ${REMOTE_PATH};
+  ${S3CMD} put ${S3_OPTIONS} ${TMP_FOLDER}/${TAR_FILE} ${REMOTE_PATH};
 else
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] ${LOCAL_PATH} folder does not exists. No files to backup"
   # Do not prevent databases to backup
