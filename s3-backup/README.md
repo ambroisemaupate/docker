@@ -20,6 +20,7 @@ See https://www.scaleway.com/en/docs/object-storage-with-s3cmd/ to populate your
 * `S3_HOST_BUCKET`
 * `S3_BUCKET_NAME` - Bucket name
 * `S3_FOLDER_NAME` - Objects folder (prefix) without ending slash
+* `S3_CHUNK_SIZE` - Chunk size in MB (be careful, chunks count is limited to 1000 on *Scaleway Object storage*)
 * `LOCAL_PATH` - Absolute path for folder to backup (default: `/var/www/html`)
 * `COMPRESS` - (Optional) Default: `1`, compress files TAR archive
   

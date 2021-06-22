@@ -8,6 +8,7 @@ TAR="$(which tar)"
 GZIP="$(which gzip)"
 TAR_OPTIONS="-zcf"
 SQL_OPTIONS="--defaults-extra-file=/etc/mysql/temp_db.cnf --no-tablespaces --column-statistics=0"
+S3_OPTIONS="--multipart-chunk-size-mb=${S3_CHUNK_SIZE}"
 FILE_DATE=`date +%Y%m%d_%H%M`
 TMP_FOLDER=/tmp
 # S3 remote path with ending slash
@@ -62,7 +63,7 @@ EOF
   $MYSQLDUMP $SQL_OPTIONS -u $DB_USER -h $DB_HOST $DB_NAME | gzip > ${TMP_FOLDER}/${SQL_FILE}
   # Sending over FTP
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending MySQL dump to S3 bucket…"
-  ${S3CMD} put ${TMP_FOLDER}/${SQL_FILE} ${REMOTE_PATH};
+  ${S3CMD} put ${S3_OPTIONS} ${TMP_FOLDER}/${SQL_FILE} ${REMOTE_PATH};
 fi
 
 #
@@ -81,7 +82,7 @@ EOF
   $PGDUMP --no-password $PGDATABASE | gzip > ${TMP_FOLDER}/${SQL_FILE}
   # Sending over FTP
   echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending PostgreSQL dump to S3 bucket…"
-  ${S3CMD} put ${TMP_FOLDER}/${SQL_FILE} ${REMOTE_PATH};
+  ${S3CMD} put ${S3_OPTIONS} ${TMP_FOLDER}/${SQL_FILE} ${REMOTE_PATH};
 fi
 
 ${S3CMD} ls ${REMOTE_PATH};
