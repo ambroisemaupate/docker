@@ -44,6 +44,7 @@ RUN apk --no-cache update \
         mysql-client \
         net-snmp-dev \
         nginx \
+        nginx-mod-http-brotli \
         oniguruma-dev \
         openldap-dev \
         openssh \
