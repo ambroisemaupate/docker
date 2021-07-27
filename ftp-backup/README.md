@@ -16,6 +16,7 @@ backup your database.
 * `LOCAL_PATH` - Absolute path for folder to backup (default: `/data`)
 * `REMOTE_PATH` - Your FTP backup destination folder
 * `COMPRESS` - (Optional) Default: `1`, compress files TAR archive
+* `CHUNK_SIZE` - (Optional) Default: `0`, in mega Bytes, splits TAR archive into parts for better FTP upload with very large archives
 
 ### Optional env vars to dump MySQL or PostgreSQL databases
 
@@ -45,7 +46,23 @@ docker run --rm -t --name="backup1" -v my-data-volume:/data:ro \
            -e FTP_HOST="foobar.com" \
            -e FTP_PORT="21" \
            -e REMOTE_PATH="/backups/my-site" \
+           -e COMPRESS="0" \
+           -e CHUNK_SIZE="128" \
            --link my-mariadb:mariadb ambroisemaupate/ftp-backup
+```
+
+### Do not compress when not necessary 
+If your folder to backup contains mostly JPG, PNG, WebP images (or any already compressed data), **do not compress** archive as it will use
+lots of CPU for a little less space: `COMPRESS=0`. 
+
+### Split for weak FTP servers
+Splitting archives before uploading can enhance stability and allow transfers to resume if you disconnected from FTP server : `CHUNK_SIZE=128`.
+`split` command will generate *.partaa to *.partzz files in order to keep them in order and easily allow `cat` to join them back. 
+
+If you need to recover archive from a split file, use: 
+
+```bash
+cat 20210727_0904_files/20210727_0904_files.tar.part* >> 20210727_0904_files.tar
 ```
 
 ## How to automatize backups
@@ -130,6 +147,7 @@ docker run --rm -t --name="backup1" -v my-data-volume:/data:ro \
            -e FTP_HOST="foobar.com" \
            -e FTP_PORT="22" \
            -e FTP_PROTO="sftp" \
+           -e CHUNK_SIZE="512" \
            -e REMOTE_PATH="/home/username/backups/my-site" \
            --link my-mariadb:mariadb ambroisemaupate/ftp-backup
 ```
@@ -165,6 +183,7 @@ services:
       FTP_HOST: ftp.server.test
       FTP_USER: test
       FTP_PASS: test
+      CHUNK_SIZE: 512
       REMOTE_PATH: /home/test/backups
     volumes:
       - public_files:/var/www/html/web/files:ro

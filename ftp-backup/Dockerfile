@@ -16,9 +16,11 @@ ENV LOCAL_PATH /data
 ENV REMOTE_PATH /my/backup/dir
 ENV COMPRESS 1
 # PostgreSQL defaults
-ENV PGHOST=db
+ENV PGHOST db
 ENV PGPORT 5432
-ENV PGUSER=postgres
+ENV PGUSER postgres
+# Split bytes in MB
+ENV CHUNK_SIZE 0
 
 RUN apt-get update -yqq && \
     apt-get install -y ca-certificates openssh-client mysql-client postgresql-client lftp && \
