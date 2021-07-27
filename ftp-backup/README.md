@@ -15,8 +15,12 @@ backup your database.
 * `FTP_PROTO` - Protocol to use (default: ftp)
 * `LOCAL_PATH` - Absolute path for folder to backup (default: `/data`)
 * `REMOTE_PATH` - Your FTP backup destination folder
+  
+### Optional env vars to control archiving and FTP upload
+
 * `COMPRESS` - (Optional) Default: `1`, compress files TAR archive
 * `CHUNK_SIZE` - (Optional) Default: `0`, in mega Bytes, splits TAR archive into parts for better FTP upload with very large archives
+* `PARALLEL_UPLOADS` - (Optional) Default: `3`, *only for split archives*, max parallel uploads at the same time
 
 ### Optional env vars to dump MySQL or PostgreSQL databases
 

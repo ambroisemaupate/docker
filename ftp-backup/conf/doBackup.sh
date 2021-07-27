@@ -63,11 +63,12 @@ if [[ -d ${LOCAL_PATH} ]]; then
         $MKDIR ${TMP_FOLDER}/${FILE_DATE}_files;
         $SPLIT $SPLIT_OPTIONS ${TMP_FOLDER}/${TAR_FILE} ${TMP_FOLDER}/${FILE_DATE}_files/${TAR_FILE}.part;
         # Sending over FTP
-        echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending ${TMP_FOLDER}/${FILE_DATE}_files folder over FTP…";
+        echo "[`date '+%Y-%m-%d %H:%M:%S'`] Sending ${TMP_FOLDER}/${FILE_DATE}_files folder over FTP using ${PARALLEL_UPLOADS} parallel uploads…";
+        # Use mirror for parallel upload (2), recursive upload and auto-resume
         ${LFTP} ${LFTP_CMD} <<EOF
 cache flush;
 cd ${REMOTE_PATH};
-mirror -R ${TMP_FOLDER}/${FILE_DATE}_files ${FILE_DATE}_files;
+mirror -R -P ${PARALLEL_UPLOADS} ${TMP_FOLDER}/${FILE_DATE}_files ${FILE_DATE}_files;
 bye;
 EOF
     else

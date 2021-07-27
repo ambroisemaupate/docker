@@ -21,6 +21,9 @@ ENV PGPORT 5432
 ENV PGUSER postgres
 # Split bytes in MB
 ENV CHUNK_SIZE 0
+# LFTP mirror max parallel uploads
+# reduce this if your server cannot handle too much connections.
+ENV PARALLEL_UPLOADS 3
 
 RUN apt-get update -yqq && \
     apt-get install -y ca-certificates openssh-client mysql-client postgresql-client lftp && \
