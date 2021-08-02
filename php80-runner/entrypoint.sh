@@ -29,6 +29,9 @@ then
 fi
 echo "date.timezone=`cat /etc/timezone`" > /usr/local/etc/php/conf.d/timezone.ini
 
+# print PHP version
+echo "PHP: "
+php --version
 # print NodeJs version
 echo "NodeJs: "
 node --version
