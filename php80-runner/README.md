@@ -11,3 +11,9 @@ So following extensions cannot be installed, compilation fails (not yet ready fo
 - igbinary
 - mongodb
 - redis
+
+## Build locally
+
+```bash
+DOCKER_REPO="roadiz/php80-runner" bash ./hooks/build
+```

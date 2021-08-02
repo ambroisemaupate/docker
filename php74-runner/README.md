@@ -3,3 +3,8 @@
 
 **Inspired by https://github.com/TetraWeb/docker**
 
+## Build locally
+
+```bash
+DOCKER_REPO="roadiz/php74-runner" bash ./hooks/build
+```
