@@ -301,9 +301,12 @@ then launch them once a day, once a week, once a month from your crontab:
 ```shell
 # Rolling backups (do not use same hour of night to save CPU)
 # Daily
-00 2 * * * cd /mywebsite.com && /usr/local/bin/docker-compose up -d --no-deps --force-recreate backup_daily backup_cleanup_daily
+00 2 * * * cd /mywebsite.com && /usr/local/bin/docker-compose run --rm --no-deps backup_daily
+20 2 * * * cd /mywebsite.com && /usr/local/bin/docker-compose run --rm --no-deps backup_cleanup_daily
 # Weekly
-00 3 * * 1 cd /mywebsite.com && /usr/local/bin/docker-compose up -d --no-deps --force-recreate backup_weekly backup_cleanup_weekly
+00 3 * * 1 cd /mywebsite.com && /usr/local/bin/docker-compose run --rm --no-deps backup_weekly
+20 3 * * 1 cd /mywebsite.com && /usr/local/bin/docker-compose run --rm --no-deps backup_cleanup_weekly
 # Monthly
-00 4 1 * * cd /mywebsite.com && /usr/local/bin/docker-compose up -d --no-deps --force-recreate backup_monthly backup_cleanup_monthly
+00 4 1 * * cd /mywebsite.com && /usr/local/bin/docker-compose run --rm --no-deps backup_monthly
+20 4 1 * * cd /mywebsite.com && /usr/local/bin/docker-compose run --rm --no-deps backup_cleanup_monthly
 ```
