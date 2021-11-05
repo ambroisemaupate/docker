@@ -1,2 +1,4 @@
 docker-compose.yml
 test.txt
+.env
+example-folder/*.out

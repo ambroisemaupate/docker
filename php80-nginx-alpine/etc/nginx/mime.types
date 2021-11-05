@@ -104,7 +104,6 @@ types {
     text/markdown                                    md markdown;
     text/vcard                                       vcard vcf;
     text/vnd.rim.location.xloc                       xloc;
-    text/vnd.sun.j2me.app-descriptor                 jad;
     text/vtt                                         vtt;
 
     model/gltf-binary                                glb;

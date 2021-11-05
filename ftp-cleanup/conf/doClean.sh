@@ -51,9 +51,10 @@ echo "=== Delete list ==="
 
 # Let's find date to compare
 STORE_DATE=$(date -d "now - ${STORE_DAYS} days" '+%Y%m%d')
+echo "=== Compute files older than ${STORE_DATE} ==="
 while read LINE; do
-    if [[ ${STORE_DATE} -ge ${LINE:0:8} && "${LINE}" != *\/ ]]; then
-        echo "rm -f \"${LINE:9}\"" >> ${DELLIST}
+    if [[ ${STORE_DATE} -ge ${LINE:0:8} ]]; then
+        echo "rm -rf \"${LINE:9}\"" >> ${DELLIST}
         # Print files which is subject to delete, uncomment for debug
         echo "${LINE:9}"
     fi
