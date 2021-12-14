@@ -13,7 +13,6 @@ RUN additionalPackages=" \
         freetds-dev \
         libbz2-dev \
         libc-client-dev \
-        libenchant-dev \
         libfreetype6-dev \
         libgmp3-dev \
         libicu-dev \
@@ -37,7 +36,6 @@ RUN additionalPackages=" \
     && runDeps=" \
         gnupg \
         libc-client2007e \
-        libenchant1c2a \
         libfreetype6 \
         libicu57 \
         libjpeg62-turbo \

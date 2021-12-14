@@ -11,6 +11,7 @@ So following extensions cannot be installed, compilation fails (not yet ready fo
 - igbinary
 - mongodb
 - redis
+- enchant
 
 ## Build locally
 
