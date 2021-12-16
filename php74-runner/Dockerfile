@@ -13,7 +13,6 @@ RUN additionalPackages=" \
         freetds-dev \
         libbz2-dev \
         libc-client-dev \
-        libenchant-dev \
         libfreetype6-dev \
         libgmp3-dev \
         libicu-dev \
@@ -36,7 +35,6 @@ RUN additionalPackages=" \
     " \
     && runDeps=" \
         libc-client2007e \
-        libenchant1c2a \
         libfreetype6 \
         libicu57 \
         libjpeg62-turbo \
@@ -57,7 +55,6 @@ RUN additionalPackages=" \
         bz2 \
         calendar \
         dba \
-        enchant \
         exif \
         ftp \
         gd \
@@ -136,7 +133,7 @@ RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar \
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
     && curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
-    && apt-get install -y unzip nodejs build-essential yarn \
+    && apt-get install -y unzip nodejs build-essential yarn libimagequant-dev \
     && yarn global add pngquant-bin jpegtran-bin cwebp-bin optipng-bin \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
