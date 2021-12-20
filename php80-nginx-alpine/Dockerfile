@@ -1,4 +1,5 @@
-FROM php:8.0-fpm-alpine
+ARG PHP_VERSION=8.0
+FROM php:${PHP_VERSION}-fpm-alpine
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 RUN apk --no-cache update \
@@ -37,6 +38,8 @@ RUN apk --no-cache update \
         libpng \
         libpng-dev \
         libwebp-dev \
+#       No AVIF support until php8.1
+#       libavif-dev \
         libxml2-dev \
         libxslt-dev \
         libzip-dev \
@@ -88,15 +91,18 @@ RUN apk --no-cache update \
         xsl \
         zip \
     " \
+    # No AVIF support until php8.1
+    # && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp --with-avif \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
 #    Install APCU
 #    @see https://github.com/docker-library/php/issues/1029
     && mkdir -p /usr/src/php/ext/apcu  \
     && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
+#    && curl -fsSL https://pecl.php.net/get/apcu-5.1.20.tgz | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
     # install imagick
     # use github version for now until release from https://pecl.php.net/get/imagick is ready for PHP 8
     && mkdir -p /usr/src/php/ext/imagick \
-    && curl -fsSL https://github.com/Imagick/imagick/archive/06116aa24b76edaf6b1693198f79e6c295eda8a9.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/imagick | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 \
     && docker-php-ext-install -j${NPROC} $phpModules \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
     && docker-php-ext-enable --ini-name 20-imagick.ini imagick \
