@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Building roadiz/php80-nginx-alpine specific tags"
-cat "php-versions.txt" | parallel docker buildx build --push --platform linux/amd64 -f Dockerfile --build-arg PHP_VERSION={} -t roadiz/php80-nginx-alpine:{} .
+cat "php-versions.txt" | parallel docker buildx build --push --platform linux/arm64/v8,linux/amd64 -f Dockerfile --build-arg PHP_VERSION={} -t roadiz/php80-nginx-alpine:{} .
 
 echo "Building latest"
 docker buildx build --push --platform linux/arm64/v8,linux/amd64 --tag roadiz/php80-nginx-alpine:latest .
