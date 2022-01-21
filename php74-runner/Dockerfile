@@ -75,10 +75,6 @@ RUN additionalPackages=" \
         shmop \
         snmp \
         soap \
-        sockets \
-        sysvmsg \
-        sysvsem \
-        sysvshm \
         tidy \
         xmlrpc \
         xsl \

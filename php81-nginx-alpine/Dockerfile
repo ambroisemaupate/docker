@@ -80,10 +80,6 @@ RUN apk --no-cache update \
         shmop \
         snmp \
         soap \
-        sockets \
-        sysvmsg \
-        sysvsem \
-        sysvshm \
         tidy \
         xsl \
         zip \
