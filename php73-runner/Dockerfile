@@ -1,6 +1,6 @@
 FROM php:7.3
 
-ARG NODE_VERSION=10
+ARG NODE_VERSION=12
 
 RUN additionalPackages=" \
         apt-transport-https \
