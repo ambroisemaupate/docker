@@ -36,6 +36,8 @@ RUN apk --no-cache update \
         libmcrypt-dev \
         libpng \
         libpng-dev \
+        libavif \
+        libavif-dev \
         libwebp-dev \
         libxml2-dev \
         libxslt-dev \
@@ -65,7 +67,6 @@ RUN apk --no-cache update \
         calendar \
         exif \
         gd \
-        imagick \
         gettext \
         gmp \
         imap \
@@ -84,15 +85,13 @@ RUN apk --no-cache update \
         xsl \
         zip \
     " \
-    && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp --with-avif \
 #    Install APCU
 #    @see https://github.com/docker-library/php/issues/1029
     && mkdir -p /usr/src/php/ext/apcu  \
     && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
     # install imagick
-    # use github version for now until release from https://pecl.php.net/get/imagick is ready for PHP 8
-    && mkdir -p /usr/src/php/ext/imagick \
-    && curl -fsSL https://github.com/Imagick/imagick/archive/06116aa24b76edaf6b1693198f79e6c295eda8a9.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 \
+    && pecl install imagick \
     && docker-php-ext-install -j${NPROC} $phpModules \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
     && docker-php-ext-enable --ini-name 20-imagick.ini imagick \
