@@ -76,6 +76,7 @@ RUN additionalPackages=" \
         snmp \
         soap \
         tidy \
+        tokenizer \
         xsl \
         zip \
     " \
