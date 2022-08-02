@@ -82,7 +82,6 @@ RUN apk --no-cache update \
         snmp \
         soap \
         tidy \
-        tokenizer \
         xsl \
         zip \
     " \
