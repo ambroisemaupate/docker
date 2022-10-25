@@ -9,6 +9,7 @@ RUN apk --no-cache update \
         gcc \
         g++ \
         autoconf \
+        pcre-dev \
         tar \
         imagemagick-dev \
         libtool \
@@ -95,6 +96,9 @@ RUN apk --no-cache update \
     && docker-php-ext-install -j${NPROC} $phpModules \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
     && docker-php-ext-enable --ini-name 20-imagick.ini imagick \
+    # install redis
+    && pecl install redis \
+    && docker-php-ext-enable redis.so \
     && apk del --no-cache gcc g++ freetype-dev libpng-dev libjpeg-turbo-dev .build-deps $PHPIZE_DEPS
 
 ADD etc/php/8.1/php.ini /usr/local/etc/php/php.ini
