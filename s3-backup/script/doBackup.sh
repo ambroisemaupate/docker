@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Author: Ambroise Maupate
 
-MYSQLDUMP="$(which mysqldump)"
-PGDUMP="$(which pg_dump)"
-S3CMD="$(which s3cmd) -c ${S3_CFG}"
-TAR="$(which tar)"
-GZIP="$(which gzip)"
+MYSQLDUMP="/usr/bin/mysqldump"
+PGDUMP="/usr/bin/pg_dump"
+S3CMD="/usr/bin/s3cmd -c ${S3_CFG}"
+TAR="/usr/bin/tar"
+GZIP="/usr/bin/gzip"
 TAR_OPTIONS="-zcf"
 SQL_OPTIONS="--defaults-extra-file=/etc/mysql/temp_db.cnf --no-tablespaces --column-statistics=0"
-S3_OPTIONS="--multipart-chunk-size-mb=${S3_CHUNK_SIZE}"
+S3_OPTIONS="--multipart-chunk-size-mb=${S3_CHUNK_SIZE} --storage-class=${S3_STORAGE_CLASS}"
 FILE_DATE=`date +%Y%m%d_%H%M`
 TMP_FOLDER=/tmp
 # S3 remote path with ending slash
