@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# original docker build command
+echo "overwriting docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME ."
+
+cat "node-versions.txt" | while read node_version_line
+do
+        # The new image tag will include the version of our software, prefixed to the os image we're currently building
+        IMAGE_TAG="${DOCKER_REPO}:node-${node_version_line}"
+
+        echo "docker buildx build --push -f Dockerfile --build-arg NODE_VERSION=${node_version_line} -t ${IMAGE_TAG} ."
+        docker buildx build --push -f Dockerfile --build-arg NODE_VERSION=${node_version_line} -t ${IMAGE_TAG} .
+done
+
+echo "Build latest"
+IMAGE_TAG="${DOCKER_REPO}"
+docker buildx build --push -f Dockerfile -t ${IMAGE_TAG} .
