@@ -1,20 +1,14 @@
 # roadiz/php81-nginx-alpine
 **Base *php-fpm with nginx* image for building Roadiz sub-images.**    
-**⚠️ For production only**
 
-This image does not provide *Yarn*, and it is meant
-to be extended for each of your projects. This image should be as light as possible
-to be built with your website sources and vendor included.
+**This base image is deprecated:** we encourage to use [roadiz/php81-fpm-alpine](https://hub.docker.com/r/roadiz/php81-fpm-alpine) instead to build your Roadiz services with *php-fpm*, *nginx*, *workers* in separate containers.
 
 Make sure to use a `.dockerignore` at your project root not to include any existing
 cache files or build-time vendors (node_modules).
 
-Before building your project image make sure to:
+Before building your project Docker image make sure to prepare your project sources:
 
-- `make`
-- `composer update --no-dev`
-- `composer dumpautoload -o -a`
-- Copy any configuration needed at launch
+- `composer install -o`
 - Add any development or user files paths to the `.dockerignore`
 
 ## Build example
@@ -52,12 +46,3 @@ VOLUME /var/www/html/files \
 
 ENTRYPOINT exec /usr/bin/supervisord -n -c /etc/supervisord.conf
 ```
-
-## Work in progress
-
-So following extensions cannot be installed, compilation fails (not yet ready for PHP 8+) :
-
-- amqp
-- igbinary
-- mongodb
-- redis
