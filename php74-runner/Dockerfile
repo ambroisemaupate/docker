@@ -1,4 +1,4 @@
-FROM php:7.4
+FROM php:7.4-bullseye
 
 ARG NODE_VERSION=12
 
@@ -36,7 +36,7 @@ RUN additionalPackages=" \
     && runDeps=" \
         libc-client2007e \
         libfreetype6 \
-        libicu57 \
+        libicu67 \
         libjpeg62-turbo \
         libmcrypt4 \
         libpng-dev \
@@ -80,7 +80,8 @@ RUN additionalPackages=" \
         xsl \
         zip \
     " \
-    && echo "deb http://security.debian.org/ stretch/updates main contrib non-free" > /etc/apt/sources.list.d/additional.list \
+    && NPROC=$(getconf _NPROCESSORS_ONLN) \
+    && echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" > /etc/apt/sources.list.d/additional.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends $additionalPackages $buildDeps $runDeps \
     && docker-php-source extract \
@@ -93,7 +94,8 @@ RUN additionalPackages=" \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && PHP_OPENSSL=yes docker-php-ext-configure imap --with-imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-configure ldap --with-ldap-sasl \
-    && docker-php-ext-install $phpModules \
+#    Install PHP extensions
+    && docker-php-ext-install -j${NPROC} $phpModules \
     && printf "\n" | pecl install amqp \
     && pecl install igbinary \
     && pecl install mongodb \
