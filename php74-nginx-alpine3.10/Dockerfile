@@ -26,7 +26,6 @@ RUN apk --no-cache update \
         gettext-dev \
         gmp-dev \
         icu-dev \
-        icu-data-full \
         imagemagick \
         imagemagick-libs \
         imap-dev \
