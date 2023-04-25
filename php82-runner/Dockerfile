@@ -1,4 +1,4 @@
-FROM php:8.2
+FROM php:8.2-bullseye
 
 ARG NODE_VERSION=16
 
@@ -37,7 +37,7 @@ RUN additionalPackages=" \
         gnupg \
         libc-client2007e \
         libfreetype6 \
-        libicu57 \
+        libicu67 \
         libjpeg62-turbo \
         libmcrypt4 \
         libpng-dev \
@@ -72,6 +72,7 @@ RUN additionalPackages=" \
         pdo_pgsql \
         pgsql \
         pspell \
+        redis \
         shmop \
         snmp \
         soap \
@@ -80,7 +81,7 @@ RUN additionalPackages=" \
         zip \
     " \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
-    && echo "deb http://security.debian.org/ stretch/updates main contrib non-free" > /etc/apt/sources.list.d/additional.list \
+    && echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" > /etc/apt/sources.list.d/additional.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends $additionalPackages $buildDeps $runDeps \
     && docker-php-source extract \

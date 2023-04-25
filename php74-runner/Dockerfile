@@ -1,4 +1,4 @@
-FROM php:7.4-bullseye
+FROM php:7.4-buster
 
 ARG NODE_VERSION=12
 
@@ -36,7 +36,7 @@ RUN additionalPackages=" \
     && runDeps=" \
         libc-client2007e \
         libfreetype6 \
-        libicu67 \
+        libicu63 \
         libjpeg62-turbo \
         libmcrypt4 \
         libpng-dev \
@@ -81,7 +81,7 @@ RUN additionalPackages=" \
         zip \
     " \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
-    && echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" > /etc/apt/sources.list.d/additional.list \
+    #&& echo "deb http://security.debian.org/debian-security buster main contrib non-free" > /etc/apt/sources.list.d/additional.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends $additionalPackages $buildDeps $runDeps \
     && docker-php-source extract \
@@ -132,7 +132,6 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
     && curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
     && apt-get install -y unzip nodejs build-essential yarn libimagequant-dev \
-    && yarn global add pngquant-bin jpegtran-bin cwebp-bin optipng-bin \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

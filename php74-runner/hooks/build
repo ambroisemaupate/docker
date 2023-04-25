@@ -8,10 +8,10 @@ do
         # The new image tag will include the version of our software, prefixed to the os image we're currently building
         IMAGE_TAG="${DOCKER_REPO}:node-${node_version_line}"
 
-        echo "docker build -f Dockerfile --build-arg NODE_VERSION=${node_version_line} -t ${IMAGE_TAG} ."
-        docker build -f Dockerfile --build-arg NODE_VERSION=${node_version_line} -t ${IMAGE_TAG} .
+        echo "docker buildx build --push -f Dockerfile --build-arg NODE_VERSION=${node_version_line} -t ${IMAGE_TAG} ."
+        docker buildx build --push -f Dockerfile --build-arg NODE_VERSION=${node_version_line} -t ${IMAGE_TAG} .
 done
 
 echo "Build latest"
 IMAGE_TAG="${DOCKER_REPO}"
-docker build -f Dockerfile -t ${IMAGE_TAG} .
+docker buildx build --push -f Dockerfile -t ${IMAGE_TAG} .
