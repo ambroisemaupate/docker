@@ -135,7 +135,6 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-COPY etc/php/7.4/php.ini /usr/local/etc/php/php.ini
 COPY etc/php/conf.d /usr/local/etc/php/conf.d
 COPY msmtprc /etc/
 COPY entrypoint.sh /entrypoint.sh
