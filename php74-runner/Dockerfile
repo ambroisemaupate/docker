@@ -136,7 +136,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD etc/php/7.4/php.ini /usr/local/etc/php/php.ini
-COPY etc/php/conf.d/ /usr/local/etc/php/conf.d/
+COPY etc/php/conf.d /usr/local/etc/php/conf.d
 COPY msmtprc /etc/
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
