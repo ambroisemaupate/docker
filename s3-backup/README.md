@@ -122,7 +122,7 @@ You can encrypt your backup files with GPG public keys. You must provide a `gpg`
       - public_files:/var/www/html/web/files:ro
 ```
 
-All public keys will be used to encrypt your backup files. **Pay attention that encrypted files size will be bigger than original files, especially if you are using multiple recipients** (same data is encrypted for each recipient).
+All public keys will be used to encrypt your backup files. **Pay attention that encrypted files size will be bigger than original files, especially if you are using multiple recipients** (https://security.stackexchange.com/questions/8245/gpg-file-size-with-multiple-recipients).
 
 You can create a `pubkey.gpg` file by exporting your public key:
 
