@@ -19,3 +19,5 @@ services:
             PGPASSWORD: $PGPASSWORD
         volumes:
             - ./example-folder:/example-folder:ro
+            - ./script:/script:ro
+            - ./pubkeys.gpg:/pubkeys.gpg:ro

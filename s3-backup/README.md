@@ -109,6 +109,27 @@ Or from your *crontab*:
 00 0 * * * cd /root/docker-server-env/compose/my_site && /usr/local/bin/docker-compose run --no-deps --rm backup
 ```
 
+## Encryption with GPG public keys
+
+You can encrypt your backup files with GPG public keys. You must provide a `gpg` file with any public keys and share it as a *volume* into `/pubkeys.gpg` (`GPG_PUBLIC_KEYS_PATH` env var contains path to pubkeys file).
+
+```yaml
+  backup:
+    image: ambroisemaupate/s3-backup
+    # ...
+    volumes:
+      - ./pubkeys.gpg:/pubkeys.gpg:ro
+      - public_files:/var/www/html/web/files:ro
+```
+
+All public keys will be used to encrypt your backup files. **Pay attention that encrypted files size will be bigger than original files, especially if you are using multiple recipients** (same data is encrypted for each recipient).
+
+You can create a `pubkey.gpg` file by exporting your public key:
+
+```shell 
+gpg -a --export [your public key ID] [an another pub key ID] > pubkeys.gpg
+```
+
 ## Dev
 
 - Copy `.env.dist` to `.env`

@@ -20,11 +20,12 @@ ENV PGHOST=db
 ENV PGPORT 5432
 ENV PGUSER=postgres
 ENV DEBIAN_FRONTEND=noninteractive
+ENV GPG_PUBLIC_KEYS_PATH="/pubkeys.gpg"
 
 ADD script /script
 
 RUN apt-get update -yqq && \
-    apt-get install -yqq ca-certificates mysql-client postgresql-client s3cmd gzip && \
+    apt-get install -yqq ca-certificates mysql-client postgresql-client s3cmd gzip gpg && \
     chmod +x /script/docker-entrypoint.sh /script/doBackup.sh
 
 WORKDIR "/script"
