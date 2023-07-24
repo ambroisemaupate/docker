@@ -130,6 +130,18 @@ You can create a `pubkey.gpg` file by exporting your public key:
 gpg -a --export [your public key ID] [an another pub key ID] > pubkeys.gpg
 ```
 
+## Using Sentry to log backup info and errors
+
+Provide `SENTRY_DSN` env var to enable Sentry logging.
+
+```yaml
+  backup:
+    image: ambroisemaupate/s3-backup
+    # ...
+    environment:
+      SENTRY_DSN: https://xxxxxxx.ingest.sentry.io/xxxxxxx
+```
+
 ## Dev
 
 - Copy `.env.dist` to `.env`

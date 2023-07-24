@@ -21,11 +21,15 @@ ENV PGPORT 5432
 ENV PGUSER=postgres
 ENV DEBIAN_FRONTEND=noninteractive
 ENV GPG_PUBLIC_KEYS_PATH="/pubkeys.gpg"
+ENV SENTRY_LOG_LEVEL=warn
+ENV SENTRY_DISABLE_UPDATE_CHECK=1
+ENV SENTRY_NO_PROGRESS_BAR=1
 
 ADD script /script
 
 RUN apt-get update -yqq && \
-    apt-get install -yqq ca-certificates mysql-client postgresql-client s3cmd gzip gpg && \
+    apt-get install -yqq curl ca-certificates mysql-client postgresql-client s3cmd gzip gpg && \
+    curl -sL https://sentry.io/get-cli/ | bash && \
     chmod +x /script/docker-entrypoint.sh /script/doBackup.sh
 
 WORKDIR "/script"

@@ -17,6 +17,7 @@ services:
             PGHOST: $PGHOST
             PGUSER: $PGUSER
             PGPASSWORD: $PGPASSWORD
+            SENTRY_DSN: $SENTRY_DSN
         volumes:
             - ./example-folder:/example-folder:ro
             - ./script:/script:ro
