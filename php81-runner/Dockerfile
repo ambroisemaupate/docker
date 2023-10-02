@@ -51,6 +51,7 @@ RUN additionalPackages=" \
         snmp \
     " \
     && phpModules=" \
+        amqp \
         apcu \
         bcmath \
         bz2 \
