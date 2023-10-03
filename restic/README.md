@@ -48,5 +48,8 @@ this will overwrite your data in the target folder.**
 Make sure to restore the same sub-folder as target to avoid recreating the sub-folder in the target folder.
 
 ```shell
-docker compose run --rm restore
+docker compose -f docker-compose.restore.yml run --rm restore
 ```
+
+**Do not include the `restore` service in your production `docker-compose.yml` file, as you would accidentally launch it when using `docker compose up -d` command.**
+Just add it when you need to restore data then remove it from your `docker-compose.yml` file. Or use a separate `docker-compose.restore.yml` file like in the example above.

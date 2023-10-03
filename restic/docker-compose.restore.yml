@@ -14,16 +14,13 @@ services:
             # If no restore needed, this volume should remain read-only
             - ./example-folder:/example-folder:ro
             - restic_cache:/root/.cache/restic
-    backup:
-        # Keep the same hostname for all Restic services
+    restore:
         extends:
             service: restic
-        command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} /example-folder'
-
-    forget:
-        extends:
-            service: restic
-        command: 'forget -o s3.storage-class=${S3_STORAGE_CLASS} --keep-daily 7 --keep-monthly 12'
+        command: 'restore latest:/example-folder --target /example-folder'
+        volumes:
+            - ./example-folder:/example-folder
+            - restic_cache:/root/.cache/restic
 
 volumes:
     restic_cache:
