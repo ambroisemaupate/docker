@@ -1,6 +1,13 @@
 # _Restic_ example usage in docker-compose environment
 
-[Basic example](./docker-compose.yml) using restic to back up a volume to a s3 bucket:
+[Restic](https://restic.readthedocs.io/en/latest/index.html) is an awesome backup tool that can back up 
+to many different storage providers. Unlike `ambroisemaupate/s3-backup` image, this tool will benefit from
+snapshotting and deduplication to save storage space and accelerate backup process.
+But this tool will not back up your database, you will still need `ambroisemaupate/s3-backup` for that.
+
+## Minimal configuration
+
+[Basic example](./docker-compose.yml) using Restic to back up a volume to a s3 bucket:
 
 ```dotenv
 S3_STORAGE_CLASS=STANDARD
@@ -32,7 +39,7 @@ Or you can directly call `restic` service with your own args:
 docker compose run --rm restic snapshots
 ```
 
-## How to delete backups files automatically with cron?
+## How to create and delete backups files automatically with cron?
 
 ```shell
 # Runs backup every day at 1am
