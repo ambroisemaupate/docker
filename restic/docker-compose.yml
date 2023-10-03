@@ -1,0 +1,37 @@
+version: "3.6"
+services:
+    restic:
+        # Keep the same hostname for all Restic services
+        hostname: restic-backup
+        image: restic/restic
+        environment:
+            AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+            S3_STORAGE_CLASS: ${S3_STORAGE_CLASS}
+            RESTIC_REPOSITORY: ${RESTIC_REPOSITORY}
+            RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+        volumes:
+            # If no restore needed, this volume should remain read-only
+            - ./example-folder:/example-folder:ro
+            - restic_cache:/root/.cache/restic
+    backup:
+        # Keep the same hostname for all Restic services
+        extends:
+            service: restic
+        command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} /example-folder'
+
+    forget:
+        extends:
+            service: restic
+        command: 'forget -o s3.storage-class=${S3_STORAGE_CLASS} --keep-daily 7 --keep-monthly 12'
+
+    restore:
+        extends:
+            service: restic
+        command: 'restore latest:/example-folder --target /example-folder'
+        volumes:
+            - ./example-folder:/example-folder
+            - restic_cache:/root/.cache/restic
+
+volumes:
+    restic_cache:

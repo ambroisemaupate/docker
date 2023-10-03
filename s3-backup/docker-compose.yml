@@ -11,8 +11,28 @@ services:
             context: ./
         image: ambroisemaupate/s3-backup
         env_file: "./.env"
+        depends_on:
+            - test_pgsql
         environment:
             LOCAL_PATH: "/example-folder"
+            #PGDATABASE: $PGDATABASE
+            PGHOST: $PGHOST
+            PGUSER: $PGUSER
+            PGPASSWORD: $PGPASSWORD
+            SENTRY_DSN: $SENTRY_DSN
+        volumes:
+            - ./example-folder:/example-folder:ro
+            - ./script:/script:ro
+            - ./pubkeys.gpg:/pubkeys.gpg:ro
+    backup_no_files:
+        build:
+            context: ./
+        image: ambroisemaupate/s3-backup
+        env_file: "./.env"
+        depends_on:
+            - test_pgsql
+        environment:
+            LOCAL_PATH: false
             #PGDATABASE: $PGDATABASE
             PGHOST: $PGHOST
             PGUSER: $PGUSER

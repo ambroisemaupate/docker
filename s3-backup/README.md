@@ -23,9 +23,9 @@ See https://www.scaleway.com/en/docs/object-storage-with-s3cmd/ to populate your
 * `S3_CHUNK_SIZE` - Chunk size in MB (be careful, chunks count is limited to 1000 on *Scaleway Object storage*)
 * `S3_STORAGE_CLASS` - Default: `STANDARD` - Stores object with specified CLASS (`STANDARD`, `STANDARD_IA`, or `REDUCED_REDUNDANCY`) - For [scaleway.com](https://www.scaleway.com/en/docs/storage/object/quickstart/?_ga=2.254615240.1932398353.1675415614-917218686.1666605139#how-to-upload-files-into-a-bucket): 
   * `STANDARD`: The Standard class for any upload; suitable for on-demand content like streaming or CDN
-  * `ONEZONE_IA`: The ONEZONE_IA class available only on FR-PAR is a good choice for storing secondary backup copies or easily re-creatable data.
+  * `ONEZONE_IA`: The `ONEZONE_IA` class available only on FR-PAR is a good choice for storing secondary backup copies or easily re-creatable data.
   * `GLACIER`: Archived storage. Your data needs to be restored first to be accessed. This class is available in the FR-PAR and NL-AMS regions.
-* `LOCAL_PATH` - Absolute path for folder to backup (default: `/var/www/html`)
+* `LOCAL_PATH` - Absolute path for folder to back up (default: `/var/www/html`) - Set it to `false` if you want to skip files backup
 * `COMPRESS` - (Optional) Default: `1`, compress files TAR archive
   
 ### Optional env vars to dump MySQL or PostgreSQL databases

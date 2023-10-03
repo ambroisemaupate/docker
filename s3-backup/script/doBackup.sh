@@ -101,7 +101,6 @@ if [[ -d ${LOCAL_PATH} ]]; then
   ${S3CMD} put ${S3_OPTIONS} ${TMP_FOLDER}/${TAR_FILE}.md5 ${REMOTE_PATH};
 else
   log "${LOCAL_PATH} folder does not exists. No files to backup"
-  sentry "${LOCAL_PATH} folder does not exists. No files to backup" "warn";
   # Do not prevent databases to backup
 fi
 
