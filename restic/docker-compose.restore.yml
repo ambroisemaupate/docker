@@ -1,12 +1,32 @@
 version: "3.6"
 services:
+
+    # Restore latest /example-folder in place
     restore:
         extends:
             file: docker-compose.yml
             service: restic
-        command: 'restore latest:/example-folder --target /example-folder'
+        command: 'restore latest --path /example-folder --target /'
         volumes:
             - ./example-folder:/example-folder
+            - restic_cache:/root/.cache/restic
+
+    # Restore latest MYSQL dump into example-mysql folder
+    restore_mysql:
+        extends:
+            file: docker-compose.yml
+            service: restic
+        command: 'restore latest --path ${MYSQL_DUMP_FILENAME} --target /example-mysql'
+        volumes:
+            - ./example-mysql:/example-mysql
+            - restic_cache:/root/.cache/restic
+    restore_pgsql:
+        extends:
+            file: docker-compose.yml
+            service: restic
+        command: 'restore latest --path ${PG_DUMP_FILENAME} --target /example-mysql'
+        volumes:
+            - ./example-mysql:/example-mysql
             - restic_cache:/root/.cache/restic
 
 volumes:

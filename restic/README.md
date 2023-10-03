@@ -3,7 +3,6 @@
 [Restic](https://restic.readthedocs.io/en/latest/index.html) is an awesome backup tool that can back up 
 to many different storage providers. Unlike `ambroisemaupate/s3-backup` image, this tool will benefit from
 snapshotting and deduplication to save storage space and accelerate backup process.
-But this tool will not back up your database, you will still need `ambroisemaupate/s3-backup` for that.
 
 ## Minimal configuration
 
@@ -60,3 +59,76 @@ docker compose -f docker-compose.restore.yml run --rm restore
 
 **Do not include the `restore` service in your production `docker-compose.yml` file, as you would accidentally launch it when using `docker compose up -d` command.**
 Just add it when you need to restore data then remove it from your `docker-compose.yml` file. Or use a separate `docker-compose.restore.yml` file like in the example above.
+
+## How to backup a database?
+
+You will need to use `ambroisemaupate/restic-database` [image](Dockerfile) to back up your database.
+
+This image extends official `restic/restic` with a special entrypoint that will dump your database into `${MYSQL_DUMP_FILENAME|PG_DUMP_FILENAME}` file
+before executing `restic` command. Then you can use `backup` command to back up the dump file with 
+your own options.
+
+### Configuration for MySQL
+
+```yaml
+services:
+    backup_mysql:
+        # Keep the same hostname for all Restic services
+        hostname: restic-backup
+        image: ambroisemaupate/restic-database
+        environment:
+            AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+            S3_STORAGE_CLASS: ${S3_STORAGE_CLASS}
+            RESTIC_REPOSITORY: ${RESTIC_REPOSITORY}
+            RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+            # Database credentials
+            MYSQL_HOST: ${MYSQL_HOST}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_USER: ${MYSQL_USER}
+            # Database dump filename
+            MYSQL_DUMP_FILENAME: ${MYSQL_DUMP_FILENAME}
+        volumes:
+            - restic_cache:/root/.cache/restic
+        depends_on:
+            - ${MYSQL_HOST}
+        # Override the default entrypoint to dump the database before backing it up
+        command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} --tag db ${MYSQL_DUMP_FILENAME}'
+
+volumes:
+    restic_cache:
+```
+
+### Configuration for PostgreSQL
+
+```yaml
+services:
+    backup_pgsql:
+        # Keep the same hostname for all Restic services
+        hostname: restic-backup
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        environment:
+            AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+            S3_STORAGE_CLASS: ${S3_STORAGE_CLASS}
+            RESTIC_REPOSITORY: ${RESTIC_REPOSITORY}
+            RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+            # Postgres credentials
+            PG_HOST: ${PG_HOST}
+            PG_DATABASE: ${PG_DATABASE}
+            PG_PASSWORD: ${PG_PASSWORD}
+            PG_USER: ${PG_USER}
+            PG_DUMP_FILENAME: ${PG_DUMP_FILENAME}
+        volumes:
+            - restic_cache:/root/.cache/restic
+        depends_on:
+            - ${PG_HOST}
+        # Override the default entrypoint to dump the database before backing it up
+        command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} --tag db ${PG_DUMP_FILENAME}'
+
+volumes:
+    restic_cache:
+```

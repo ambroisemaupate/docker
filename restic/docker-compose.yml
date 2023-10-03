@@ -1,9 +1,24 @@
 version: "3.6"
 services:
+    test_pgsql:
+        image: postgres:12-alpine
+        environment:
+            POSTGRES_DB: $PG_DATABASE
+            POSTGRES_PASSWORD: $PG_PASSWORD
+            POSTGRES_USER: $PG_USER
+
+    test_mysql:
+        image: mysql:8
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_USER: ${MYSQL_USER}
+
     restic:
         # Keep the same hostname for all Restic services
         hostname: restic-backup
-        image: restic/restic
+        image: restic/restic:latest
         environment:
             AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
             AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
@@ -14,11 +29,62 @@ services:
             # If no restore needed, this volume should remain read-only
             - ./example-folder:/example-folder:ro
             - restic_cache:/root/.cache/restic
+
+    backup_mysql:
+        # Keep the same hostname for all Restic services
+        hostname: restic-backup
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        environment:
+            AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+            S3_STORAGE_CLASS: ${S3_STORAGE_CLASS}
+            RESTIC_REPOSITORY: ${RESTIC_REPOSITORY}
+            RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+            # MySQL credentials
+            MYSQL_HOST: ${MYSQL_HOST}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_DUMP_FILENAME: ${MYSQL_DUMP_FILENAME}
+        volumes:
+            - restic_cache:/root/.cache/restic
+        depends_on:
+            - test_mysql
+        # Override the default entrypoint to dump the database before backing it up
+        command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} --tag db ${MYSQL_DUMP_FILENAME}'
+
+    backup_pgsql:
+        # Keep the same hostname for all Restic services
+        hostname: restic-backup
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        environment:
+            AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+            S3_STORAGE_CLASS: ${S3_STORAGE_CLASS}
+            RESTIC_REPOSITORY: ${RESTIC_REPOSITORY}
+            RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+            # Postgres credentials
+            PG_HOST: ${PG_HOST}
+            PG_DATABASE: ${PG_DATABASE}
+            PG_PASSWORD: ${PG_PASSWORD}
+            PG_USER: ${PG_USER}
+            PG_DUMP_FILENAME: ${PG_DUMP_FILENAME}
+        volumes:
+            - restic_cache:/root/.cache/restic
+        depends_on:
+            - ${PG_HOST}
+        # Override the default entrypoint to dump the database before backing it up
+        command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} --tag db ${PG_DUMP_FILENAME}'
+
     backup:
         # Keep the same hostname for all Restic services
         extends:
             service: restic
-        command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} /example-folder'
+        command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} --tag files /example-folder'
 
     forget:
         extends:
