@@ -93,7 +93,6 @@ services:
             - restic_cache:/root/.cache/restic
         depends_on:
             - ${MYSQL_HOST}
-        # Override the default entrypoint to dump the database before backing it up
         command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} --tag db ${MYSQL_DUMP_FILENAME}'
 
 volumes:
@@ -126,7 +125,6 @@ services:
             - restic_cache:/root/.cache/restic
         depends_on:
             - ${PG_HOST}
-        # Override the default entrypoint to dump the database before backing it up
         command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} --tag db ${PG_DUMP_FILENAME}'
 
 volumes:

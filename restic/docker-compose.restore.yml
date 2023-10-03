@@ -20,6 +20,8 @@ services:
         volumes:
             - ./example-mysql:/example-mysql
             - restic_cache:/root/.cache/restic
+
+    # Restore latest PGSQL dump into example-mysql folder
     restore_pgsql:
         extends:
             file: docker-compose.yml
