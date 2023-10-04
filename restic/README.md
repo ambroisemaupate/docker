@@ -24,6 +24,13 @@ new server.
 2 services are available which are conveniently named `backup` and `forget` to avoid write args in command line 
 and in *crontab*. These are extensions of the `restic` service which is the main service, without any default command.
 
+First time you'll need to init Restic repository
+```shell
+docker compose run --rm restic init
+```
+
+then you can use `backup` and `forget` services:
+
 ```shell
 # Launch backup default command with args `-o s3.storage-class=${S3_STORAGE_CLASS} /example-folder`
 docker compose run --rm backup
@@ -106,9 +113,7 @@ services:
     backup_pgsql:
         # Keep the same hostname for all Restic services
         hostname: restic-backup
-        build:
-            context: ./
-            dockerfile: Dockerfile
+        image: ambroisemaupate/restic-database
         environment:
             AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
             AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
