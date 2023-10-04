@@ -33,7 +33,7 @@ then you can use `backup` and `forget` services:
 
 ```shell
 # Launch backup default command with args `-o s3.storage-class=${S3_STORAGE_CLASS} /example-folder`
-docker compose run --rm backup
+docker compose run --rm --no-deps backup
 
 # Launch forget default command with args `-o s3.storage-class=${S3_STORAGE_CLASS} --keep-daily 7 --keep-monthly 12`
 docker compose run --rm forget
@@ -51,10 +51,10 @@ docker compose run --rm restic snapshots
 # Restic API backup
 ## 1. forget with policy
 00 1 * * * cd /path/to/compose && /usr/bin/docker compose run --rm --no-deps forget;
-## 2. backup files
+## 2 dump and backup database first (faster)
+05 1 * * * cd /path/to/compose && /usr/bin/docker compose run --rm --no-deps backup_mysql;
+## 3. backup files (in last to avoid locking files)
 10 1 * * * cd /path/to/compose && /usr/bin/docker compose run --rm --no-deps backup;
-## 3. dump and backup database
-15 1 * * * cd /path/to/compose && /usr/bin/docker compose run --rm --no-deps backup_mysql;
 
 ```
 
@@ -67,6 +67,11 @@ before executing `restic` command. Then you can use `backup` command to back up 
 your own options.
 
 See [Github repository](https://github.com/ambroisemaupate/docker/tree/master/restic) for this image.
+
+```shell
+# Run backup_mysql service with no-deps to avoid restart MySQL container
+docker compose run --rm --no-deps backup_mysql
+```
 
 ### Configuration for MySQL
 
