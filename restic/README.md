@@ -6,7 +6,7 @@ snapshotting and deduplication to save storage space and accelerate backup proce
 
 ## Minimal configuration
 
-[Basic example](./docker-compose.yml) using Restic to back up a volume to a s3 bucket:
+[Basic example](./docker-compose.yml) using Restic to back up a volume to a _S3 compatible_ storage bucket:
 
 ```dotenv
 S3_STORAGE_CLASS=STANDARD
@@ -17,32 +17,33 @@ RESTIC_REPOSITORY=s3:https://s3.fr-par.scw.cloud/mybucket/restic-backups
 ```
 
 Make sure to back up `RESTIC_PASSWORD` env var elsewhere than on your server. If you need to restore data into a 
-new server.
+new server or in your local development environment.
 
 ## How to use it?
 
 2 services are available which are conveniently named `backup` and `forget` to avoid write args in command line 
 and in *crontab*. These are extensions of the `restic` service which is the main service, without any default command.
 
-First time you'll need to init Restic repository
+First time you'll need to init Restic repository:
+
 ```shell
 docker compose run --rm restic init
 ```
 
-then you can use `backup` and `forget` services:
+Then you can use `backup` and `forget` services:
 
 ```shell
 # Launch backup default command with args `-o s3.storage-class=${S3_STORAGE_CLASS} /example-folder`
 docker compose run --rm --no-deps backup
 
 # Launch forget default command with args `-o s3.storage-class=${S3_STORAGE_CLASS} --keep-daily 7 --keep-monthly 12`
-docker compose run --rm forget
+docker compose run --rm --no-deps forget
 ```
 
 Or you can directly call `restic` service with your own args:
 
 ```shell
-docker compose run --rm restic snapshots
+docker compose run --rm --no-deps restic snapshots
 ```
 
 ## How to create and delete backups files automatically with cron?
@@ -66,7 +67,7 @@ This image extends official `restic/restic` with a special entrypoint that will 
 before executing `restic` command. Then you can use `backup` command to back up the dump file with 
 your own options.
 
-See [Github repository](https://github.com/ambroisemaupate/docker/tree/master/restic) for this image.
+See [GitHub repository](https://github.com/ambroisemaupate/docker/tree/master/restic) for this image.
 
 ```shell
 # Run backup_mysql service with no-deps to avoid restart MySQL container
