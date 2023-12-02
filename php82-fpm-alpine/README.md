@@ -50,10 +50,11 @@ RUN ln -s /var/www/html/bin/console /usr/local/bin/console \
 
 # Define persistent data volumes directories
 VOLUME /var/www/html/config/jwt \
+       /var/www/html/config/secrets \
        /var/www/html/public/files \
        /var/www/html/public/assets \
        /var/www/html/var/files \
-       /var/www/html/config/secret
+       /var/www/html/var/secret
 ```
 
 ## Use cases

@@ -42,22 +42,12 @@ COPY custom/location/before_launch.sh /before_launch.sh
 RUN /usr/bin/crontab -u www-data /crontab.txt && \
     chmod +x /before_launch.sh
 
-VOLUME /var/www/html/files \
-       /var/www/html/web/files \
-       /var/www/html/app/logs  \
-       /var/www/html/app/conf \
-       /var/www/html/app/gen-src/GeneratedNodeSources \
-       /var/www/html/app/gen-src/Proxies \
-       /var/www/html/app/gen-src/Compiled
+VOLUME /var/www/html/config/jwt \
+       /var/www/html/config/secrets \
+       /var/www/html/public/files \
+       /var/www/html/public/assets \
+       /var/www/html/var/files \
+       /var/www/html/var/secret
 
 ENTRYPOINT exec /usr/bin/supervisord -n -c /etc/supervisord.conf
 ```
-
-## Work in progress
-
-So following extensions cannot be installed, compilation fails (not yet ready for PHP 8+) :
-
-- amqp
-- igbinary
-- mongodb
-- redis
