@@ -1,6 +1,6 @@
-FROM php:8.1-bullseye
+FROM php:8.3-bullseye
 
-ARG NODE_VERSION=16
+ARG NODE_VERSION=20
 
 RUN additionalPackages=" \
         apt-transport-https \
@@ -71,9 +71,9 @@ RUN additionalPackages=" \
         pdo_dblib \
         pdo_mysql \
         pdo_pgsql \
-        redis \
         pgsql \
         pspell \
+        redis \
         shmop \
         snmp \
         soap \

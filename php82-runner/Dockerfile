@@ -121,27 +121,13 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \
     && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 
-# Install phpunit and put binary into $PATH
-RUN curl -sSLo phpunit.phar https://phar.phpunit.de/phpunit.phar \
-    && chmod 755 phpunit.phar \
-    && mv phpunit.phar /usr/local/bin/ \
-    && ln -s /usr/local/bin/phpunit.phar /usr/local/bin/phpunit
-
-# Install PHP Code sniffer
-RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar \
-    && chmod 755 phpcs.phar \
-    && mv phpcs.phar /usr/local/bin/ \
-    && ln -s /usr/local/bin/phpcs.phar /usr/local/bin/phpcs \
-    && curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar \
-    && chmod 755 phpcbf.phar \
-    && mv phpcbf.phar /usr/local/bin/ \
-    && ln -s /usr/local/bin/phpcbf.phar /usr/local/bin/phpcbf
-
 # Install Node.js & Yarn
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
-    && apt-get install -y unzip nodejs build-essential yarn libimagequant-dev \
+RUN mkdir -p /etc/apt/keyrings \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_VERSION.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update \
+    && apt-get install -y unzip nodejs build-essential libimagequant-dev \
+    && corepack enable \
     && yarn global add pngquant-bin jpegtran-bin cwebp-bin optipng-bin \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
