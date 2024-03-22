@@ -78,6 +78,7 @@ RUN additionalPackages=" \
         snmp \
         soap \
         tidy \
+        xdebug \
         xsl \
         zip \
     " \
@@ -108,6 +109,7 @@ RUN additionalPackages=" \
     && curl -fsSL https://pecl.php.net/get/igbinary | tar xvz -C "/usr/src/php/ext/igbinary" --strip 1 \
     && curl -fsSL https://pecl.php.net/get/mongodb | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
     && curl -fsSL https://pecl.php.net/get/redis | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
+    && pecl install xdebug \
 #    Install PHP extensions
     && docker-php-ext-install -j${NPROC} $phpModules \
     && for ext in $phpModules; do \
