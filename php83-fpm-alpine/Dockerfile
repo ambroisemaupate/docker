@@ -1,7 +1,8 @@
 FROM php:8.3-fpm-alpine
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
-ENV EXT_AMQP_VERSION=latest
+ARG IMAGICK_VERSION=3.7.0
+ARG EXT_AMQP_VERSION=latest
 
 RUN apk --no-cache update \
     && apk --no-cache upgrade \
@@ -29,20 +30,20 @@ RUN apk --no-cache update \
         freetype-dev \
         gettext-dev \
         gmp-dev \
-        icu-dev \
         icu-data-full \
+        icu-dev \
         imagemagick \
         imagemagick-libs \
         imap-dev \
         jpegoptim \
+        libavif \
+        libavif-dev \
         libintl \
         libjpeg-turbo \
         libjpeg-turbo-dev \
         libmcrypt-dev \
         libpng \
         libpng-dev \
-        libavif \
-        libavif-dev \
         libwebp-dev \
         libxml2-dev \
         libxslt-dev \
@@ -56,8 +57,8 @@ RUN apk --no-cache update \
         openssl \
         pngquant \
         postgresql-dev \
-        rsync \
         rabbitmq-c-dev \
+        rsync \
         shadow \
         sudo \
         supervisor \
@@ -95,17 +96,26 @@ RUN apk --no-cache update \
     # @see https://github.com/docker-library/php/issues/1029
     && mkdir -p /usr/src/php/ext/apcu  \
     && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
-    # install imagick
-    && pecl install imagick \
     # install amqp
     && git clone --branch $EXT_AMQP_VERSION --depth 1 https://github.com/php-amqp/php-amqp.git /usr/src/php/ext/amqp \
     && cd /usr/src/php/ext/amqp && git submodule update --init \
     && docker-php-ext-install -j${NPROC} $phpModules \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
-    && docker-php-ext-enable --ini-name 20-imagick.ini imagick \
     # install redis
     && pecl install redis \
     && docker-php-ext-enable redis.so \
+# Imagick is installed from the archive because regular installation fails
+# See: https://github.com/Imagick/imagick/issues/643#issuecomment-1834361716 \
+    && cd /tmp \
+    && curl -L -o /tmp/imagick.tar.gz https://github.com/Imagick/imagick/archive/refs/tags/${IMAGICK_VERSION}.tar.gz \
+    && tar --strip-components=1 -xf /tmp/imagick.tar.gz \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && echo "extension=imagick.so" > /usr/local/etc/php/conf.d/20-imagick.ini \
+    && rm -rf /tmp/* \
+# <<< End of Imagick installation
     && apk del --no-cache gcc g++ git freetype-dev libpng-dev libjpeg-turbo-dev .build-deps $PHPIZE_DEPS
 
 ADD etc/php/8.3/php.ini /usr/local/etc/php/php.ini

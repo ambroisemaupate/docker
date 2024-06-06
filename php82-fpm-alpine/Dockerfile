@@ -1,7 +1,7 @@
 FROM php:8.2-fpm-alpine
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
-ENV EXT_AMQP_VERSION=latest
+ARG EXT_AMQP_VERSION=latest
 
 RUN apk --no-cache update \
     && apk --no-cache upgrade \
