@@ -1,4 +1,4 @@
-FROM php:8.2.19-bullseye
+FROM php:8.2-bullseye
 
 ARG NODE_VERSION=18
 

@@ -1,4 +1,4 @@
-FROM php:8.2.19-fpm-alpine
+FROM php:8.2-fpm-alpine
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 ARG EXT_AMQP_VERSION=latest

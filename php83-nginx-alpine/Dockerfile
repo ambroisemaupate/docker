@@ -1,4 +1,4 @@
-FROM php:8.3.7-fpm-alpine
+FROM php:8.3-fpm-alpine
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 ARG IMAGICK_VERSION=3.7.0
