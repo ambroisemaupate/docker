@@ -91,7 +91,7 @@ RUN apk --no-cache update \
 #    Install APCU
 #    @see https://github.com/docker-library/php/issues/1029
     && mkdir -p /usr/src/php/ext/apcu  \
-    && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/apcu/stable | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
     # install imagick
     && pecl install imagick \
     && docker-php-ext-install -j${NPROC} $phpModules \

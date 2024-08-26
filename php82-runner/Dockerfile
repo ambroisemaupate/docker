@@ -102,12 +102,12 @@ RUN additionalPackages=" \
     && mkdir -p /usr/src/php/ext/igbinary  \
     && mkdir -p /usr/src/php/ext/mongodb  \
     && mkdir -p /usr/src/php/ext/redis  \
-    && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/apcu/stable | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
 #    AMQP ext fails at compilation
-    && curl -fsSL https://pecl.php.net/get/amqp | tar xvz -C "/usr/src/php/ext/amqp" --strip 1 \
-    && curl -fsSL https://pecl.php.net/get/igbinary | tar xvz -C "/usr/src/php/ext/igbinary" --strip 1 \
-    && curl -fsSL https://pecl.php.net/get/mongodb | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
-    && curl -fsSL https://pecl.php.net/get/redis | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/amqp/stable | tar xvz -C "/usr/src/php/ext/amqp" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/igbinary/stable | tar xvz -C "/usr/src/php/ext/igbinary" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/mongodb/stable | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/redis/stable | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
 #    Install xdebug manually
     && pecl install xdebug \
 #    Install PHP extensions

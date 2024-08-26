@@ -94,12 +94,11 @@ RUN apk --no-cache update \
 #    Install APCU
 #    @see https://github.com/docker-library/php/issues/1029
     && mkdir -p /usr/src/php/ext/apcu  \
-    && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
-#    && curl -fsSL https://pecl.php.net/get/apcu-5.1.20.tgz | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/apcu/stable | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
     # install imagick
     # use github version for now until release from https://pecl.php.net/get/imagick is ready for PHP 8
     && mkdir -p /usr/src/php/ext/imagick \
-    && curl -fsSL https://pecl.php.net/get/imagick | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 \
+    && curl -fsSL https://pecl.php.net/get/imagick/stable | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 \
     && docker-php-ext-install -j${NPROC} $phpModules \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
     && docker-php-ext-enable --ini-name 20-imagick.ini imagick \
