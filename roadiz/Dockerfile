@@ -1,5 +1,6 @@
 FROM ambroisemaupate/nginx-php
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
+LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 ENV ROADIZ_BRANCH master
 

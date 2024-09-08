@@ -1,5 +1,6 @@
 FROM php:7.2-fpm-stretch
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
+LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV WWW_DATA_UID=1000

@@ -1,5 +1,6 @@
 FROM php:8.1-fpm-alpine
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
+LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 RUN apk --no-cache update \
     && apk --no-cache upgrade \

@@ -1,5 +1,6 @@
 FROM php:8.3-fpm-alpine
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
+LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 ARG IMAGICK_VERSION=3.7.0
 ARG EXT_AMQP_VERSION=latest

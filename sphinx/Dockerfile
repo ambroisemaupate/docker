@@ -1,5 +1,6 @@
 FROM alpine:latest
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
+LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 RUN apk --no-cache add make py3-pip python3-dev && \
     pip3 install sphinx && \

@@ -1,5 +1,6 @@
 FROM php:7.4-apache
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
+LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 ENV APACHE_DOCUMENT_ROOT /var/www/html/web
 

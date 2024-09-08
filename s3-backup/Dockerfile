@@ -1,4 +1,5 @@
 FROM ubuntu:latest
+LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 # @see https://s3tools.org/usage
 ENV S3_ACCESS_KEY=changeme

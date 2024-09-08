@@ -1,6 +1,7 @@
 ARG PHP_VERSION=8.0
 FROM php:${PHP_VERSION}-fpm-alpine
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
+LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 RUN apk --no-cache update \
     && apk --no-cache upgrade \

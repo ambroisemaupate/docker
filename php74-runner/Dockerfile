@@ -1,4 +1,5 @@
 FROM php:7.4-buster
+LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 ARG NODE_VERSION=12
 
