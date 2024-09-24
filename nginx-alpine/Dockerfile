@@ -1,5 +1,4 @@
 FROM nginx:alpine
-MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 ARG nginx_uid=1000
