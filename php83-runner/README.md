@@ -1,6 +1,10 @@
 # Gitlab/Travis CI PHP 8.3 runner
 ## For building PHP images and testing
 
+This image is deprecated, please use `roadiz/php-runner:8.3.17-bookworm` instead.
+
+---
+
 **Inspired by https://github.com/TetraWeb/docker**
 
 ## Work in progress
