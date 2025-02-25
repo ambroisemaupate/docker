@@ -76,9 +76,10 @@ Then this image will execute `composer config --global github-oauth.github.com "
 
 ## Setting timezone
 
-You can set the php timezone with direct setting it in php.ini within your `.gitlab-ci.yml` like:
+You can set the PHP timezone with `TIMEZONE` environment variable:
 
 ```shell
-before_script:
-  - echo "date.timezone = 'Europe/Paris'" > /usr/local/etc/php/conf.d/timezone.ini
+TIMEZONE=Europe/Paris
 ```
+
+This does not change the docker image system timezone, only the PHP one.

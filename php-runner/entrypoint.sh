@@ -30,14 +30,12 @@ fi
 # - echo "America/New_York" > /usr/local/etc/php/conf.d/timezone.ini
 if [[ ! -z "$TIMEZONE" ]]
 then
-  echo "Requested timezone: $TIMEZONE"
-  echo "$TIMEZONE" > /etc/timezone
-  dpkg-reconfigure -f noninteractive tzdata
+  echo "${TIMEZONE}" > /etc/timezone
+  echo "date.timezone=${TIMEZONE}" > /usr/local/etc/php/conf.d/timezone.ini
 fi
-echo "date.timezone=`cat /etc/timezone`" > /usr/local/etc/php/conf.d/timezone.ini
 
 # print PHP version
-echo "PHP: "
 php --version
+echo "PHP timezone: $(php -r 'echo date_default_timezone_get();')"
 
 exec "$@"
