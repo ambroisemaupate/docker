@@ -21,11 +21,11 @@ target "runner" {
                 distrib = "bullseye",
             },
             {
-                version = "8.3.25",
+                version = "8.3.26",
                 distrib = "bookworm",
             },
             {
-                version = "8.4.12",
+                version = "8.4.13",
                 distrib = "bookworm",
             }
         ]
