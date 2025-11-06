@@ -1,10 +1,6 @@
 #!/bin/sh
 # Author: Ambroise Maupate
 
-PGDUMP="/usr/bin/pg_dump"
-MYSQLDUMP="/usr/bin/mysqldump"
-SQL_OPTIONS="--defaults-extra-file=/temp_db.cnf --no-tablespaces"
-
 function log {
     echo "[`date '+%Y-%m-%d %H:%M:%S'`] $1";
 }
@@ -16,7 +12,7 @@ if [[ ! -n "${MYSQL_DATABASE}" ]]; then
   log "No MySQL database to backup."
 else
   # MySQL dump
-  log "MySQL dump backup…"
+  log "MySQL dump backup using ${MYSQLDUMP}…"
   # Create credential client file to avoid WARNING messages
   cat > /temp_db.cnf <<- EOF
 [client]

@@ -1,2 +1,8 @@
-buildx:
-	docker buildx build --push -f Dockerfile -t ambroisemaupate/restic-database .
+build:
+	docker buildx bake --push
+
+load:
+	docker buildx bake --load
+
+test:
+	docker buildx bake
