@@ -13,19 +13,19 @@ target "runner" {
                 distrib = "bullseye",
             },
             {
-                version = "8.1.32",
+                version = "8.1.33",
                 distrib = "bullseye",
             },
             {
-                version = "8.2.28",
+                version = "8.2.29",
                 distrib = "bullseye",
             },
             {
-                version = "8.3.22",
+                version = "8.3.27",
                 distrib = "bookworm",
             },
             {
-                version = "8.4.8",
+                version = "8.4.14",
                 distrib = "bookworm",
             }
         ]

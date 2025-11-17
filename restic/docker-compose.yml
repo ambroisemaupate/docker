@@ -15,6 +15,14 @@ services:
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_USER: ${MYSQL_USER}
 
+    test_mariadb:
+        image: mariadb:11
+        environment:
+            MARIADB_RANDOM_ROOT_PASSWORD: 'yes'
+            MARIADB_DATABASE: ${MYSQL_DATABASE}
+            MARIADB_PASSWORD: ${MYSQL_PASSWORD}
+            MARIADB_USER: ${MYSQL_USER}
+
     restic:
         # Keep the same hostname for all Restic services
         hostname: restic-backup
@@ -32,10 +40,11 @@ services:
 
     backup_mysql:
         # Keep the same hostname for all Restic services
-        hostname: restic-backup
+        hostname: backup-mysql
         build:
             context: ./
             dockerfile: Dockerfile
+            target: mysql
         environment:
             AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
             AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
@@ -43,7 +52,7 @@ services:
             RESTIC_REPOSITORY: ${RESTIC_REPOSITORY}
             RESTIC_PASSWORD: ${RESTIC_PASSWORD}
             # MySQL credentials
-            MYSQL_HOST: ${MYSQL_HOST}
+            MYSQL_HOST: test_mysql
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_USER: ${MYSQL_USER}
@@ -54,12 +63,38 @@ services:
             - test_mysql
         command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} --tag db ${MYSQL_DUMP_FILENAME}'
 
-    backup_pgsql:
+    backup_mariadb:
         # Keep the same hostname for all Restic services
-        hostname: restic-backup
+        hostname: backup-mariadb
         build:
             context: ./
             dockerfile: Dockerfile
+            target: mariadb
+        environment:
+            AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+            S3_STORAGE_CLASS: ${S3_STORAGE_CLASS}
+            RESTIC_REPOSITORY: ${RESTIC_REPOSITORY}
+            RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+            # MySQL credentials
+            MYSQL_HOST: test_mariadb
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_DUMP_FILENAME: ${MYSQL_DUMP_FILENAME}
+        volumes:
+            - restic_cache:/root/.cache/restic
+        depends_on:
+            - test_mariadb
+        command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} --tag db ${MYSQL_DUMP_FILENAME}'
+
+    backup_pgsql:
+        # Keep the same hostname for all Restic services
+        hostname: backup-pgsql
+        build:
+            context: ./
+            dockerfile: Dockerfile
+            target: postgres
         environment:
             AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
             AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}

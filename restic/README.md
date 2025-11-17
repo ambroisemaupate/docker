@@ -80,8 +80,8 @@ docker compose run --rm --no-deps backup_mysql
 services:
     backup_mysql:
         # Keep the same hostname for all Restic services
-        hostname: restic-backup
-        image: ambroisemaupate/restic-database
+        hostname: backup-mysql
+        image: ambroisemaupate/restic-database:mysql
         environment:
             AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
             AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
@@ -105,14 +105,45 @@ volumes:
     restic_cache:
 ```
 
+### Configuration for latest MariaDB
+
+```yaml
+services:
+    backup_mysql:
+        # Keep the same hostname for all Restic services
+        hostname: backup-mysql
+        image: ambroisemaupate/restic-database:mariadb
+        environment:
+            AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+            S3_STORAGE_CLASS: ${S3_STORAGE_CLASS}
+            RESTIC_REPOSITORY: ${RESTIC_REPOSITORY}
+            RESTIC_PASSWORD: ${RESTIC_PASSWORD}
+            # Database credentials
+            MYSQL_HOST: ${MYSQL_HOST}
+            MYSQL_DATABASE: ${MARIADB_DATABASE}
+            MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+            MYSQL_USER: ${MARIADB_USER}
+            # Database dump filename
+            MYSQL_DUMP_FILENAME: ${MYSQL_DUMP_FILENAME}
+        volumes:
+            - restic_cache:/root/.cache/restic
+        depends_on:
+            - ${MYSQL_HOST}
+        command: 'backup -o s3.storage-class=${S3_STORAGE_CLASS} --tag db ${MYSQL_DUMP_FILENAME}'
+
+volumes:
+    restic_cache:
+```
+
 ### Configuration for PostgreSQL
 
 ```yaml
 services:
     backup_pgsql:
         # Keep the same hostname for all Restic services
-        hostname: restic-backup
-        image: ambroisemaupate/restic-database
+        hostname: backup-postgres
+        image: ambroisemaupate/restic-database:postgres
         environment:
             AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
             AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
@@ -135,6 +166,14 @@ volumes:
     restic_cache:
 ```
 
+### Overring default dump command
+
+You can override default dump arguments by setting `SQL_OPTIONS` env var.
+
+```shell
+# Default MySQL options to avoid dumping tablespaces info
+SQL_OPTIONS="--defaults-extra-file=/temp_db.cnf --no-tablespaces --skip-ssl"
+```
 
 ## How to restore data?
 
