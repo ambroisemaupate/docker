@@ -28,10 +28,10 @@ target "runner" {
                 version = "8.4.15",
                 distrib = "bookworm",
             },
-            {
-                version = "8.5.0",
-                distrib = "bookworm",
-            }
+            # {
+            #     version = "8.5.0",
+            #     distrib = "bookworm",
+            # }
         ]
     }
     args = {
