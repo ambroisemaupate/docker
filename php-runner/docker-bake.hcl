@@ -3,7 +3,7 @@ variable "REGISTRY" {
 }
 
 variable "EXTENSIONS" {
-    default = "amqp apcu bcmath bz2 calendar dba exif gd gettext gmp imap intl ldap mysqli opcache pcntl pdo pdo_dblib pdo_mysql pdo_pgsql pgsql pspell shmop snmp soap tidy xsl redis-6.3.0"
+    default = "amqp apcu bcmath bz2 calendar dba exif gd gettext gmp imap intl ldap mysqli opcache pcntl pdo pdo_dblib pdo_mysql pdo_pgsql pgsql pspell shmop snmp soap tidy xsl zip redis-6.3.0"
 }
 
 target "runner" {
@@ -41,7 +41,7 @@ target "runner" {
                 shortVersion = "8.5",
                 distrib = "bookworm",
                 # https://github.com/php-amqp/php-amqp/issues/600
-                extensions = "bcmath bz2 calendar dba exif gd gettext gmp imap intl ldap mysqli opcache pcntl pdo pdo_dblib pdo_mysql pdo_pgsql pgsql pspell shmop snmp soap tidy xsl redis-6.3.0"
+                extensions = "bcmath bz2 calendar dba exif gd gettext gmp imap intl ldap mysqli opcache pcntl pdo pdo_dblib pdo_mysql pdo_pgsql pgsql pspell shmop snmp soap tidy xsl zip redis-6.3.0"
             }
         ]
     }

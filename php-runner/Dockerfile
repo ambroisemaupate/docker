@@ -3,7 +3,7 @@ ARG DISTRIB="bookworm"
 ARG COMPOSER_VERSION=2.9.2
 ARG UID=1000
 ARG GID=1000
-ARG EXTENSIONS="amqp apcu bcmath bz2 calendar dba exif gd gettext gmp imap intl ldap mysqli opcache pcntl pdo pdo_dblib pdo_mysql pdo_pgsql pgsql pspell shmop snmp soap tidy xsl redis-6.3.0"
+ARG EXTENSIONS="amqp apcu bcmath bz2 calendar dba exif gd gettext gmp imap intl ldap mysqli opcache pcntl pdo pdo_dblib pdo_mysql pdo_pgsql pgsql pspell shmop snmp soap tidy xsl zip redis-6.3.0"
 
 FROM php:${PHP_VERSION}-cli-${DISTRIB} AS php-runner
 LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
@@ -39,7 +39,7 @@ echo "php ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/php
 curl -sSLf  https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions \
     --output /usr/local/bin/install-php-extensions
 chmod +x /usr/local/bin/install-php-extensions
-install-php-extensions ${EXTENSIONS}
+install-php-extensions @composer-${COMPOSER_VERSION} ${EXTENSIONS}
 
 # Required for PHPUnit coverage reports
 pie install xdebug/xdebug
