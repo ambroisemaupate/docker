@@ -13,31 +13,31 @@ target "runner" {
     matrix = {
         item = [
             {
-                version = "8.1.33",
+                version = "8.1.34",
                 shortVersion = "8.1",
-                distrib = "bullseye",
+                distrib = "bookworm",
                 extensions = "${EXTENSIONS}"
             },
             {
-                version = "8.2.29",
+                version = "8.2.30",
                 shortVersion = "8.2",
-                distrib = "bullseye",
+                distrib = "bookworm",
                 extensions = "${EXTENSIONS}"
             },
             {
-                version = "8.3.28",
+                version = "8.3.29",
                 shortVersion = "8.3",
                 distrib = "bookworm",
                 extensions = "${EXTENSIONS}"
             },
             {
-                version = "8.4.15",
+                version = "8.4.16",
                 shortVersion = "8.4",
                 distrib = "bookworm",
                 extensions = "${EXTENSIONS}"
             },
             {
-                version = "8.5.0",
+                version = "8.5.1",
                 shortVersion = "8.5",
                 distrib = "bookworm",
                 # https://github.com/php-amqp/php-amqp/issues/600
