@@ -1,6 +1,6 @@
 ARG PHP_VERSION=8.4.4
 ARG DISTRIB="bookworm"
-ARG COMPOSER_VERSION=2.9.2
+ARG COMPOSER_VERSION=2.9.7
 ARG UID=1000
 ARG GID=1000
 ARG EXTENSIONS="amqp apcu bcmath bz2 calendar dba exif gd gettext gmp imap intl ldap mysqli opcache pcntl pdo pdo_dblib pdo_mysql pdo_pgsql pgsql pspell shmop snmp soap tidy xsl zip redis-6.3.0"

@@ -25,19 +25,19 @@ target "runner" {
                 extensions = "${EXTENSIONS}"
             },
             {
-                version = "8.3.29",
+                version = "8.3.30",
                 shortVersion = "8.3",
                 distrib = "bookworm",
                 extensions = "${EXTENSIONS}"
             },
             {
-                version = "8.4.16",
+                version = "8.4.20",
                 shortVersion = "8.4",
                 distrib = "bookworm",
                 extensions = "${EXTENSIONS}"
             },
             {
-                version = "8.5.1",
+                version = "8.5.5",
                 shortVersion = "8.5",
                 distrib = "bookworm",
                 # https://github.com/php-amqp/php-amqp/issues/600
