@@ -26,6 +26,7 @@ It does not include NodeJS runtime anymore.
 - ldap 
 - mysqli 
 - opcache 
+- pcov 
 - pcntl 
 - pdo 
 - pdo_dblib 
