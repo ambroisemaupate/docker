@@ -9,6 +9,17 @@ ENV BUILD_DEPS="build-essential autoconf libtool automake git cmake zlib1g-dev l
 ENV RUN_DEPS="brotli fontforge woff-tools nginx zip unzip supervisor bash python3"
 ENV PHP_EXTS="zip intl opcache pcntl"
 
+# Debian Stretch and Buster are end-of-life, use archive repositories
+RUN printf '%s\n' \
+        'deb http://archive.debian.org/debian stretch main' \
+        'deb http://archive.debian.org/debian-security stretch/updates main' \
+        > /etc/apt/sources.list \
+    && printf '%s\n' \
+        'deb http://archive.debian.org/debian buster main' \
+        'deb http://archive.debian.org/debian-security buster/updates main' \
+        > /etc/apt/sources.list.d/buster.list \
+    && echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99archive
+
 # Install fontforge and woof-tools
 RUN apt-get update \
     && apt-get install --no-install-recommends -y ${BUILD_DEPS} ${RUN_DEPS} \
@@ -44,6 +55,7 @@ RUN git clone https://github.com/google/woff2.git \
     && make \
     && make install \
     && mv woff2_compress /usr/bin/woff2_compress \
+    && mv woff2_decompress /usr/bin/woff2_decompress \
     && cd ../../
 
 # Python3 font tools for subsetting
@@ -51,7 +63,7 @@ RUN pip3 install fonttools \
     && which pyftsubset
 
 # Install composer and put binary into $PATH
-RUN curl -sS https://getcomposer.org/installer | php \
+RUN curl -sS https://getcomposer.org/installer | php -- --version=2.8.12 \
     && mv composer.phar /usr/local/bin/ \
     && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer
 

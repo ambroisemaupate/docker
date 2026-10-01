@@ -16,3 +16,7 @@ converters:
         class: WebfontGenerator\Converters\EmbedOpenTypeConverter
 
 pyftsubset: /usr/local/bin/pyftsubset
+
+decoders:
+    woff2: /usr/bin/woff2_decompress
+    woff: /usr/bin/woff2sfnt
