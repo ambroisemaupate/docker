@@ -1,8 +1,14 @@
 buildx:
-	docker buildx build --pull --push --platform linux/arm64/v8,linux/amd64 --tag roadiz/nginx-alpine:latest .
+	docker buildx bake --pull --push
 
 amd64:
-	docker buildx build --pull --push --platform linux/amd64 --tag roadiz/nginx-alpine:latest .
+	docker buildx bake --pull --push --set '*.platform=linux/amd64'
 
 arm64:
-	docker buildx build --pull --push --platform linux/arm64/v8 --tag roadiz/nginx-alpine:latest .
+	docker buildx bake --pull --push --set '*.platform=linux/arm64/v8'
+
+load:
+	docker buildx bake --load --set '*.platform=linux/amd64'
+
+test:
+	docker buildx bake

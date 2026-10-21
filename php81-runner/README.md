@@ -18,5 +18,8 @@ So following extensions cannot be installed, compilation fails (not yet ready fo
 ## Build locally
 
 ```bash
-DOCKER_REPO="roadiz/php81-runner" bash ./hooks/build
+# Build and push latest and every node-* tag
+make buildx
+# Build a single Node version locally
+docker buildx bake --load php81-runner-node-16
 ```

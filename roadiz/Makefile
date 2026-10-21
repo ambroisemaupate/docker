@@ -1,11 +1,20 @@
-IMAGES = ambroisemaupate/roadiz roadiz/roadiz
-PLATFORMS = linux/arm64/v8,linux/amd64
+buildx:
+	docker buildx bake --pull --push
 
-buildx: php72 php74
+amd64:
+	docker buildx bake --pull --push --set '*.platform=linux/amd64'
 
-# latest stays on PHP 7.2 for backward compatibility
+arm64:
+	docker buildx bake --pull --push --set '*.platform=linux/arm64/v8'
+
+load:
+	docker buildx bake --load --set '*.platform=linux/amd64'
+
+test:
+	docker buildx bake
+
 php72:
-	docker buildx build --pull --push --platform $(PLATFORMS) --build-arg PHP_VERSION=7.2 $(foreach i,$(IMAGES),--tag $(i):php72 --tag $(i):latest) .
+	docker buildx bake --pull --push php72
 
 php74:
-	docker buildx build --pull --push --platform $(PLATFORMS) --build-arg PHP_VERSION=7.4 $(foreach i,$(IMAGES),--tag $(i):php74) .
+	docker buildx bake --pull --push php74

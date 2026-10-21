@@ -12,5 +12,8 @@ So following extensions cannot be installed, compilation fails :
 ## Build locally
 
 ```bash
-DOCKER_REPO="roadiz/php74-runner" bash ./hooks/build
+# Build and push latest and every node-* tag
+make buildx
+# Build a single Node version locally
+docker buildx bake --load php74-runner-node-12
 ```

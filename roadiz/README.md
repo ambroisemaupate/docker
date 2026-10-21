@@ -8,7 +8,7 @@
 | `latest`, `php72` | 7.2 | buster |
 | `php74` | 7.4 | bullseye |
 
-Build with `make php72` or `make php74` (`make buildx` builds both).
+Build with `make php72` or `make php74` (`make buildx` builds both, see `docker-bake.hcl`).
 
 This image will install:
 

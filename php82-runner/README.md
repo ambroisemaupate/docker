@@ -20,5 +20,8 @@ So following extensions cannot be installed, compilation fails (not yet ready fo
 ## Build locally
 
 ```bash
-DOCKER_REPO="roadiz/php82-runner" bash ./hooks/build
+# Build and push latest and every node-* tag
+make buildx
+# Build a single Node version locally
+docker buildx bake --load php82-runner-node-18
 ```
