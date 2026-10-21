@@ -1,4 +1,4 @@
-FROM php:8.2-bullseye
+FROM php:8.2-trixie
 LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 ARG NODE_VERSION=18

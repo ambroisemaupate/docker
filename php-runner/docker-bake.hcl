@@ -3,7 +3,7 @@ variable "REGISTRY" {
 }
 
 variable "EXTENSIONS" {
-    default = "amqp apcu bcmath bz2 calendar dba exif gd gettext gmp imap intl ldap mysqli opcache pcntl pcov pdo pdo_dblib pdo_mysql pdo_pgsql pgsql pspell shmop snmp soap tidy xsl zip redis-6.3.0"
+    default = "php-amqp/php-amqp@v2.2.0 krakjoe/apcu@v5.1.28 bcmath bz2 calendar dba exif gd gettext gmp imap intl ldap mysqli opcache pcntl krakjoe/pcov@v1.0.12 pdo pdo_dblib pdo_mysql pdo_pgsql pgsql pspell shmop snmp soap tidy xsl zip"
 }
 
 target "runner" {
@@ -19,29 +19,29 @@ target "runner" {
                 extensions = "${EXTENSIONS}"
             },
             {
-                version = "8.2.33",
+                version = "8.2.35",
                 shortVersion = "8.2",
                 distrib = "bookworm",
                 extensions = "${EXTENSIONS}"
             },
             {
-                version = "8.3.33",
+                version = "8.3.36",
                 shortVersion = "8.3",
                 distrib = "bookworm",
                 extensions = "${EXTENSIONS}"
             },
             {
-                version = "8.4.25",
+                version = "8.4.27",
                 shortVersion = "8.4",
                 distrib = "bookworm",
-                extensions = "${EXTENSIONS}"
+                extensions = replace(replace(EXTENSIONS, " imap ", " php/pecl-mail-imap@1.0.3 "), " pspell ", " php/pecl-text-pspell@1.0.1 ")
             },
             {
-                version = "8.5.9",
+                version = "8.5.12",
                 shortVersion = "8.5",
                 distrib = "trixie",
                 # https://github.com/php-amqp/php-amqp/issues/600
-                extensions = "bcmath bz2 calendar dba exif gd gettext gmp imap intl ldap mysqli opcache pcntl pcov pdo pdo_dblib pdo_mysql pdo_pgsql pgsql pspell shmop snmp soap tidy xsl zip redis-6.3.0"
+                extensions = "bcmath bz2 calendar dba exif gd gettext gmp php/pecl-mail-imap@1.0.3 intl ldap mysqli opcache pcntl krakjoe/pcov@v1.0.12 pdo pdo_dblib pdo_mysql pdo_pgsql pgsql php/pecl-text-pspell@1.0.1 shmop snmp soap tidy xsl zip"
             }
         ]
     }

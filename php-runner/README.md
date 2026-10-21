@@ -51,7 +51,7 @@ It does not include NodeJS runtime anymore.
 docker buildx bake --print runner
 
 # Build all targets and push to Docker Hub
-docker buildx bake runner --push
+docker buildx bake runner --pull --push
 ```
 ## Add your Gitlab Composer deploy token
 
