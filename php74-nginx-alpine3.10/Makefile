@@ -1,2 +1,5 @@
 buildx:
 	docker buildx build --pull --push --platform linux/arm64/v8,linux/amd64 --tag roadiz/php74-nginx-alpine3.10:latest .
+
+amd:
+	docker buildx build --pull --push --platform linux/amd64 --tag roadiz/php74-nginx-alpine3.10:latest .

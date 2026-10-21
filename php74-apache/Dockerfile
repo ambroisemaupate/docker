@@ -2,9 +2,13 @@ FROM php:7.4-apache
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
+ARG EXT_APCU_VERSION=v5.1.28
+
 ENV APACHE_DOCUMENT_ROOT /var/www/html/web
 
-RUN apt update \
+# Debian bullseye is EOL, packages moved to archive.debian.org
+RUN sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list \
+    && apt update \
     && apt install -y \
         $PHPIZE_DEPS \
         ${PHP_EXTRA_BUILD_DEPS:-} \
@@ -64,15 +68,17 @@ RUN apt update \
     " \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
-    && mkdir -p /usr/src/php/ext/apcu  \
-    && curl -fsSL https://pecl.php.net/get/apcu/stable | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
+#    APCu from GitHub (pecl.php.net is unreliable)
+    && mkdir -p /usr/src/php/ext/apcu \
+    && curl -fsSL https://codeload.github.com/krakjoe/apcu/tar.gz/refs/tags/${EXT_APCU_VERSION} | tar xz -C /usr/src/php/ext/apcu --strip 1 \
     && docker-php-ext-install -j${NPROC} $phpModules \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
     && apt autoremove \
     && apt clean
 
 ADD etc/php/7.4/php.ini /usr/local/etc/php/php.ini
-ADD etc/php/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+ADD etc/apache2/conf-available/cve-2026-109618.conf /etc/apache2/conf-available/cve-2026-109618.conf
+RUN a2enconf cve-2026-109618
 
 # Install composer and put binary into $PATH
 RUN curl -sS https://getcomposer.org/installer | php \

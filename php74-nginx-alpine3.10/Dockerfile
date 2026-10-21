@@ -2,6 +2,9 @@ FROM php:7.4-fpm-alpine3.10
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
+ARG EXT_APCU_VERSION=v5.1.28
+ARG EXT_IMAGICK_VERSION=3.8.1
+
 RUN apk --no-cache update \
     && apk --no-cache upgrade \
     && apk add --no-cache --virtual \
@@ -90,14 +93,14 @@ RUN apk --no-cache update \
         zip \
     " \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
-#    Install APCU
+#    PECL extensions from GitHub (pecl.php.net is unreliable)
 #    @see https://github.com/docker-library/php/issues/1029
-    && mkdir -p /usr/src/php/ext/apcu  \
-    && curl -fsSL https://pecl.php.net/get/apcu/stable | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
-    && docker-php-ext-install -j${NPROC} $phpModules \
-    && pecl install imagick \
+    && mkdir -p /usr/src/php/ext/apcu \
+    && curl -fsSL https://codeload.github.com/krakjoe/apcu/tar.gz/refs/tags/${EXT_APCU_VERSION} | tar xz -C /usr/src/php/ext/apcu --strip 1 \
+    && mkdir -p /usr/src/php/ext/imagick \
+    && curl -fsSL https://codeload.github.com/Imagick/imagick/tar.gz/refs/tags/${EXT_IMAGICK_VERSION} | tar xz -C /usr/src/php/ext/imagick --strip 1 \
+    && docker-php-ext-install -j${NPROC} $phpModules imagick \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
-    && docker-php-ext-enable --ini-name 20-imagick.ini imagick \
     && apk del --no-cache gcc g++ freetype-dev libpng-dev libjpeg-turbo-dev .build-deps $PHPIZE_DEPS
 
 ADD etc/php/7.4/php.ini /usr/local/etc/php/php.ini

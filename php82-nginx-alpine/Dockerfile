@@ -3,6 +3,9 @@ MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 ARG EXT_AMQP_VERSION=latest
+ARG EXT_APCU_VERSION=v5.1.28
+ARG EXT_IMAGICK_VERSION=3.8.1
+ARG EXT_REDIS_VERSION=6.3.0
 
 RUN apk --no-cache update \
     && apk --no-cache upgrade \
@@ -94,21 +97,16 @@ RUN apk --no-cache update \
         zip \
     " \
     && docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp --with-avif \
-    # Install APCU
+    # PECL extensions from GitHub (pecl.php.net is unreliable)
     # @see https://github.com/docker-library/php/issues/1029
-    && mkdir -p /usr/src/php/ext/apcu  \
-    && curl -fsSL https://pecl.php.net/get/apcu/stable | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
-    # install imagick
-    && pecl install imagick \
+    && git clone --branch $EXT_APCU_VERSION --depth 1 https://github.com/krakjoe/apcu.git /usr/src/php/ext/apcu \
+    && git clone --branch $EXT_IMAGICK_VERSION --depth 1 https://github.com/Imagick/imagick.git /usr/src/php/ext/imagick \
+    && git clone --branch $EXT_REDIS_VERSION --depth 1 --recurse-submodules --shallow-submodules https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis \
     # install amqp
     && git clone --branch $EXT_AMQP_VERSION --depth 1 https://github.com/php-amqp/php-amqp.git /usr/src/php/ext/amqp \
     && cd /usr/src/php/ext/amqp && git submodule update --init \
-    && docker-php-ext-install -j${NPROC} $phpModules \
+    && docker-php-ext-install -j${NPROC} $phpModules imagick redis \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
-    && docker-php-ext-enable --ini-name 20-imagick.ini imagick \
-    # install redis
-    && pecl install redis \
-    && docker-php-ext-enable redis.so \
     && apk del --no-cache gcc g++ git freetype-dev libpng-dev libjpeg-turbo-dev .build-deps $PHPIZE_DEPS
 
 ADD etc/php/8.2/php.ini /usr/local/etc/php/php.ini

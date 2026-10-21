@@ -1,7 +1,11 @@
-FROM php:8.2-trixie
+FROM php:8.2-bookworm
 LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 ARG NODE_VERSION=18
+ARG EXT_AMQP_VERSION=v2.2.0
+ARG EXT_APCU_VERSION=v5.1.28
+ARG EXT_REDIS_VERSION=6.3.0
+ARG EXT_XDEBUG_VERSION=3.5.3
 
 RUN additionalPackages=" \
         apt-transport-https \
@@ -38,7 +42,7 @@ RUN additionalPackages=" \
         gnupg \
         libc-client2007e \
         libfreetype6 \
-        libicu67 \
+        libicu72 \
         libjpeg62-turbo \
         libmcrypt4 \
         libpng-dev \
@@ -83,7 +87,6 @@ RUN additionalPackages=" \
         zip \
     " \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
-    && echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" > /etc/apt/sources.list.d/additional.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends $additionalPackages $buildDeps $runDeps \
     && docker-php-source extract \
@@ -96,23 +99,14 @@ RUN additionalPackages=" \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && PHP_OPENSSL=yes docker-php-ext-configure imap --with-imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-configure ldap --with-ldap-sasl \
-#    Install APCU
+#    PECL extensions from GitHub (pecl.php.net is unreliable)
 #    @see https://github.com/docker-library/php/issues/1029
-    && mkdir -p /usr/src/php/ext/apcu  \
-    && mkdir -p /usr/src/php/ext/amqp  \
-    && mkdir -p /usr/src/php/ext/igbinary  \
-    && mkdir -p /usr/src/php/ext/mongodb  \
-    && mkdir -p /usr/src/php/ext/redis  \
-    && curl -fsSL https://pecl.php.net/get/apcu/stable | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
-#    AMQP ext fails at compilation
-    && curl -fsSL https://pecl.php.net/get/amqp/stable | tar xvz -C "/usr/src/php/ext/amqp" --strip 1 \
-    && curl -fsSL https://pecl.php.net/get/igbinary/stable | tar xvz -C "/usr/src/php/ext/igbinary" --strip 1 \
-    && curl -fsSL https://pecl.php.net/get/mongodb/stable | tar xvz -C "/usr/src/php/ext/mongodb" --strip 1 \
-    && curl -fsSL https://pecl.php.net/get/redis/stable | tar xvz -C "/usr/src/php/ext/redis" --strip 1 \
-#    Install xdebug manually
-    && pecl install xdebug \
-#    Install PHP extensions
-    && docker-php-ext-install -j${NPROC} $phpModules \
+    && git clone --branch $EXT_APCU_VERSION --depth 1 https://github.com/krakjoe/apcu.git /usr/src/php/ext/apcu \
+    && git clone --branch $EXT_AMQP_VERSION --depth 1 --recurse-submodules --shallow-submodules https://github.com/php-amqp/php-amqp.git /usr/src/php/ext/amqp \
+    && git clone --branch $EXT_REDIS_VERSION --depth 1 --recurse-submodules --shallow-submodules https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis \
+    && git clone --branch $EXT_XDEBUG_VERSION --depth 1 https://github.com/xdebug/xdebug.git /usr/src/php/ext/xdebug \
+#    Install PHP extensions (xdebug ini is provided by etc/php/conf.d)
+    && docker-php-ext-install -j${NPROC} $phpModules xdebug \
     && for ext in $phpModules; do \
            rm -f /usr/local/etc/php/conf.d/docker-php-ext-$ext.ini; \
        done \
