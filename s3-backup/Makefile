@@ -1,2 +1,2 @@
 buildx:
-	docker buildx build --push -f Dockerfile -t ambroisemaupate/s3-backup .
+	docker buildx build --pull --push -f Dockerfile -t ambroisemaupate/s3-backup .
