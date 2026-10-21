@@ -81,7 +81,7 @@ RUN additionalPackages=" \
         zip \
     " \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
-    && echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" > /etc/apt/sources.list.d/additional.list \
+    && sed -i "s|deb.debian.org|archive.debian.org|g; s|main$|main contrib non-free|" /etc/apt/sources.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends $additionalPackages $buildDeps $runDeps \
     && docker-php-source extract \
@@ -137,11 +137,13 @@ RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar \
     && ln -s /usr/local/bin/phpcbf.phar /usr/local/bin/phpcbf
 
 # Install Node.js & Yarn
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
-    && apt-get install -y unzip nodejs build-essential yarn libimagequant-dev \
-    && yarn global add pngquant-bin jpegtran-bin cwebp-bin optipng-bin \
+# Nodesource dropped old Node majors, use latest official release of NODE_VERSION major
+RUN NODE_TARBALL=$(curl -fsSL https://nodejs.org/dist/latest-v${NODE_VERSION}.x/SHASUMS256.txt | grep -o "node-v.*-linux-x64.tar.xz") \
+    && curl -fsSL https://nodejs.org/dist/latest-v${NODE_VERSION}.x/${NODE_TARBALL} | tar xJ -C /usr/local --strip 1 --no-same-owner \
+    && npm install -g yarn@1 \
+    && apt-get update \
+    && apt-get install -y unzip build-essential libimagequant-dev \
+    && yarn global add --ignore-engines pngquant-bin jpegtran-bin cwebp-bin optipng-bin \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $buildDeps \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

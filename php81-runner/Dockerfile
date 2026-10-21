@@ -83,7 +83,7 @@ RUN additionalPackages=" \
         zip \
     " \
     && NPROC=$(getconf _NPROCESSORS_ONLN) \
-    && echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" > /etc/apt/sources.list.d/additional.list \
+    && sed -i "s|deb.debian.org|archive.debian.org|g; s|main$|main contrib non-free|" /etc/apt/sources.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends $additionalPackages $buildDeps $runDeps \
     && docker-php-source extract \
