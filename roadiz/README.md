@@ -1,12 +1,26 @@
 # Roadiz docker-image
 
-**Inherits ambroisemaupate/nginx-php**
+**Based on official `php:7.x-fpm` images**, drop-in replacement for former
+`ambroisemaupate/nginx-php` based image.
+
+| Tag | PHP | Debian |
+|---|---|---|
+| `latest`, `php72` | 7.2 | buster |
+| `php74` | 7.4 | bullseye |
+
+Build with `make php72` or `make php74` (`make buildx` builds both).
 
 This image will install:
 
+* PHP 7.2 or 7.4 FPM
+* Nginx 1.30 (built from sources)
+* NodeJS 8 and Yarn 1
 * Git
 * Cron (crontab)
 * Composer
+
+PHP configuration lives in `/usr/local/etc/php` (instead of `/etc/php/7.2`) and FPM binary is `php-fpm`.
+`memory_limit` is disabled to mitigate CVE-2026-109618: **always set a container memory limit**.
 
 ## ***Deprecated***
 Use you own built *image* using *roadiz/php7.x-nginx-alpine* to avoid sources
