@@ -1,4 +1,49 @@
+# Rebuild EOL PHP 7.4.33 with the official php-src backport for
+# CVE-2026-109618 and CVE-2026-109619 (branch PHP-7.4-CVE-2026-109618-109619)
+FROM php:7.4-fpm-alpine AS php-build
+
+ARG PHP_FIX_COMMIT=712e60f9edfd03f0960fc4fc3c2c375f42b90aa2
+
+RUN apk add --no-cache \
+        $PHPIZE_DEPS \
+        argon2-dev \
+        coreutils \
+        curl-dev \
+        git \
+        gnu-libiconv-dev \
+        libsodium-dev \
+        libxml2-dev \
+        linux-headers \
+        oniguruma-dev \
+        openssl-dev \
+        patch \
+        readline-dev \
+        sqlite-dev \
+        tar \
+        xz \
+    && git init -q /usr/src/php-fix \
+    && git -C /usr/src/php-fix fetch -q --depth 2 https://github.com/php/php-src.git ${PHP_FIX_COMMIT} \
+    && git -C /usr/src/php-fix diff FETCH_HEAD^ FETCH_HEAD > /usr/src/php-fix.patch \
+    && rm -f /usr/include/iconv.h \
+    && ln -sf /usr/include/gnu-libiconv/*.h /usr/include/ \
+    && docker-php-source extract \
+    && cd /usr/src/php \
+    && patch -p1 --forward < /usr/src/php-fix.patch \
+    && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" \
+    && eval ./configure $(php-config --configure-options) \
+    && make -j$(getconf _NPROCESSORS_ONLN) \
+    && make install \
+    && { find /usr/local -type f -perm /0111 -exec strip --strip-all {} + 2>/dev/null || true; } \
+    && make clean \
+    && cd /usr/src \
+    && tar -cJf php.tar.xz php \
+    && rm -f php.tar.xz.asc
+
 FROM php:7.4-fpm-alpine
+COPY --from=php-build /usr/local/ /usr/local/
+# Patched sources, so docker-php-ext-install builds extensions against them
+COPY --from=php-build /usr/src/php.tar.xz /usr/src/php.tar.xz
+RUN rm -f /usr/src/php.tar.xz.asc
 LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
 ARG EXT_APCU_VERSION=v5.1.28
