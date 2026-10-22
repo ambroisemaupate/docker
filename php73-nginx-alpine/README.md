@@ -17,6 +17,13 @@ Before building your project image make sure to:
 - Copy any configuration needed at launch
 - Add any development or user files paths to the `.dockerignore`
 
+## CVE-2026-109618 / CVE-2026-109619
+
+PHP 7.3 is end of life and receives no fix for these vulnerabilities. This image only applies
+the upstream mitigations: `memory_limit = -1` and `session.upload_progress.enabled = Off`,
+both enforced with `php_admin_*` in the FPM pool. **Always run containers with a memory limit**
+(e.g. `mem_limit` / `deploy.resources.limits.memory`), and migrate to a supported PHP version.
+
 ## Build example
 
 Create a `Dockerfile` in your Roadiz project root.
