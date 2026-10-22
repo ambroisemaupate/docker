@@ -1,4 +1,54 @@
+# PHP 7.4.33 sources, as verified by the official image build
+FROM php:7.4-fpm-alpine AS php-src
+
+# Upgrade EOL PHP 7.4.6 to 7.4.33 with the official php-src backport for
+# CVE-2026-109618 and CVE-2026-109619 (branch PHP-7.4-CVE-2026-109618-109619),
+# keeping Alpine 3.10 system libraries (curl 7.66)
+FROM php:7.4-fpm-alpine3.10 AS php-build
+
+ARG PHP_FIX_COMMIT=712e60f9edfd03f0960fc4fc3c2c375f42b90aa2
+
+COPY --from=php-src /usr/src/php.tar.xz /usr/src/php.tar.xz
+
+RUN rm -f /usr/src/php.tar.xz.asc \
+    && apk add --no-cache \
+        $PHPIZE_DEPS \
+        argon2-dev \
+        coreutils \
+        curl-dev \
+        git \
+        libedit-dev \
+        libsodium-dev \
+        libxml2-dev \
+        linux-headers \
+        oniguruma-dev \
+        openssl-dev \
+        patch \
+        sqlite-dev \
+        tar \
+        xz \
+    && git init -q /usr/src/php-fix \
+    && git -C /usr/src/php-fix fetch -q --depth 2 https://github.com/php/php-src.git ${PHP_FIX_COMMIT} \
+    && git -C /usr/src/php-fix diff FETCH_HEAD^ FETCH_HEAD > /usr/src/php-fix.patch \
+    && docker-php-source extract \
+    && cd /usr/src/php \
+    && patch -p1 --forward < /usr/src/php-fix.patch \
+    && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" \
+    && eval ./configure $(php-config --configure-options) \
+    && make -j$(getconf _NPROCESSORS_ONLN) \
+    && make install \
+    && { find /usr/local -type f -perm /0111 -exec strip --strip-all {} + 2>/dev/null || true; } \
+    && make clean \
+    && cp php.ini-* "$PHP_INI_DIR/" \
+    && cd /usr/src \
+    && tar -cJf php.tar.xz php
+
 FROM php:7.4-fpm-alpine3.10
+ENV PHP_VERSION=7.4.33
+COPY --from=php-build /usr/local/ /usr/local/
+# Patched sources, so docker-php-ext-install builds extensions against them
+COPY --from=php-build /usr/src/php.tar.xz /usr/src/php.tar.xz
+RUN rm -f /usr/src/php.tar.xz.asc
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
