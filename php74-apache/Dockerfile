@@ -1,4 +1,44 @@
+# Rebuild EOL PHP 7.4.33 with the official php-src backport for
+# CVE-2026-109618 and CVE-2026-109619 (branch PHP-7.4-CVE-2026-109618-109619)
+FROM php:7.4-apache AS php-build
+
+ARG PHP_FIX_COMMIT=712e60f9edfd03f0960fc4fc3c2c375f42b90aa2
+
+RUN sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list \
+    && apt update \
+    && apt install -y --no-install-recommends \
+        $PHPIZE_DEPS \
+        apache2-dev \
+        git \
+        libargon2-dev \
+        libcurl4-openssl-dev \
+        libonig-dev \
+        libreadline-dev \
+        libsodium-dev \
+        libsqlite3-dev \
+        libssl-dev \
+        libxml2-dev \
+        zlib1g-dev \
+    && git init -q /usr/src/php-fix \
+    && git -C /usr/src/php-fix fetch -q --depth 2 https://github.com/php/php-src.git ${PHP_FIX_COMMIT} \
+    && git -C /usr/src/php-fix diff FETCH_HEAD^ FETCH_HEAD > /usr/src/php-fix.patch \
+    && docker-php-source extract \
+    && cd /usr/src/php \
+    && patch -p1 --forward < /usr/src/php-fix.patch \
+    && eval ./configure $(php-config --configure-options) \
+    && make -j$(getconf _NPROCESSORS_ONLN) \
+    && make install \
+    && make clean \
+    && cd /usr/src \
+    && tar -cJf php.tar.xz php \
+    && rm -f php.tar.xz.asc
+
 FROM php:7.4-apache
+COPY --from=php-build /usr/local/ /usr/local/
+COPY --from=php-build /usr/lib/apache2/modules/libphp7.so /usr/lib/apache2/modules/libphp7.so
+# Patched sources, so docker-php-ext-install builds extensions against them
+COPY --from=php-build /usr/src/php.tar.xz /usr/src/php.tar.xz
+RUN rm -f /usr/src/php.tar.xz.asc
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
