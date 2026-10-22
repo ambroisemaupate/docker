@@ -1,6 +1,15 @@
 # Roadiz Standard Edition docker-image
 
-**Inherits ambroisemaupate/nginx-php**
+**Inherits `roadiz/roadiz`**
+
+| Tag | PHP | Debian |
+|---|---|---|
+| `latest`, `php72`, `php7.2` | 7.2 | buster |
+| `php74`, `php7.4` | 7.4 | bullseye |
+
+Build with `make php72` or `make php74` (`make buildx` builds both, see `docker-bake.hcl`).
+
+`memory_limit` is disabled to mitigate CVE-2026-109618: **always set a container memory limit**.
 
 This image will install:
 
@@ -36,7 +45,7 @@ docker run -t -d --name="my-roadiz-mariadb" \
 docker run -d --name="my-roadiz" --hostname="my-roadiz" -p 80:80 \
               --env ROADIZ_BRANCH=master \
               -v my-roadiz_DATA:/data \
-              --link="my-roadiz-mariadb:mariadb" ambroisemaupate/roadiz-standard-edition
+              --link="my-roadiz-mariadb:mariadb" roadiz/standard-edition
 ```
 
 Your database credentials will be:
@@ -113,7 +122,7 @@ version: '2'
 services:
   MAIN:
     hostname: my-roadiz
-    image: ambroisemaupate/roadiz-standard-edition
+    image: roadiz/standard-edition
     ports:
       - "8080:80"
     volumes:
