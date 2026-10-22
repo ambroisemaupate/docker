@@ -25,9 +25,11 @@ RUN sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list \
     && docker-php-source extract \
     && cd /usr/src/php \
     && patch -p1 --forward < /usr/src/php-fix.patch \
+    && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" \
     && eval ./configure $(php-config --configure-options) \
     && make -j$(getconf _NPROCESSORS_ONLN) \
     && make install \
+    && { find /usr/local -type f -perm /0111 -exec strip --strip-all {} + 2>/dev/null || true; } \
     && make clean \
     && cd /usr/src \
     && tar -cJf php.tar.xz php \
