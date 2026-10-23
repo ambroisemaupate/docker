@@ -54,7 +54,7 @@ RUN apk --no-cache update \
     && docker-php-ext-enable --ini-name 05-opcache.ini opcache \
     && docker-php-ext-enable --ini-name 20-apcu.ini apcu \
     && docker-php-ext-enable --ini-name 20-imagick.ini imagick \
-    && docker-php-ext-enable --ini-name 20-apc.ini apc \
+    && docker-php-ext-enable --ini-name 30-apc.ini apc \
     && apk del --no-cache gcc g++ make freetype-dev libpng-dev libjpeg-turbo-dev .build-deps $PHPIZE_DEPS \
     # https://github.com/docker-library/php/issues/443
     && pecl update-channels \
