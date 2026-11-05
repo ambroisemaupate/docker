@@ -107,7 +107,7 @@ RUN apk --no-cache update \
         net-snmp-dev \
         oniguruma-dev \
         openldap-dev \
-        openssh \
+        openssh-client \
         openssl \
         pngquant \
         postgresql-dev \

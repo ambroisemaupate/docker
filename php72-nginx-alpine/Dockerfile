@@ -37,7 +37,7 @@ RUN apk --no-cache update \
         make \
         mariadb-client \
         nginx \
-        openssh \
+        openssh-client \
         openssl \
         pngquant \
         postgresql-dev \

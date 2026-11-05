@@ -58,7 +58,7 @@ RUN apk --no-cache update \
         nginx-mod-http-brotli \
         oniguruma-dev \
         openldap-dev \
-        openssh \
+        openssh-client \
         openssl \
         pngquant \
         postgresql-dev \

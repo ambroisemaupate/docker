@@ -102,7 +102,7 @@ RUN apk --no-cache update \
         nginx \
         oniguruma-dev \
         openldap-dev \
-        openssh \
+        openssh-client \
         openssl \
         pngquant \
         postgresql-dev \
