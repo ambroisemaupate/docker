@@ -19,10 +19,11 @@ Before building your project image make sure to:
 
 ## CVE-2026-109618 / CVE-2026-109619
 
-PHP 7.3 is end of life and receives no fix for these vulnerabilities. This image only applies
-the upstream mitigations: `memory_limit = -1` and `session.upload_progress.enabled = Off`,
-both enforced with `php_admin_*` in the FPM pool. **Always run containers with a memory limit**
-(e.g. `mem_limit` / `deploy.resources.limits.memory`), and migrate to a supported PHP version.
+PHP 7.3 is end of life. This image rebuilds PHP from the official sources patched with
+[Remi Collet's security backports](https://github.com/remicollet/php-src-security), which include
+fixes for these vulnerabilities (see `PHP_FIX_COMMIT` in the `Dockerfile`).
+`session.upload_progress.enabled` stays disabled with `php_admin_*` in the FPM pool.
+Migrate to a supported PHP version.
 
 ## Build example
 
