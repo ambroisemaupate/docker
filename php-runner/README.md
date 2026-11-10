@@ -46,6 +46,8 @@ It does not include NodeJS runtime anymore.
 - zip 
 - redis
 
+Xdebug is loaded with `xdebug.mode = off`: set `XDEBUG_MODE=coverage` (or use `pcov.enabled=1`) in jobs that need code coverage.
+
 ## Building images
 
 ```shell
