@@ -4,6 +4,8 @@ ARG COMPOSER_VERSION=2.11.2
 ARG UID=1000
 ARG GID=1000
 ARG REDIS_VERSION=6.3.0
+ARG INSTALL_PHP_EXTENSIONS_VERSION=2.13.2
+ARG XDEBUG_VERSION=3.5.3
 ARG EXTENSIONS="php-amqp/php-amqp@v2.2.0 krakjoe/apcu@v5.1.28 bcmath bz2 calendar dba exif gd gettext gmp imagick php/pecl-mail-imap@1.0.3 intl ldap mysqli opcache pcntl krakjoe/pcov@v1.0.12 pdo pdo_dblib pdo_mysql pdo_pgsql pgsql php/pecl-text-pspell@1.0.1 shmop snmp soap tidy xsl zip"
 
 FROM php:${PHP_VERSION}-cli-${DISTRIB} AS php-runner
@@ -13,6 +15,8 @@ ARG UID
 ARG GID
 ARG COMPOSER_VERSION
 ARG REDIS_VERSION
+ARG INSTALL_PHP_EXTENSIONS_VERSION
+ARG XDEBUG_VERSION
 ARG EXTENSIONS
 
 ENV TIMEZONE="Europe/Paris"
@@ -20,7 +24,7 @@ ENV TIMEZONE="Europe/Paris"
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 
 # Install PIE (PHP Installer for Extensions)
-COPY --from=ghcr.io/php/pie:bin /pie /usr/bin/pie
+COPY --from=ghcr.io/php/pie:1.5.5-bin /pie /usr/bin/pie
 
 RUN <<EOF
 apt-get --quiet update
@@ -38,7 +42,7 @@ adduser --home /home/php --shell /bin/bash --uid ${UID} --gecos php --ingroup ph
 echo "php ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/php
 
 # Php extensions
-curl -sSLf  https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions \
+curl -sSLf  https://github.com/mlocati/docker-php-extension-installer/releases/download/${INSTALL_PHP_EXTENSIONS_VERSION}/install-php-extensions \
     --output /usr/local/bin/install-php-extensions
 chmod +x /usr/local/bin/install-php-extensions
 install-php-extensions @composer-${COMPOSER_VERSION} ${EXTENSIONS}
@@ -48,7 +52,7 @@ install-php-extensions /tmp/phpredis
 rm -rf /tmp/phpredis
 
 # Required for PHPUnit coverage reports
-pie install xdebug/xdebug
+pie install xdebug/xdebug:${XDEBUG_VERSION}
 EOF
 
 COPY --link etc/php/conf.d /usr/local/etc/php/conf.d
