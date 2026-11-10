@@ -1,10 +1,10 @@
-ARG PHP_VERSION=8.4.22
+ARG PHP_VERSION=8.4.27
 ARG DISTRIB="bookworm"
 ARG COMPOSER_VERSION=2.11.2
 ARG UID=1000
 ARG GID=1000
 ARG REDIS_VERSION=6.3.0
-ARG EXTENSIONS="php-amqp/php-amqp@v2.2.0 krakjoe/apcu@v5.1.28 bcmath bz2 calendar dba exif gd gettext gmp imagick php/pecl-mail-imap@1.0.3 intl ldap mysqli opcache pcntl pdo pdo_dblib pdo_mysql pdo_pgsql pgsql php/pecl-text-pspell@1.0.1 shmop snmp soap tidy xsl zip"
+ARG EXTENSIONS="php-amqp/php-amqp@v2.2.0 krakjoe/apcu@v5.1.28 bcmath bz2 calendar dba exif gd gettext gmp imagick php/pecl-mail-imap@1.0.3 intl ldap mysqli opcache pcntl krakjoe/pcov@v1.0.12 pdo pdo_dblib pdo_mysql pdo_pgsql pgsql php/pecl-text-pspell@1.0.1 shmop snmp soap tidy xsl zip"
 
 FROM php:${PHP_VERSION}-cli-${DISTRIB} AS php-runner
 LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
