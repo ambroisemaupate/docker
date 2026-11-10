@@ -1,7 +1,7 @@
 # Gitlab/Travis CI PHP 8.2 runner
 ## For building PHP images and testing
 
-This image is deprecated, please use `roadiz/php-runner:8.2.27-bullseye` instead.
+This image is deprecated, please use `roadiz/php-runner:8.2` instead (built on Debian bookworm, see [php-runner](../php-runner)).
 
 ---
 

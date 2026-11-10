@@ -1,10 +1,11 @@
 # Gitlab CI / Github Actions PHP runner image
 
-This is image is a replacement for:
-- roadiz/php80-runner
+This image is a replacement for:
 - roadiz/php81-runner
 - roadiz/php82-runner
 - roadiz/php83-runner
+
+PHP 8.0 and older are not supported (PIE requires PHP 8.1+).
 
 It does not include NodeJS runtime anymore.
 

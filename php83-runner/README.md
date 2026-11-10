@@ -1,7 +1,7 @@
 # Gitlab/Travis CI PHP 8.3 runner
 ## For building PHP images and testing
 
-This image is deprecated, please use `roadiz/php-runner:8.3.17-bookworm` instead.
+This image is deprecated, please use `roadiz/php-runner:8.3` instead (built on Debian bookworm, see [php-runner](../php-runner)).
 
 ---
 
