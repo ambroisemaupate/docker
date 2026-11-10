@@ -47,7 +47,14 @@ curl -sSLf  https://github.com/mlocati/docker-php-extension-installer/releases/d
 chmod +x /usr/local/bin/install-php-extensions
 install-php-extensions @composer-${COMPOSER_VERSION} ${EXTENSIONS}
 # phpredis from GitHub (pecl.php.net is unreliable), with liblzf submodule
-git clone --quiet --depth 1 --branch ${REDIS_VERSION} --recurse-submodules --shallow-submodules https://github.com/phpredis/phpredis.git /tmp/phpredis
+# REDIS_VERSION can be a tag or a commit
+git init --quiet /tmp/phpredis
+git -C /tmp/phpredis fetch --quiet --depth 1 https://github.com/phpredis/phpredis.git ${REDIS_VERSION}
+git -C /tmp/phpredis checkout --quiet FETCH_HEAD
+git -C /tmp/phpredis submodule --quiet update --init --depth 1
+# ponytail: install-php-extensions 2.13.2 does not know the phpser option of phpredis develop
+# and shifts its answers, drop this line once it handles it
+sed -i '/enable-redis-phpser/d' /tmp/phpredis/package.xml
 install-php-extensions /tmp/phpredis
 rm -rf /tmp/phpredis
 
