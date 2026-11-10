@@ -13,7 +13,7 @@ ADD conf /conf
 
 RUN apk --no-cache update \
     && apk --no-cache upgrade \
-    && apk add --no-cache coreutils ca-certificates openssh lftp bash \
+    && apk add --no-cache coreutils ca-certificates openssh-client lftp bash \
     && chmod +x /conf/doClean.sh \
     && echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
