@@ -21,6 +21,7 @@ It does not include NodeJS runtime anymore.
 - gd 
 - gettext 
 - gmp 
+- imagick 
 - imap 
 - intl 
 - ldap 
