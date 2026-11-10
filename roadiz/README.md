@@ -20,7 +20,8 @@ This image will install:
 * Composer
 
 PHP configuration lives in `/usr/local/etc/php` (instead of `/etc/php/7.2`) and FPM binary is `php-fpm`.
-`memory_limit` is disabled to mitigate CVE-2026-109618: **always set a container memory limit**.
+PHP is rebuilt with the CVE-2026-109618 and CVE-2026-109619 fixes: [Remi Collet's security backports](https://github.com/remicollet/php-src-security)
+for PHP 7.2, the official php-src backport for PHP 7.4 (see `docker-bake.hcl`). `session.upload_progress.enabled` stays disabled.
 
 ## ***Deprecated***
 Use you own built *image* using *roadiz/php7.x-nginx-alpine* to avoid sources

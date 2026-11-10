@@ -1,6 +1,56 @@
 # 7.2 (Debian buster) or 7.4 (Debian bullseye)
 ARG PHP_VERSION=7.2
+
+# Rebuild EOL PHP with security backports when PHP_FIX_COMMIT is set (see docker-bake.hcl)
+FROM php:${PHP_VERSION}-fpm AS php-build
+
+# Patch = diff from PHP_FIX_BASE (php-src tag or commit) to PHP_FIX_COMMIT (in PHP_FIX_REPO)
+ARG PHP_FIX_BASE
+ARG PHP_FIX_REPO=https://github.com/remicollet/php-src-security.git
+ARG PHP_FIX_COMMIT
+
+RUN if [ -z "$PHP_FIX_COMMIT" ]; then exit 0; fi \
+    && sed -i 's|deb.debian.org|archive.debian.org|g; s|security.debian.org|archive.debian.org|g' /etc/apt/sources.list \
+    && apt-get -o Acquire::Check-Valid-Until=false update \
+    && apt-get install -y -q --no-install-recommends \
+        $PHPIZE_DEPS \
+        ca-certificates \
+        git \
+        libargon2-dev \
+        libcurl4-openssl-dev \
+        libedit-dev \
+        libonig-dev \
+        libreadline-dev \
+        libsodium-dev \
+        libsqlite3-dev \
+        libssl-dev \
+        libxml2-dev \
+        xz-utils \
+        zlib1g-dev \
+    && git init -q /usr/src/php-fix \
+    && git -C /usr/src/php-fix fetch -q --depth 1 https://github.com/php/php-src.git ${PHP_FIX_BASE} \
+    && PHP_FIX_BASE_SHA=$(git -C /usr/src/php-fix rev-parse 'FETCH_HEAD^{commit}') \
+    && git -C /usr/src/php-fix fetch -q --depth 1 ${PHP_FIX_REPO} ${PHP_FIX_COMMIT} \
+    && git -C /usr/src/php-fix diff --binary ${PHP_FIX_BASE_SHA} ${PHP_FIX_COMMIT} > /usr/src/php-fix.patch \
+    && rm -rf /usr/src/php-fix \
+    && docker-php-source extract \
+    && cd /usr/src/php \
+    && git apply /usr/src/php-fix.patch \
+    && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" \
+    && eval ./configure $(php-config --configure-options) \
+    && make -j$(getconf _NPROCESSORS_ONLN) \
+    && make install \
+    && { find /usr/local -type f -perm /0111 -exec strip --strip-all {} + 2>/dev/null || true; } \
+    && make clean \
+    && cd /usr/src \
+    && tar -cJf php.tar.xz php \
+    && rm -f php.tar.xz.asc
+
 FROM php:${PHP_VERSION}-fpm
+COPY --from=php-build /usr/local/ /usr/local/
+# Patched sources, so docker-php-ext-install builds extensions against them
+COPY --from=php-build /usr/src/php.tar.xz /usr/src/php.tar.xz
+RUN rm -f /usr/src/php.tar.xz.asc
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 LABEL org.opencontainers.image.authors="Ambroise Maupate <ambroise@rezo-zero.com>"
 
