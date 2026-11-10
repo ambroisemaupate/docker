@@ -9,7 +9,8 @@
 
 Build with `make php72` or `make php74` (`make buildx` builds both, see `docker-bake.hcl`).
 
-`memory_limit` is disabled to mitigate CVE-2026-109618: **always set a container memory limit**.
+PHP is rebuilt with the CVE-2026-109618 and CVE-2026-109619 fixes: [Remi Collet's security backports](https://github.com/remicollet/php-src-security)
+for PHP 7.2, the official php-src backport for PHP 7.4 (see `docker-bake.hcl`). `session.upload_progress.enabled` stays disabled.
 
 This image will install:
 
