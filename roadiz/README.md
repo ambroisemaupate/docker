@@ -149,6 +149,7 @@ services:
     volumes:
       - DBDATA:/data
   SSH:
+    # Deprecated, see light-ssh/README.md
     image: ambroisemaupate/light-ssh
     environment:
       PASS: "roadiz_test"

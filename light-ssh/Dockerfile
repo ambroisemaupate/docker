@@ -1,4 +1,5 @@
 FROM luzifer/sftp-share
+# Deprecated: base image is gone and it runs an EOL sshd, see README.md
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 ## Use the same user name and UID as maxexcloo/data image
