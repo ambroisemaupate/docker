@@ -41,7 +41,7 @@ target "runner" {
                 shortVersion = "8.5",
                 distrib = "trixie",
                 # https://github.com/php-amqp/php-amqp/issues/600
-                extensions = "bcmath bz2 calendar dba exif gd gettext gmp imagick php/pecl-mail-imap@1.0.3 intl ldap mysqli opcache pcntl krakjoe/pcov@v1.0.12 pdo pdo_dblib pdo_mysql pdo_pgsql pgsql php/pecl-text-pspell@1.0.1 shmop snmp soap tidy xsl zip"
+                extensions = "krakjoe/apcu@v5.1.28 bcmath bz2 calendar dba exif gd gettext gmp imagick php/pecl-mail-imap@1.0.3 intl ldap mysqli opcache pcntl krakjoe/pcov@v1.0.12 pdo pdo_dblib pdo_mysql pdo_pgsql pgsql php/pecl-text-pspell@1.0.1 shmop snmp soap tidy xsl zip"
             },
             {
                 # Release candidate: no moving 8.6 tag until GA
@@ -52,7 +52,7 @@ target "runner" {
                 xdebug = "3.6.0alpha1",
                 # phpredis develop, 6.3.0 does not build on 8.6
                 redis = "7c186d94a5fbabbee14f79cdcc44398feb80b55f",
-                extensions = "bcmath bz2 calendar dba exif gd gettext gmp Imagick/imagick@55ed2e9fda264395636a2e27e51f31673f5566ab intl ldap mysqli opcache pcntl pdo pdo_dblib pdo_mysql pdo_pgsql pgsql shmop snmp soap tidy xsl zip"
+                extensions = "krakjoe/apcu@v5.1.28 bcmath bz2 calendar dba exif gd gettext gmp Imagick/imagick@55ed2e9fda264395636a2e27e51f31673f5566ab intl ldap mysqli opcache pcntl pdo pdo_dblib pdo_mysql pdo_pgsql pgsql shmop snmp soap tidy xsl zip"
             }
         ]
     }
