@@ -3,7 +3,7 @@ variable "REGISTRY" {
 }
 
 variable "EXTENSIONS" {
-    default = "php-amqp/php-amqp@v2.2.0 krakjoe/apcu@v5.1.28 bcmath bz2 calendar dba exif gd gettext gmp imagick imap intl ldap mysqli opcache pcntl krakjoe/pcov@v1.0.12 pdo pdo_dblib pdo_mysql pdo_pgsql pgsql pspell shmop snmp soap tidy xsl zip"
+    default = "php-amqp/php-amqp@v2.2.0 krakjoe/apcu@v5.1.28 bcmath bz2 calendar dba exif gd gettext gmp Imagick/imagick@3.8.1 imap intl ldap mysqli opcache pcntl krakjoe/pcov@v1.0.12 pdo pdo_dblib pdo_mysql pdo_pgsql pgsql pspell shmop snmp soap tidy xsl zip"
 }
 
 target "runner" {
@@ -41,7 +41,7 @@ target "runner" {
                 shortVersion = "8.5",
                 distrib = "trixie",
                 # https://github.com/php-amqp/php-amqp/issues/600
-                extensions = "krakjoe/apcu@v5.1.28 bcmath bz2 calendar dba exif gd gettext gmp imagick php/pecl-mail-imap@1.0.3 intl ldap mysqli opcache pcntl krakjoe/pcov@v1.0.12 pdo pdo_dblib pdo_mysql pdo_pgsql pgsql php/pecl-text-pspell@1.0.1 shmop snmp soap tidy xsl zip"
+                extensions = "krakjoe/apcu@v5.1.28 bcmath bz2 calendar dba exif gd gettext gmp Imagick/imagick@3.8.1 php/pecl-mail-imap@1.0.3 intl ldap mysqli opcache pcntl krakjoe/pcov@v1.0.12 pdo pdo_dblib pdo_mysql pdo_pgsql pgsql php/pecl-text-pspell@1.0.1 shmop snmp soap tidy xsl zip"
             },
             {
                 # Release candidate: no moving 8.6 tag until GA
