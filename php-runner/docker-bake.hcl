@@ -48,11 +48,11 @@ target "runner" {
                 version = "8.6.0RC5",
                 shortVersion = "8.6-rc",
                 distrib = "trixie",
-                # imap, pcov and pspell do not build on 8.6 yet, imagick, Xdebug and redis from pre-releases
+                # imap, pcov and pspell do not build on 8.6 yet, apcu, imagick, Xdebug and redis from pre-releases
                 xdebug = "3.6.0alpha1",
                 # phpredis develop, 6.3.0 does not build on 8.6
                 redis = "7c186d94a5fbabbee14f79cdcc44398feb80b55f",
-                extensions = "krakjoe/apcu@v5.1.28 bcmath bz2 calendar dba exif gd gettext gmp Imagick/imagick@55ed2e9fda264395636a2e27e51f31673f5566ab intl ldap mysqli opcache pcntl pdo pdo_dblib pdo_mysql pdo_pgsql pgsql shmop snmp soap tidy xsl zip"
+                extensions = "krakjoe/apcu@66300e28647c16fef7672a5add532f4262b23a75 bcmath bz2 calendar dba exif gd gettext gmp Imagick/imagick@55ed2e9fda264395636a2e27e51f31673f5566ab intl ldap mysqli opcache pcntl pdo pdo_dblib pdo_mysql pdo_pgsql pgsql shmop snmp soap tidy xsl zip"
             }
         ]
     }
