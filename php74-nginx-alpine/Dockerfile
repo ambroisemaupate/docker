@@ -39,6 +39,49 @@ RUN apk add --no-cache \
     && tar -cJf php.tar.xz php \
     && rm -f php.tar.xz.asc
 
+# nginx 1.30.7 from verified sources: the Alpine branch of this base image
+# no longer ships security fixes (nginx2root CVEs). Paths are taken from the
+# Alpine nginx package, whose binary is replaced in the final image.
+FROM php:7.4-fpm-alpine AS nginx-build
+
+ARG NGINX_VERSION=1.30.7
+ARG NGINX_SHA256=2565b5c837050e958f70fb0f73c48e2bca4542ad349fd356f46fb0c72610bc6e
+ARG NGX_BROTLI_VERSION=1.0.0rc
+ARG NGX_BROTLI_SHA256=c85cdcfd76703c95aa4204ee4c2e619aa5b075cac18f428202f65552104add3b
+
+RUN apk add --no-cache nginx curl gcc make libc-dev linux-headers openssl-dev pcre-dev zlib-dev brotli-dev \
+    && curl -fsSL -o /tmp/nginx.tar.gz https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
+    && echo "${NGINX_SHA256}  /tmp/nginx.tar.gz" | sha256sum -c - \
+    && mkdir -p /usr/src/nginx \
+    && tar xzf /tmp/nginx.tar.gz -C /usr/src/nginx --strip 1 \
+    && curl -fsSL -o /tmp/ngx_brotli.tar.gz https://codeload.github.com/google/ngx_brotli/tar.gz/refs/tags/v${NGX_BROTLI_VERSION} \
+    && echo "${NGX_BROTLI_SHA256}  /tmp/ngx_brotli.tar.gz" | sha256sum -c - \
+    && mkdir -p /usr/src/ngx_brotli \
+    && tar xzf /tmp/ngx_brotli.tar.gz -C /usr/src/ngx_brotli --strip 1 \
+    && cd /usr/src/nginx \
+    && ./configure \
+        $(nginx -V 2>&1 | sed -n 's/^configure arguments: //p' | tr ' ' '\n' | grep -E '^--(prefix|user|group|[a-z-]+-path)=') \
+        --with-threads \
+        --with-file-aio \
+        --with-pcre-jit \
+        --with-http_ssl_module \
+        --with-http_v2_module \
+        --with-http_realip_module \
+        --with-http_addition_module \
+        --with-http_sub_module \
+        --with-http_dav_module \
+        --with-http_flv_module \
+        --with-http_mp4_module \
+        --with-http_gunzip_module \
+        --with-http_gzip_static_module \
+        --with-http_auth_request_module \
+        --with-http_random_index_module \
+        --with-http_secure_link_module \
+        --with-http_slice_module \
+        --with-http_stub_status_module \
+        --add-dynamic-module=/usr/src/ngx_brotli \
+    && make -j$(getconf _NPROCESSORS_ONLN)
+
 FROM php:7.4-fpm-alpine
 COPY --from=php-build /usr/local/ /usr/local/
 # Patched sources, so docker-php-ext-install builds extensions against them
@@ -145,6 +188,8 @@ RUN apk --no-cache update \
 
 ADD etc/php/7.4/php.ini /usr/local/etc/php/php.ini
 ADD etc/php/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY --from=nginx-build /usr/src/nginx/objs/nginx /usr/sbin/nginx
+COPY --from=nginx-build /usr/src/nginx/objs/ngx_http_brotli_filter_module.so /usr/src/nginx/objs/ngx_http_brotli_static_module.so /usr/lib/nginx/modules/
 ADD etc/nginx /etc/nginx
 ADD etc/supervisord.ini /etc/supervisor.d/services.ini
 # Add a chown script to clean UID on web root at
